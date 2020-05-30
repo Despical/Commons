@@ -4,6 +4,11 @@
   <artifactId>commons-box</artifactId>
   <version>1.0.0</version>
   
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+  
     <licenses>
         <license>
             <name>GNU General Public License v3</name>
