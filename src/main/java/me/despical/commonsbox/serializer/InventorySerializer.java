@@ -86,8 +86,7 @@ public class InventorySerializer {
 			}
 			invConfig.save(invFile);
 			return true;
-		} catch (Exception ex) {
-			ex.printStackTrace();
+		} catch (Exception ignored) {
 			return false;
 		}
 	}
@@ -128,8 +127,7 @@ public class InventorySerializer {
 			}
 			file.delete();
 			return inventory;
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception ignore) {
 			return Bukkit.createInventory(null, 9);
 		}
 	}
@@ -180,8 +178,7 @@ public class InventorySerializer {
 				}
 			}
 			player.updateInventory();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception ignored) {
 		}
 	}
 }

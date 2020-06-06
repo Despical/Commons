@@ -7,9 +7,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
-import me.despical.commonsbox.exception.InvalidFormatException;
-import me.despical.commonsbox.exception.WorldNotFoundException;
-
 public class LocationSerializer {
 
 	private static DecimalFormat decimalFormat;
@@ -21,15 +18,15 @@ public class LocationSerializer {
 		decimalFormat.setDecimalFormatSymbols(formatSymbols);
 	}
 
-	public static Location locationFromString(String input) throws WorldNotFoundException, InvalidFormatException {
+	public static Location locationFromString(String input) {
 		if (input == null) {
-			throw new InvalidFormatException();
+			return null;
 		}
 		
 		String[] parts = input.split(",");
 		
 		if (parts.length != 6) {
-			throw new InvalidFormatException();
+			return null;
 		}
 		
 		try {
@@ -41,14 +38,15 @@ public class LocationSerializer {
 			
 			World world = Bukkit.getWorld(parts[0].trim());
 			if (world == null) {
-				throw new WorldNotFoundException(parts[0].trim());
+				return null;
 			}
 			
 			return new Location(world, x, y, z, yaw, pitch);
 			
 		} catch (NumberFormatException ex) {
-			throw new InvalidFormatException();
+			ex.printStackTrace();
 		}
+		return null;
 	}
 	
 	public static String locationToString(Location loc) {
