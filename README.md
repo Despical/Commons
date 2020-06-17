@@ -17,7 +17,7 @@ Then add the dependency
             <dependency>
             <groupId>com.github.Despical</groupId>
             <artifactId>Commons-Box</artifactId>
-            <version>1.0.3</version>
+            <version>1.0.4</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
