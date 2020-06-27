@@ -7,7 +7,6 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -19,8 +18,6 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
-import me.despical.commonsbox.compat.VersionResolver;
 
 /**
  * @author Despical
@@ -53,7 +50,7 @@ public class InventorySerializer {
 			invConfig.set("level", player.getLevel());
 			invConfig.set("health", player.getHealth());
 			invConfig.set("health-scale", player.getHealthScale());
-			invConfig.set("max-health", VersionResolver.isBefore1_9() ? player.getMaxHealth() : player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
+			invConfig.set("max-health", player.getMaxHealth());
 			invConfig.set("food-level", player.getFoodLevel());
 			invConfig.set("saturation", player.getSaturation());
 			invConfig.set("fire-ticks", player.getFireTicks());
@@ -152,11 +149,7 @@ public class InventorySerializer {
 					}
 				}
 				player.getInventory().setArmorContents(armor);
-				if (VersionResolver.isBefore1_9()) {
-					player.setMaxHealth(invConfig.getDouble("max-health"));
-				} else {
-					player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(invConfig.getDouble("max-health"));
-				}
+				player.setMaxHealth(invConfig.getDouble("max-health"));
 				player.setExp(0);
 				player.setLevel(0);
 				player.setLevel(invConfig.getInt("level"));

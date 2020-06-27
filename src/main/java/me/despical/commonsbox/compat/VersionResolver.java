@@ -38,11 +38,6 @@ public class VersionResolver {
 		return ServerVersion.OTHER;
 	}
 	
-	public static boolean isBefore1_9() {
-		ServerVersion version = resolveVersion();
-		return version == ServerVersion.MINECRAFT_1_8_R1 || version == ServerVersion.MINECRAFT_1_8_R2 || version == ServerVersion.MINECRAFT_1_8_R3;
-	}
-
 	public static boolean isBefore1_13() {
 		ServerVersion version = resolveVersion();
 		return version == ServerVersion.MINECRAFT_1_8_R3 || version == ServerVersion.MINECRAFT_1_9_R1 || version == ServerVersion.MINECRAFT_1_9_R2
