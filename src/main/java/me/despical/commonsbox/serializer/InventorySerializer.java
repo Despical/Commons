@@ -20,6 +20,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import me.despical.commonsbox.compat.VersionResolver;
+
 /**
  * @author Despical
  * <p>
@@ -51,7 +53,7 @@ public class InventorySerializer {
 			invConfig.set("level", player.getLevel());
 			invConfig.set("health", player.getHealth());
 			invConfig.set("health-scale", player.getHealthScale());
-			invConfig.set("max-health", player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
+			invConfig.set("max-health", VersionResolver.isBefore1_9() ? player.getMaxHealth() : player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
 			invConfig.set("food-level", player.getFoodLevel());
 			invConfig.set("saturation", player.getSaturation());
 			invConfig.set("fire-ticks", player.getFireTicks());
@@ -150,7 +152,11 @@ public class InventorySerializer {
 					}
 				}
 				player.getInventory().setArmorContents(armor);
-				player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(invConfig.getDouble("max-health"));
+				if (VersionResolver.isBefore1_9()) {
+					player.setMaxHealth(invConfig.getDouble("max-health"));
+				} else {
+					player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(invConfig.getDouble("max-health"));
+				}
 				player.setExp(0);
 				player.setLevel(0);
 				player.setLevel(invConfig.getInt("level"));
