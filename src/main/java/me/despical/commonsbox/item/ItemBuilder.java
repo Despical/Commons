@@ -20,16 +20,13 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class ItemBuilder {
 	
 	private final ItemStack itemStack;
-	private final ItemMeta itemMeta;
 	
 	public ItemBuilder(final ItemStack itemStack) {
 		this.itemStack = itemStack;
-		this.itemMeta = itemStack.getItemMeta();
 	}
 
 	public ItemBuilder(final Material material) {
 		this.itemStack = new ItemStack(material);
-		this.itemMeta = this.itemStack.getItemMeta();
 	}
 
 	public ItemBuilder type(Material material) {
@@ -64,8 +61,15 @@ public class ItemBuilder {
 		return this;
 	}
 	
-	public ItemBuilder flag(ItemFlag... flag) {
-		itemMeta.addItemFlags(flag);
+	public ItemBuilder flag(ItemFlag... flags) {
+		flag(flags);
+		return this;
+	}
+	
+	public ItemBuilder flag(ItemFlag itemFlag) {
+		ItemMeta meta = this.itemStack.getItemMeta();
+		meta.addItemFlags(itemFlag);
+		this.itemStack.setItemMeta(meta);
 		return this;
 	}
 	
@@ -97,7 +101,6 @@ public class ItemBuilder {
 	}
 	
 	public ItemStack build() {
-		this.itemStack.setItemMeta(itemMeta);
 		return itemStack;
 	}
 }
