@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -19,13 +20,16 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class ItemBuilder {
 	
 	private final ItemStack itemStack;
+	private final ItemMeta itemMeta;
 	
 	public ItemBuilder(final ItemStack itemStack) {
 		this.itemStack = itemStack;
+		this.itemMeta = itemStack.getItemMeta();
 	}
 
 	public ItemBuilder(final Material material) {
 		this.itemStack = new ItemStack(material);
+		this.itemMeta = this.itemStack.getItemMeta();
 	}
 
 	public ItemBuilder type(Material material) {
@@ -60,6 +64,11 @@ public class ItemBuilder {
 		return this;
 	}
 	
+	public ItemBuilder flag(ItemFlag... flag) {
+		itemMeta.addItemFlags(flag);
+		return this;
+	}
+	
 	public ItemBuilder lore(final String... name) {
 		return lore(Arrays.asList(name));
 	}
@@ -88,6 +97,7 @@ public class ItemBuilder {
 	}
 	
 	public ItemStack build() {
+		this.itemStack.setItemMeta(itemMeta);
 		return itemStack;
 	}
 }
