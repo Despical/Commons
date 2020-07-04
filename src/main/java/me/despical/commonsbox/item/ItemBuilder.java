@@ -73,6 +73,13 @@ public class ItemBuilder {
 		return this;
 	}
 	
+	public ItemBuilder unbreakable(boolean unbreakable) {
+		ItemMeta meta = this.itemStack.getItemMeta();
+		meta.setUnbreakable(true);
+		this.itemStack.setItemMeta(meta);
+		return this;
+	}
+	
 	public ItemBuilder lore(final String... name) {
 		return lore(Arrays.asList(name));
 	}
