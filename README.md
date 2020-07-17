@@ -14,10 +14,10 @@ Add repository
 Then add the dependency
 ```xml
     <dependencies>
-            <dependency>
+        <dependency>
             <groupId>com.github.Despical</groupId>
             <artifactId>Commons-Box</artifactId>
-            <version>1.0.5</version>
+            <version>1.1.0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
