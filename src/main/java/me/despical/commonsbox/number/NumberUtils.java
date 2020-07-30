@@ -7,6 +7,8 @@ package me.despical.commonsbox.number;
  */
 public class NumberUtils {
 
+	private NumberUtils() {}
+
 	public static boolean isInteger(String s) {
 		try {
 			Integer.parseInt(s);
@@ -25,7 +27,7 @@ public class NumberUtils {
 		}
 	}
 
-public static boolean isBetween(int value, int min, int max) {
-	return value >= min && value <= max;
+	public static boolean isBetween(int value, int min, int max) {
+		return value >= min && value <= max;
 	}
 }

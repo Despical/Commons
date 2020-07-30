@@ -5,8 +5,13 @@ import java.util.HashMap;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * @author Despical
+ * <p>
+ * Created at 30.05.2020
+ */
 public enum XMaterial {
-	
+
 	ACACIA_BOAT(0, "BOAT_ACACIA"),
 	ACACIA_BUTTON(0, "WOOD_BUTTON"),
 	ACACIA_DOOR(0, "ACACIA_DOOR", "ACACIA_DOOR_ITEM"),
@@ -466,7 +471,7 @@ public enum XMaterial {
 	LINGERING_POTION(0, "LINGERING_POTION"),
 	LLAMA_SPAWN_EGG(0, "MONSTER_EGG"),
 	MAGENTA_BANNER(13, "BANNER", "STANDING_BANNER"),
-	MAGENTA_BED(2, "BED", "BED_BLOCK"),	
+	MAGENTA_BED(2, "BED", "BED_BLOCK"),
 	MAGENTA_CARPET(2, "CARPET"),
 	MAGENTA_CONCRETE(2, "CONCRETE"),
 	MAGENTA_CONCRETE_POWDER(2, "CONCRETE_POWDER"),
@@ -856,7 +861,7 @@ public enum XMaterial {
 	ZOMBIE_PIGMAN_SPAWN_EGG(0, "MONSTER_EGG"),
 	ZOMBIE_SPAWN_EGG(0, "MONSTER_EGG"),
 	ZOMBIE_VILLAGER_SPAWN_EGG(0, "MONSTER_EGG"),
-	ZOMBIE_WALL_HEAD(0, "SKULL", "SKULL_ITEM"),;
+	ZOMBIE_WALL_HEAD(0, "SKULL", "SKULL_ITEM");
 
 	private static HashMap<String, XMaterial> cachedSearch = new HashMap<>();
 
@@ -870,19 +875,19 @@ public enum XMaterial {
 
 	public static boolean isNewVersion() {
 		Material material = Material.getMaterial("RED_WOOL");
-		if(material != null) {
+		if (material != null) {
 			return true;
 		}
 		return false;
 	}
 
 	public static XMaterial requestXMaterial(String name, byte data) {
-		if(cachedSearch.containsKey(name.toUpperCase() + "," + data)) {
+		if (cachedSearch.containsKey(name.toUpperCase() + "," + data)) {
 			return cachedSearch.get(name.toUpperCase() + "," + data);
 		}
-		for(XMaterial material : XMaterial.values()) {
+		for (XMaterial material : XMaterial.values()) {
 			for (String n : material.name) {
-				if(name.toUpperCase().equals(n) && ((byte) material.data) == data) {
+				if (name.toUpperCase().equals(n) && ((byte) material.data) == data) {
 					cachedSearch.put(n + "," + data, material);
 					return material;
 				}
@@ -914,16 +919,16 @@ public enum XMaterial {
 		}
 		return new ItemStack(material, 1, (byte) data);
 	}
-	
+
 	public boolean isSameMaterial(ItemStack comp) {
 		if (isNewVersion()) {
 			return comp.getType() == this.parseMaterial();
 		}
 		if (comp.getType() == this.parseMaterial() &&
-				(int) comp.getData().getData() == (int) this.data) {
+			(int) comp.getData().getData() == (int) this.data) {
 			return true;
 		}
-		
+
 		XMaterial xmaterial = fromMaterial(comp.getType());
 		if (isDamageable(xmaterial)) {
 			if (this.parseMaterial() == comp.getType()) {
@@ -937,9 +942,9 @@ public enum XMaterial {
 		try {
 			return XMaterial.valueOf(material.toString());
 		} catch (IllegalArgumentException e) {
-			for(XMaterial xmaterial : XMaterial.values()) {
-				for(String string : xmaterial.name) {
-					if(string.equalsIgnoreCase(material.toString())) {
+			for (XMaterial xmaterial : XMaterial.values()) {
+				for (String string : xmaterial.name) {
+					if (string.equalsIgnoreCase(material.toString())) {
 						return xmaterial;
 					}
 				}
@@ -957,36 +962,36 @@ public enum XMaterial {
 		int length = split.length;
 
 		switch (split[length - 1]) {
-		case "HELMET":
-			return true;
-		case "CHESTPLATE":
-			return true;
-		case "LEGGINGS":
-			return true;
-		case "BOOTS":
-			return true;
-		case "SWORD":
-			return true;
-		case "AXE":
-			return true;
-		case "PICKAXE":
-			return true;
-		case "SHOVEL":
-			return true;
-		case "HOE":
-			return true;
-		case "ELYTRA":
-			return true;
-		case "TURTLE_HELMET":
-			return true;
-		case "TRIDENT":
-			return true;
-		case "HORSE_ARMOR":
-			return true;
-		case "SHEARS":
-			return true;
-		default:
-			return false;
+			case "HELMET":
+				return true;
+			case "CHESTPLATE":
+				return true;
+			case "LEGGINGS":
+				return true;
+			case "BOOTS":
+				return true;
+			case "SWORD":
+				return true;
+			case "AXE":
+				return true;
+			case "PICKAXE":
+				return true;
+			case "SHOVEL":
+				return true;
+			case "HOE":
+				return true;
+			case "ELYTRA":
+				return true;
+			case "TURTLE_HELMET":
+				return true;
+			case "TRIDENT":
+				return true;
+			case "HORSE_ARMOR":
+				return true;
+			case "SHEARS":
+				return true;
+			default:
+				return false;
 		}
 	}
 

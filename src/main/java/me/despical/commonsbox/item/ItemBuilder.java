@@ -18,9 +18,9 @@ import org.bukkit.inventory.meta.ItemMeta;
  * Created at 30.05.2020
  */
 public class ItemBuilder {
-	
+
 	private final ItemStack itemStack;
-	
+
 	public ItemBuilder(final ItemStack itemStack) {
 		this.itemStack = itemStack;
 	}
@@ -60,30 +60,30 @@ public class ItemBuilder {
 		this.itemStack.addUnsafeEnchantment(enchantment, level);
 		return this;
 	}
-	
+
 	public ItemBuilder flag(ItemFlag... flags) {
 		flag(flags);
 		return this;
 	}
-	
+
 	public ItemBuilder flag(ItemFlag itemFlag) {
 		ItemMeta meta = this.itemStack.getItemMeta();
 		meta.addItemFlags(itemFlag);
 		this.itemStack.setItemMeta(meta);
 		return this;
 	}
-	
+
 	public ItemBuilder unbreakable(boolean unbreakable) {
 		ItemMeta meta = this.itemStack.getItemMeta();
-		meta.setUnbreakable(true);
+		meta.setUnbreakable(unbreakable);
 		this.itemStack.setItemMeta(meta);
 		return this;
 	}
-	
+
 	public ItemBuilder lore(final String... name) {
 		return lore(Arrays.asList(name));
 	}
-	
+
 	public ItemBuilder lore(final List<String> name) {
 		final ItemMeta meta = itemStack.getItemMeta();
 		List<String> lore = meta.getLore();
@@ -98,15 +98,15 @@ public class ItemBuilder {
 
 	public ItemBuilder colorize() {
 		ItemMeta meta = this.itemStack.getItemMeta();
-		if(meta.hasDisplayName()) {
+		if (meta.hasDisplayName()) {
 			meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', meta.getDisplayName()));
 		}
-		if(meta.hasLore()) {
+		if (meta.hasLore()) {
 			meta.setLore(meta.getLore().stream().map(line -> ChatColor.translateAlternateColorCodes('&', line)).collect(Collectors.toList()));
 		}
 		return this;
 	}
-	
+
 	public ItemStack build() {
 		return itemStack;
 	}

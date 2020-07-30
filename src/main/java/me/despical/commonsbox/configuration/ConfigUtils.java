@@ -20,7 +20,7 @@ public class ConfigUtils {
 
 	public static FileConfiguration getConfig(JavaPlugin plugin, String filename) {
 		File file = new File(plugin.getDataFolder() + File.separator + filename + ".yml");
-		if(!file.exists()) {
+		if (!file.exists()) {
 			try {
 				file.createNewFile();
 				copyResource(plugin.getResource(filename + ".yml"), file);
@@ -28,21 +28,21 @@ public class ConfigUtils {
 				e.printStackTrace();
 			}
 		}
-		
+
 		file = new File(plugin.getDataFolder(), filename + ".yml");
 		YamlConfiguration config = new YamlConfiguration();
 		try {
 			config.load(file);
-		} catch(InvalidConfigurationException | IOException ex) {
+		} catch (InvalidConfigurationException | IOException ex) {
 			ex.printStackTrace();
 		}
 		return config;
 	}
-	
+
 	public static void saveConfig(JavaPlugin plugin, FileConfiguration config, String name) {
 		try {
 			config.save(new File(plugin.getDataFolder(), name + ".yml"));
-		} catch(IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -52,7 +52,7 @@ public class ConfigUtils {
 			OutputStream out = new FileOutputStream(file);
 			int lenght;
 			byte[] buf = new byte[1024];
-			while((lenght = resource.read(buf)) > 0){
+			while ((lenght = resource.read(buf)) > 0) {
 				out.write(buf, 0, lenght);
 			}
 			out.close();

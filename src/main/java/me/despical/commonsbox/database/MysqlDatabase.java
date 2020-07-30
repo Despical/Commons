@@ -13,7 +13,7 @@ import com.zaxxer.hikari.HikariDataSource;
  * @author Despical
  * <p>
  * Created at 30.05.2020
- * @version 2.0.0
+ * @version 1.0.0
  */
 public class MysqlDatabase {
 
@@ -43,7 +43,7 @@ public class MysqlDatabase {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void configureConnPool(String user, String password, String jdbcUrl) {
 		try {
 			databaseLogger.info("Creating HikariCP Configuration...");
@@ -100,7 +100,7 @@ public class MysqlDatabase {
 			databaseLogger.info("Shutting down connection pool. Trying to close all connections.");
 			if (!hikariDataSource.isClosed()) {
 				hikariDataSource.close();
-				databaseLogger.info("Pool successfully shutdown. ");
+				databaseLogger.info("Pool successfully shutdown.");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

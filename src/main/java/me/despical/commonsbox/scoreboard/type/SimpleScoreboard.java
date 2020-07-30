@@ -54,9 +54,9 @@ public class SimpleScoreboard implements Scoreboard {
 
 	@Override
 	public void activate() {
-		if(activated)
+		if (activated)
 			return;
-		if(handler == null)
+		if (handler == null)
 			throw new IllegalArgumentException("Scoreboard handler not set");
 		activated = true;
 		holder.setScoreboard(scoreboard);
@@ -64,21 +64,22 @@ public class SimpleScoreboard implements Scoreboard {
 			@Override
 			public void run() {
 				update();
-			}};
+			}
+		};
 		updateTask.runTaskTimer(ScoreboardLib.getInstance(), 0, updateInterval);
 	}
 
 	@Override
 	public void deactivate() {
-		if(!activated)
+		if (!activated)
 			return;
 		activated = false;
-		if(holder.isOnline()) {
+		if (holder.isOnline()) {
 			synchronized (this) {
 				holder.setScoreboard((Bukkit.getScoreboardManager().getMainScoreboard()));
 			}
 		}
-		for(Team team : teamCache.rowKeySet()) {
+		for (Team team : teamCache.rowKeySet()) {
 			team.unregister();
 		}
 		updateTask.cancel();
@@ -107,7 +108,7 @@ public class SimpleScoreboard implements Scoreboard {
 
 	@Override
 	public SimpleScoreboard setUpdateInterval(long updateInterval) {
-		if(activated)
+		if (activated)
 			throw new IllegalStateException("Scoreboard is already activated");
 		this.updateInterval = updateInterval;
 		return this;
@@ -119,31 +120,31 @@ public class SimpleScoreboard implements Scoreboard {
 	}
 
 	private void update() {
-		if(!holder.isOnline()) {
+		if (!holder.isOnline()) {
 			deactivate();
 			return;
 		}
 		String handlerTitle = handler.getTitle(holder);
 		String finalTitle = Strings.format(handlerTitle != null ? handlerTitle : ChatColor.BOLD.toString());
-		if(!objective.getDisplayName().equals(finalTitle))
+		if (!objective.getDisplayName().equals(finalTitle))
 			objective.setDisplayName(Strings.format(finalTitle));
 		List<Entry> passed = handler.getEntries(holder);
 		Map<String, Integer> appeared = new HashMap<>();
 		Map<FakePlayer, Integer> current = new HashMap<>();
-		if(passed == null)
+		if (passed == null)
 			return;
-		for(Entry entry : passed) {
+		for (Entry entry : passed) {
 			String key = entry.getName();
 			Integer score = entry.getPosition();
-			if(key.length() > 48)
+			if (key.length() > 48)
 				key = key.substring(0, 47);
 			String appearance;
-			if(key.length() > 16) {
+			if (key.length() > 16) {
 				appearance = key.substring(16);
-			}else {
+			} else {
 				appearance = key;
 			}
-			if(!appeared.containsKey(appearance))
+			if (!appeared.containsKey(appearance))
 				appeared.put(appearance, -1);
 			appeared.put(appearance, appeared.get(appearance) + 1);
 			FakePlayer faker = getFakePlayer(key, appeared.get(appearance));
@@ -152,8 +153,8 @@ public class SimpleScoreboard implements Scoreboard {
 			current.put(faker, score);
 		}
 		appeared.clear();
-		for(FakePlayer fakePlayer : entryCache.keySet()) {
-			if(!current.containsKey(fakePlayer)) {
+		for (FakePlayer fakePlayer : entryCache.keySet()) {
+			if (!current.containsKey(fakePlayer)) {
 				entryCache.remove(fakePlayer);
 				scoreboard.resetScores(fakePlayer.getName());
 			}
@@ -163,24 +164,24 @@ public class SimpleScoreboard implements Scoreboard {
 	private FakePlayer getFakePlayer(String text, int offset) {
 		Team team = null;
 		String name;
-		if(text.length() <= 16) {
+		if (text.length() <= 16) {
 			name = text + Strings.repeat(" ", offset);
-		}else {
+		} else {
 			String prefix;
 			String suffix = "";
 			offset++;
 			prefix = text.substring(0, 16 - offset);
 			name = text.substring(16 - offset);
-			if(name.length() > 16)
+			if (name.length() > 16)
 				name = name.substring(0, 16);
-			if(text.length() > 32)
+			if (text.length() > 32)
 				suffix = text.substring(32 - offset);
-			for(Team other : teamCache.rowKeySet()) {
-				if(other.getPrefix().equals(prefix) && other.getSuffix().equals(suffix)) {
+			for (Team other : teamCache.rowKeySet()) {
+				if (other.getPrefix().equals(prefix) && other.getSuffix().equals(suffix)) {
 					team = other;
 				}
 			}
-			if(team == null) {
+			if (team == null) {
 				team = scoreboard.registerNewTeam(TEAM_PREFIX + TEAM_COUNTER++);
 				team.setPrefix(prefix);
 				team.setSuffix(suffix);
@@ -188,19 +189,19 @@ public class SimpleScoreboard implements Scoreboard {
 			}
 		}
 		FakePlayer faker;
-		if(!playerCache.contains(name, offset)) {
+		if (!playerCache.contains(name, offset)) {
 			faker = new FakePlayer(name, team, offset);
 			playerCache.put(name, offset, faker);
-			if(faker.getTeam() != null) {
+			if (faker.getTeam() != null) {
 				faker.getTeam().addPlayer(faker);
 			}
-		}else {
+		} else {
 			faker = playerCache.get(name, offset);
-			if(team != null && faker.getTeam() != null) {
+			if (team != null && faker.getTeam() != null) {
 				faker.getTeam().removePlayer(faker);
 			}
 			faker.setTeam(team);
-			if(faker.getTeam() != null) {
+			if (faker.getTeam() != null) {
 				faker.getTeam().addPlayer(faker);
 			}
 		}
@@ -241,9 +242,9 @@ public class SimpleScoreboard implements Scoreboard {
 		}
 
 		public String getFullName() {
-			if(team == null)
+			if (team == null)
 				return name;
-			if(team.getSuffix() == null)
+			if (team.getSuffix() == null)
 				return team.getPrefix() + name;
 			return team.getPrefix() + name + team.getSuffix();
 		}

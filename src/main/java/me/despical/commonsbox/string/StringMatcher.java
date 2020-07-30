@@ -11,8 +11,7 @@ import java.util.List;
  */
 public class StringMatcher {
 
-	private StringMatcher() {
-	}
+	private StringMatcher() {}
 
 	public static List<Match> match(String base, List<String> possibilities) {
 		possibilities.sort((o1, o2) -> {
@@ -21,9 +20,11 @@ public class StringMatcher {
 			}
 			return Integer.compare(o2.length(), o1.length());
 		});
+
 		int baseLength = base.length();
 		Match bestMatch = new Match(base, -1);
 		List<Match> otherMatches = new ArrayList<>();
+
 		for (String poss : possibilities) {
 			if (!poss.isEmpty()) {
 				int matches = 0;
@@ -36,17 +37,20 @@ public class StringMatcher {
 						pos = i;
 					}
 				}
+
 				for (int i = 0; i < Math.min(baseLength, poss.length()); i++) {
 					if ((pos != -1)
-							&& (base.charAt(i) == poss.charAt(Math.min(i + pos, poss.length() - 1)))) {
+						&& (base.charAt(i) == poss.charAt(Math.min(i + pos, poss.length() - 1)))) {
 						matches++;
 					}
 				}
+
 				if (matches > bestMatch.length) {
 					bestMatch = new Match(poss, matches);
 				}
+
 				if ((matches > 0) && (matches >= bestMatch.length)
-						&& (!poss.equalsIgnoreCase(bestMatch.match))) {
+					&& (!poss.equalsIgnoreCase(bestMatch.match))) {
 					otherMatches.add(new Match(poss, matches));
 				}
 			}
@@ -59,7 +63,7 @@ public class StringMatcher {
 	public static class Match implements Comparable<Match> {
 		protected final String match;
 		protected final int length;
-		
+
 		protected Match(String s, int i) {
 			this.match = s;
 			this.length = i;

@@ -27,7 +27,7 @@ public class ScriptEngine {
 	public void execute(String executable) {
 		try {
 			scriptEngine.eval(executable);
-		}catch(ScriptException e) {
+		} catch (ScriptException e) {
 			Bukkit.getLogger().log(Level.SEVERE, "Script failed to parse expression! Expression was written wrongly!");
 			Bukkit.getLogger().log(Level.SEVERE, "Expression value: " + executable);
 			Bukkit.getLogger().log(Level.SEVERE, "Error log:");

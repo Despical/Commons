@@ -29,37 +29,37 @@ public class MiscUtils {
 
 		int rt = random.nextInt(4) + 1;
 		FireworkEffect.Type type;
-		switch(rt) {
-		case 1:
-			type = FireworkEffect.Type.BALL;
-			break;
-		case 2:
-			type = FireworkEffect.Type.BALL_LARGE;
-			break;
-		case 3:
-			type = FireworkEffect.Type.BURST;
-			break;
-		case 4:
-			type = FireworkEffect.Type.CREEPER;
-			break;
-		case 5:
-			type = FireworkEffect.Type.STAR;
-			break;
-		default:
-			type = FireworkEffect.Type.BALL;
-			break;
+		switch (rt) {
+			case 1:
+				type = FireworkEffect.Type.BALL;
+				break;
+			case 2:
+				type = FireworkEffect.Type.BALL_LARGE;
+				break;
+			case 3:
+				type = FireworkEffect.Type.BURST;
+				break;
+			case 4:
+				type = FireworkEffect.Type.CREEPER;
+				break;
+			case 5:
+				type = FireworkEffect.Type.STAR;
+				break;
+			default:
+				type = FireworkEffect.Type.BALL;
+				break;
 		}
-		
+
 		int r1i = random.nextInt(250) + 1;
 		int r2i = random.nextInt(250) + 1;
-		
+
 		Color c1 = Color.fromBGR(r1i);
 		Color c2 = Color.fromBGR(r2i);
-	
+
 		FireworkEffect effect = FireworkEffect.builder().flicker(random.nextBoolean()).withColor(c1).withFade(c2)
-		.with(type).trail(random.nextBoolean()).build();
+			.with(type).trail(random.nextBoolean()).build();
 		fwm.addEffect(effect);
-		
+
 		int rp = random.nextInt(2) + 1;
 		fwm.setPower(rp);
 		fw.setFireworkMeta(fwm);
@@ -76,7 +76,7 @@ public class MiscUtils {
 		boolean previousCode = false;
 		boolean isBold = false;
 		for (char c : message.toCharArray()) {
-			if (c == '§') {
+			if (c == 'ï¿½') {
 				previousCode = true;
 			} else if (previousCode) {
 				previousCode = false;
@@ -86,7 +86,7 @@ public class MiscUtils {
 				messagePxSize += isBold ? dFI.getBoldLength() : dFI.getLength();
 				messagePxSize++;
 			}
-		}	
+		}
 
 		int CENTER_PX = 154;
 		int halvedMessageSize = messagePxSize / 2;

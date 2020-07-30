@@ -13,6 +13,7 @@ import java.util.Properties;
 public class PropertyConfiguration implements Configuration<Properties> {
 
 	private File dataFolder;
+
 	public PropertyConfiguration(File dataFolder) {
 		this.dataFolder = dataFolder;
 	}
@@ -28,7 +29,7 @@ public class PropertyConfiguration implements Configuration<Properties> {
 		}
 		return new Properties();
 	}
-	
+
 	public File getDataFolder() {
 		return dataFolder;
 	}
