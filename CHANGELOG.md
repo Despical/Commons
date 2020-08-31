@@ -1,7 +1,8 @@
+### 1.1.2 Pre-Release (31.08.2020)
+* Generated JavaDocs.
+
 ### 1.1.1 Release (30.07.2020)
-* Fixed summary messages getting null pointer exception.
-* Some performance updates.
-* Activated update checker
+* Fixed unbreakable option.
 
 ### 1.1.0 Release (04.07.2020)
 * Added unbreakable option to ItemBuilder
