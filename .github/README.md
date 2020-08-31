@@ -1,4 +1,4 @@
-# Commons-Box [![](https://img.shields.io/badge/javadocs-latest-red.svg)](https://javadoc.jitpack.io/com/github/Despical/Coommons-Box/pre-1.1.2/javadoc/) [![Discord](https://img.shields.io/discord/719922452259668000.svg?color=7289DA&label=discord)](https://discord.gg/Vhyy4HA)
+# Commons-Box [![](https://img.shields.io/badge/javadocs-latest-red.svg)](https://javadoc.jitpack.io/com/github/Despical/Commons-Box/pre-1.1.2/javadoc/) [![Discord](https://img.shields.io/discord/719922452259668000.svg?color=7289DA&label=discord)](https://discord.gg/Vhyy4HA)
 Commons Box is a open-source library that provides utilities needed for Java and Minecraft.
 
 ## Want to contribute in this project?
