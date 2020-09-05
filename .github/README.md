@@ -4,24 +4,15 @@ Commons Box is a open-source library that provides utilities needed for Java and
 ## Want to contribute in this project?
 [**💣 Issues Reporting (Discord)**](https://discordapp.com/invite/Vhyy4HA)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[**❤ Make Donation**](https://www.patreon.com/despical)
 
-## Maven repo [![](https://jitpack.io/v/Despical/Commons-Box.svg)](https://jitpack.io/#Despical/Commons-Box)
-Add repository
-```xml
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-    </repositories>
+## Maven dependency
+To add this project as a dependency to your pom.xml, add the following to your pom.xml:
+```XML
+<dependency>
+    <groupId>com.github.Despical</groupId>
+    <artifactId>commons-box</artifactId>
+    <version>1.1.1-SNAPSHOT</version>
+    <scope>compile</scope>
+</dependency>
 ```
-Then add the dependency
-```xml
-    <dependencies>
-        <dependency>
-            <groupId>com.github.Despical</groupId>
-            <artifactId>Commons-Box</artifactId>
-            <version>1.1.1</version>
-            <scope>compile</scope>
-        </dependency>
-    </dependencies>
-```
+
+The project is in the Central Repository, so specifying a repository is not needed.
