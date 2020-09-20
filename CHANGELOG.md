@@ -1,3 +1,9 @@
+### 1.1.2 Release (20.09.2020)
+* Added more JavaDoc comments.
+* Added compatibility to new Minecraft servers.
+* Added new method for checking server version.
+* Changed ServerVersion enum value names.
+
 ### 1.1.2 Pre-Release (31.08.2020)
 * Generated JavaDocs.
 

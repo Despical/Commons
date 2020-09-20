@@ -9,7 +9,7 @@ import org.bukkit.World;
 
 public class LocationSerializer {
 
-	private static DecimalFormat decimalFormat;
+	private static final DecimalFormat decimalFormat;
 
 	static {
 		decimalFormat = new DecimalFormat("0.000");
@@ -37,15 +37,16 @@ public class LocationSerializer {
 			float pitch = Float.parseFloat(parts[5].replace(" ", ""));
 
 			World world = Bukkit.getWorld(parts[0].trim());
+
 			if (world == null) {
 				return null;
 			}
 
 			return new Location(world, x, y, z, yaw, pitch);
-
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();
 		}
+
 		return null;
 	}
 

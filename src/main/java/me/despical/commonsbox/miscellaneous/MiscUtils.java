@@ -18,10 +18,9 @@ import org.bukkit.inventory.meta.FireworkMeta;
  */
 public class MiscUtils {
 
-	private static Random random = new Random();
+	private static final Random random = new Random();
 
-	private MiscUtils() {
-	}
+	private MiscUtils() {}
 
 	public static void spawnRandomFirework(Location location) {
 		Firework fw = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
@@ -29,6 +28,7 @@ public class MiscUtils {
 
 		int rt = random.nextInt(4) + 1;
 		FireworkEffect.Type type;
+
 		switch (rt) {
 			case 1:
 				type = FireworkEffect.Type.BALL;
@@ -70,11 +70,13 @@ public class MiscUtils {
 			player.sendMessage("");
 			return;
 		}
+
 		message = ChatColor.translateAlternateColorCodes('&', message);
 
 		int messagePxSize = 0;
 		boolean previousCode = false;
 		boolean isBold = false;
+
 		for (char c : message.toCharArray()) {
 			if (c == '�') {
 				previousCode = true;
@@ -83,6 +85,7 @@ public class MiscUtils {
 				isBold = c == 'l' || c == 'L';
 			} else {
 				DefaultFontInfo dFI = DefaultFontInfo.getDefaultFontInfo(c);
+
 				messagePxSize += isBold ? dFI.getBoldLength() : dFI.getLength();
 				messagePxSize++;
 			}
@@ -94,10 +97,12 @@ public class MiscUtils {
 		int spaceLength = DefaultFontInfo.SPACE.getLength() + 1;
 		int compensated = 0;
 		StringBuilder sb = new StringBuilder();
+
 		while (compensated < toCompensate) {
 			sb.append(" ");
 			compensated += spaceLength;
 		}
+
 		player.sendMessage(sb.toString() + message);
 	}
 }

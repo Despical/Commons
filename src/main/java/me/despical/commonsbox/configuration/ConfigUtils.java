@@ -18,9 +18,18 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class ConfigUtils {
 
+	/**
+	 * Get the config file's configuration
+	 *
+	 * @param plugin to get config file from
+	 * @param filename name of the config file
+	 * @return file configuration of given file
+	 */
 	public static FileConfiguration getConfig(JavaPlugin plugin, String filename) {
 		File file = new File(plugin.getDataFolder() + File.separator + filename + ".yml");
+
 		if (!file.exists()) {
+
 			try {
 				file.createNewFile();
 				copyResource(plugin.getResource(filename + ".yml"), file);
@@ -31,14 +40,23 @@ public class ConfigUtils {
 
 		file = new File(plugin.getDataFolder(), filename + ".yml");
 		YamlConfiguration config = new YamlConfiguration();
+
 		try {
 			config.load(file);
 		} catch (InvalidConfigurationException | IOException ex) {
 			ex.printStackTrace();
 		}
+
 		return config;
 	}
 
+	/**
+	 * Save specified config file.
+	 *
+	 * @param plugin to get config file from
+	 * @param config file to save
+	 * @param name to get config
+	 */
 	public static void saveConfig(JavaPlugin plugin, FileConfiguration config, String name) {
 		try {
 			config.save(new File(plugin.getDataFolder(), name + ".yml"));
@@ -47,14 +65,23 @@ public class ConfigUtils {
 		}
 	}
 
+	/**
+	 * Copy input stream to another file
+	 *
+	 * @param resource to copy
+	 * @param file to paste
+	 */
 	private static void copyResource(InputStream resource, File file) {
 		try {
+
 			OutputStream out = new FileOutputStream(file);
 			int lenght;
 			byte[] buf = new byte[1024];
+
 			while ((lenght = resource.read(buf)) > 0) {
 				out.write(buf, 0, lenght);
 			}
+
 			out.close();
 			resource.close();
 		} catch (Exception e) {

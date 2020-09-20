@@ -29,18 +29,19 @@ public class StringMatcher {
 			if (!poss.isEmpty()) {
 				int matches = 0;
 				int pos = -1;
+
 				for (int i = 0; i < Math.min(baseLength, poss.length()); i++) {
 					if (base.charAt(i) == poss.charAt(i)) {
 						if (pos != -1) {
 							break;
 						}
+
 						pos = i;
 					}
 				}
 
 				for (int i = 0; i < Math.min(baseLength, poss.length()); i++) {
-					if ((pos != -1)
-						&& (base.charAt(i) == poss.charAt(Math.min(i + pos, poss.length() - 1)))) {
+					if ((pos != -1) && (base.charAt(i) == poss.charAt(Math.min(i + pos, poss.length() - 1)))) {
 						matches++;
 					}
 				}
@@ -49,12 +50,12 @@ public class StringMatcher {
 					bestMatch = new Match(poss, matches);
 				}
 
-				if ((matches > 0) && (matches >= bestMatch.length)
-					&& (!poss.equalsIgnoreCase(bestMatch.match))) {
+				if ((matches > 0) && (matches >= bestMatch.length) && (!poss.equalsIgnoreCase(bestMatch.match))) {
 					otherMatches.add(new Match(poss, matches));
 				}
 			}
 		}
+
 		otherMatches.add(bestMatch);
 		Collections.sort(otherMatches);
 		return otherMatches;

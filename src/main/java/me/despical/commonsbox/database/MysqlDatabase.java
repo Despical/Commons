@@ -18,11 +18,12 @@ import com.zaxxer.hikari.HikariDataSource;
 public class MysqlDatabase {
 
 	private HikariDataSource hikariDataSource;
-	private Logger databaseLogger = Logger.getLogger("CommonsBox Database");
+	private final Logger databaseLogger = Logger.getLogger("Commons-Box Database");
 
 	public MysqlDatabase(String user, String password, String jdbcUrl) {
 		databaseLogger.log(Level.INFO, "Configuring MySQL connection!");
 		configureConnPool(user, password, jdbcUrl);
+
 		try (Connection connection = getConnection()) {
 			if (connection == null) {
 				databaseLogger.log(Level.SEVERE, "Failed to connect to database!");
@@ -35,6 +36,7 @@ public class MysqlDatabase {
 	public MysqlDatabase(String user, String password, String host, String database, int port) {
 		databaseLogger.log(Level.INFO, "Configuring MySQL connection!");
 		configureConnPool(user, password, host, database, port);
+
 		try (Connection connection = getConnection()) {
 			if (connection == null) {
 				databaseLogger.log(Level.SEVERE, "Failed to connect to database!");
@@ -98,6 +100,7 @@ public class MysqlDatabase {
 	public void shutdownConnPool() {
 		try {
 			databaseLogger.info("Shutting down connection pool. Trying to close all connections.");
+
 			if (!hikariDataSource.isClosed()) {
 				hikariDataSource.close();
 				databaseLogger.info("Pool successfully shutdown.");
@@ -109,6 +112,7 @@ public class MysqlDatabase {
 
 	public Connection getConnection() {
 		Connection conn = null;
+
 		try {
 			conn = hikariDataSource.getConnection();
 		} catch (Exception e) {

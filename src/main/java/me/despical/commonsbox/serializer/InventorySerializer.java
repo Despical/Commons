@@ -39,14 +39,17 @@ public class InventorySerializer {
 
 		try {
 			File invFile = new File(plugin.getDataFolder() + File.separator + "inventories" + File.separator, uuid + ".inventory");
+
 			if (!path.exists()) {
 				path.mkdir();
 			}
+
 			if (invFile.exists()) {
 				invFile.delete();
 			}
 
 			FileConfiguration invConfig = YamlConfiguration.loadConfiguration(invFile);
+
 			invConfig.set("exp", player.getExp());
 			invConfig.set("level", player.getLevel());
 			invConfig.set("health", player.getHealth());
@@ -59,31 +62,39 @@ public class InventorySerializer {
 			invConfig.set("allow-flight", player.getAllowFlight());
 			invConfig.set("inventory-size", inventory.getSize());
 			invConfig.set("max-stack-size", inventory.getMaxStackSize());
+
 			List<String> activePotions = new ArrayList<>();
 
 			for (PotionEffect potion : player.getActivePotionEffects()) {
 				activePotions.add(potion.getType().getName() + "#" + potion.getDuration() + "#" + potion.getAmplifier());
 			}
+
 			invConfig.set("potion-effects", activePotions);
+
 			if (inventory.getHolder() instanceof Player) {
 				invConfig.set("inventory-holder", (inventory.getHolder()).getName());
 			}
 
 			ItemStack[] invContents = inventory.getContents();
+
 			for (int i = 0; i < invContents.length; i++) {
 				ItemStack itemInInv = invContents[i];
+
 				if (itemInInv != null && itemInInv.getType() != Material.AIR) {
 					invConfig.set("slot-" + i, itemInInv);
 				}
 			}
 
 			ItemStack[] armorContents = inventory.getArmorContents();
+
 			for (int b = 0; b < armorContents.length; b++) {
 				ItemStack itemStack = armorContents[b];
+
 				if (itemStack != null && itemStack.getType() != Material.AIR) {
 					invConfig.set("armor-" + b, itemStack);
 				}
 			}
+
 			invConfig.save(invFile);
 			return true;
 		} catch (Exception ignored) {
@@ -93,6 +104,7 @@ public class InventorySerializer {
 
 	private static Inventory getInventoryFromFile(JavaPlugin plugin, String uuid) {
 		File file = new File(plugin.getDataFolder() + File.separator + "inventories" + File.separator + uuid + ".inventory");
+
 		if (!file.exists() || file.isDirectory() || !file.getAbsolutePath().endsWith(".inventory")) {
 			return Bukkit.createInventory(null, 9);
 		}
@@ -115,6 +127,7 @@ public class InventorySerializer {
 
 			try {
 				ItemStack[] invContents = new ItemStack[invSize];
+
 				for (int i = 0; i < invSize; i++) {
 					if (invConfig.contains("slot-" + i)) {
 						invContents[i] = invConfig.getItemStack("slot-" + i);
@@ -122,10 +135,12 @@ public class InventorySerializer {
 						invContents[i] = new ItemStack(Material.AIR);
 					}
 				}
+
 				inventory.setContents(invContents);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+
 			file.delete();
 			return inventory;
 		} catch (Exception ignore) {
@@ -135,14 +150,17 @@ public class InventorySerializer {
 
 	public static void loadInventory(JavaPlugin plugin, Player player) {
 		File file = new File(plugin.getDataFolder() + File.separator + "inventories" + File.separator + player.getUniqueId().toString() + ".inventory");
+
 		if (!file.exists() || file.isDirectory() || !file.getAbsolutePath().endsWith(".inventory")) {
 			return;
 		}
 
 		try {
 			FileConfiguration invConfig = YamlConfiguration.loadConfiguration(file);
+
 			try {
 				ItemStack[] armor = new ItemStack[player.getInventory().getArmorContents().length];
+
 				for (int i = 0; i < player.getInventory().getArmorContents().length; i++) {
 					if (invConfig.contains("armor-" + i)) {
 						armor[i] = invConfig.getItemStack("armor-" + i);
@@ -150,6 +168,7 @@ public class InventorySerializer {
 						armor[i] = new ItemStack(Material.AIR);
 					}
 				}
+
 				player.getInventory().setArmorContents(armor);
 				player.setMaxHealth(invConfig.getDouble("max-health"));
 				player.setExp(0);
@@ -165,21 +184,22 @@ public class InventorySerializer {
 				player.setAllowFlight(invConfig.getBoolean("allow-flight"));
 
 				List<String> activePotions = invConfig.getStringList("potion-effects");
+
 				for (String potion : activePotions) {
 					String[] splited = potion.split("#");
-					player.addPotionEffect(new PotionEffect(PotionEffectType.getByName(splited[0]), Integer.valueOf(splited[1]), Integer.valueOf(splited[2])));
+					player.addPotionEffect(new PotionEffect(PotionEffectType.getByName(splited[0]), Integer.parseInt(splited[1]), Integer.parseInt(splited[2])));
 				}
-			} catch (Exception ignored) {
-			}
+			} catch (Exception ignored) {}
 
 			Inventory inventory = getInventoryFromFile(plugin, player.getUniqueId().toString());
+
 			for (int i = 0; i < inventory.getContents().length; i++) {
 				if (inventory.getItem(i) != null) {
 					player.getInventory().setItem(i, inventory.getItem(i));
 				}
 			}
+
 			player.updateInventory();
-		} catch (Exception ignored) {
-		}
+		} catch (Exception ignored) {}
 	}
 }

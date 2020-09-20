@@ -6,6 +6,9 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 /**
+ *
+ * A class that includes all of the items in Minecraft version between 1.8 - 1.16.3
+ *
  * @author Despical
  * <p>
  * Created at 30.05.2020
@@ -863,7 +866,7 @@ public enum XMaterial {
 	ZOMBIE_VILLAGER_SPAWN_EGG(0, "MONSTER_EGG"),
 	ZOMBIE_WALL_HEAD(0, "SKULL", "SKULL_ITEM");
 
-	private static HashMap<String, XMaterial> cachedSearch = new HashMap<>();
+	private static final HashMap<String, XMaterial> cachedSearch = new HashMap<>();
 
 	String[] name;
 	int data;
@@ -873,18 +876,30 @@ public enum XMaterial {
 		this.data = data;
 	}
 
+	/**
+	 * Checks if the version is higher than 1.12.2
+	 *
+	 * @return true if version is higher than 1.12.2 otherwise false
+	 */
 	public static boolean isNewVersion() {
 		Material material = Material.getMaterial("RED_WOOL");
-		if (material != null) {
-			return true;
-		}
-		return false;
+
+		return material != null;
 	}
 
+	/**
+	 *
+	 * Get XMaterial from specified name and data.
+	 *
+	 * @param name of XMaterial object
+	 * @param data of XMaterial object
+	 * @return XMaterial with specified name and data
+	 */
 	public static XMaterial requestXMaterial(String name, byte data) {
 		if (cachedSearch.containsKey(name.toUpperCase() + "," + data)) {
 			return cachedSearch.get(name.toUpperCase() + "," + data);
 		}
+
 		for (XMaterial material : XMaterial.values()) {
 			for (String n : material.name) {
 				if (name.toUpperCase().equals(n) && ((byte) material.data) == data) {
@@ -893,51 +908,80 @@ public enum XMaterial {
 				}
 			}
 		}
+
 		return null;
 	}
 
+	/**
+	 * Get XMaterial from its specified name
+	 *
+	 * @param string name of XMaterial object
+	 * @return XMaterial from its name
+	 */
 	public static XMaterial fromString(String string) {
-		XMaterial xmaterial = null;
+		XMaterial xmaterial;
+
 		try {
 			xmaterial = XMaterial.valueOf(string);
 			return xmaterial;
 		} catch (IllegalArgumentException e) {
 			String[] split = string.split(":");
+
 			if (split.length == 1) {
 				xmaterial = requestXMaterial(string, (byte) 0);
 			} else {
 				xmaterial = requestXMaterial(split[0], (byte) Integer.parseInt(split[1]));
 			}
+
 			return xmaterial;
 		}
 	}
 
+	/**
+	 * Convert XMaterial to ItemStack
+	 *
+	 * @return item stack of XMaterial with its all properties
+	 */
 	public ItemStack parseItem() {
 		Material material = parseMaterial();
+
 		if (isNewVersion()) {
 			return new ItemStack(material);
 		}
+
 		return new ItemStack(material, 1, (byte) data);
 	}
 
+	/**
+	 * Checks if the item same with the newer one if changed
+	 *
+	 * @param comp item stack to check
+	 * @return true if it is same with the new one otherwise false
+	 */
 	public boolean isSameMaterial(ItemStack comp) {
 		if (isNewVersion()) {
 			return comp.getType() == this.parseMaterial();
 		}
-		if (comp.getType() == this.parseMaterial() &&
-			(int) comp.getData().getData() == (int) this.data) {
+
+		if (comp.getType() == this.parseMaterial() && (int) comp.getData().getData() == this.data) {
 			return true;
 		}
 
 		XMaterial xmaterial = fromMaterial(comp.getType());
+
 		if (isDamageable(xmaterial)) {
-			if (this.parseMaterial() == comp.getType()) {
-				return true;
-			}
+			return this.parseMaterial() == comp.getType();
 		}
+
 		return false;
 	}
 
+	/**
+	 * Get XMaterial from specified material
+	 *
+	 * @param material to convert XMaterial
+	 * @return XMaterial form of given material
+	 */
 	public XMaterial fromMaterial(Material material) {
 		try {
 			return XMaterial.valueOf(material.toString());
@@ -950,9 +994,16 @@ public enum XMaterial {
 				}
 			}
 		}
+
 		return null;
 	}
 
+	/**
+	 * Checks if the XMaterial damageable or not
+	 *
+	 * @param type of XMaterial object
+	 * @return true if XMaterial is damageable
+	 */
 	public boolean isDamageable(XMaterial type) {
 		if (type == null) {
 			return false;
@@ -963,43 +1014,37 @@ public enum XMaterial {
 
 		switch (split[length - 1]) {
 			case "HELMET":
-				return true;
 			case "CHESTPLATE":
-				return true;
 			case "LEGGINGS":
-				return true;
 			case "BOOTS":
-				return true;
 			case "SWORD":
-				return true;
 			case "AXE":
-				return true;
 			case "PICKAXE":
-				return true;
 			case "SHOVEL":
-				return true;
 			case "HOE":
-				return true;
 			case "ELYTRA":
-				return true;
 			case "TURTLE_HELMET":
-				return true;
 			case "TRIDENT":
-				return true;
 			case "HORSE_ARMOR":
-				return true;
 			case "SHEARS":
-				return true;
+			return true;
 			default:
 				return false;
 		}
 	}
 
+	/**
+	 * Convert XMaterial to Material
+	 *
+	 * @return material form of XMaterial
+	 */
 	public Material parseMaterial() {
 		Material material = Material.matchMaterial(this.toString());
+
 		if (material != null) {
 			return material;
 		}
+
 		return Material.matchMaterial(name[0]);
 	}
 }
