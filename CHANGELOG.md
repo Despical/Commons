@@ -2,6 +2,7 @@
 * Added more JavaDoc comments.
 * Added compatibility to new Minecraft servers.
 * Added new method for checking server version.
+* Added new method to check if server supporting every version between 1.8 and 1.16.3.
 * Changed ServerVersion enum value names.
 
 ### 1.1.2 Pre-Release (31.08.2020)

@@ -68,11 +68,20 @@ public class VersionResolver {
 	 * @return server version is before the given NMS version
 	 */
 	public static boolean isBefore(ServerVersion version) {
-		List<ServerVersion> versions = Arrays.asList(ServerVersion.values());
+		List<ServerVersion> versions = Arrays.asList(values());
 		List<ServerVersion> splitVers = versions.subList(0, versions.indexOf(version) - 1);
 		ServerVersion currentVers = resolveVersion();
 
-		return !splitVers.contains(resolveVersion()) && version != currentVers;
+		return !splitVers.contains(resolveVersion()) && version != currentVers && currentVers != OTHER;
+	}
+
+	/**
+	 * Checks if server version is supported or not.
+	 *
+	 * @return server version is supported
+	 */
+	public static boolean isAllSupported() {
+		return Arrays.stream(values()).anyMatch(version -> resolveVersion() == version && version != OTHER);
 	}
 
 	/**
