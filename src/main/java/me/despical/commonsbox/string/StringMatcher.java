@@ -1,5 +1,7 @@
 package me.despical.commonsbox.string;
 
+import com.sun.javafx.scene.web.Debugger;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -72,7 +74,7 @@ public class StringMatcher {
 			String group2 = matcher.group(1);
 
 			try {
-				s = s.replace(group, net.md_5.bungee.api.ChatColor.of("#" + group2) + "");
+				s = s.replace(group, net.md_5.bungee.api.ChatColor.class.getMethod("of",String.class).invoke(null, "#" + group2) + "");
 			} catch (Exception ignored) {}
 		}
 

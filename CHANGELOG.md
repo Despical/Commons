@@ -1,6 +1,8 @@
 ### 1.1.3 Release (30.09.2020)
 * Added more methods to compare server versions.
 * Added new string matcher method to match Hex color codes.
+* Fixed Hex color matcher.
+* Fixed skull item.
 * Removed Bukkit dependency.
 
 ### 1.1.2 Release (20.09.2020)
