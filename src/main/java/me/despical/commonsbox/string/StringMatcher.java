@@ -3,6 +3,8 @@ package me.despical.commonsbox.string;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Despical
@@ -61,7 +63,24 @@ public class StringMatcher {
 		return otherMatches;
 	}
 
+	public static String matchColorRegex(String s) {
+		String regex = "&?#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})";
+		Matcher matcher = Pattern.compile(regex).matcher(s);
+
+		while (matcher.find()) {
+			String group = matcher.group(0);
+			String group2 = matcher.group(1);
+
+			try {
+				s = s.replace(group, net.md_5.bungee.api.ChatColor.of("#" + group2) + "");
+			} catch (Exception ignored) {}
+		}
+
+		return s;
+	}
+
 	public static class Match implements Comparable<Match> {
+
 		protected final String match;
 		protected final int length;
 

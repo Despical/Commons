@@ -20,7 +20,7 @@ import org.bukkit.inventory.meta.SkullMeta;
  */
 public class ItemUtils {
 
-	public static final ItemStack PLAYER_HEAD_ITEM = VersionResolver.isBefore(VersionResolver.ServerVersion.v1_13_R1) ? new ItemStack(Material.SKULL_ITEM, 1, (short) 3) : XMaterial.PLAYER_HEAD.parseItem();
+	public static final ItemStack PLAYER_HEAD_ITEM = VersionResolver.isCurrentLower(VersionResolver.ServerVersion.v1_13_R1) ? new ItemStack(Material.SKULL_ITEM, 1, (short) 3) : XMaterial.PLAYER_HEAD.parseItem();
 
 	private ItemUtils() {}
 

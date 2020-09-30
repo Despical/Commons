@@ -1,11 +1,7 @@
 /.idea/
 /out/
 /generated/
-/lib/
 *.iml
-/minecraft/
 /target/
-.classpath
-.project
 .settings
 /bin/

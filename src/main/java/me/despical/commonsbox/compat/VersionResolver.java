@@ -67,12 +67,28 @@ public class VersionResolver {
 	 * @param version to check current one is older than that
 	 * @return server version is before the given NMS version
 	 */
-	public static boolean isBefore(ServerVersion version) {
+	public static boolean isCurrentLower(ServerVersion version) {
 		List<ServerVersion> versions = Arrays.asList(values());
-		List<ServerVersion> splitVers = versions.subList(0, versions.indexOf(version) - 1);
+
+		List<ServerVersion> splitVers = versions.subList(0, versions.indexOf(version));
 		ServerVersion currentVers = resolveVersion();
 
-		return !splitVers.contains(resolveVersion()) && version != currentVers && currentVers != OTHER;
+		return splitVers.contains(currentVers) && !isCurrentEqual(version) && currentVers != OTHER;
+	}
+
+	/**
+	 * Check if the current version is before specified NMS version.
+	 *
+	 * @param version to check current one is older than that
+	 * @return server version is before the given NMS version
+	 */
+	public static boolean isCurrentEqualOrLower(ServerVersion version) {
+		List<ServerVersion> versions = Arrays.asList(values());
+
+		List<ServerVersion> splitVers = versions.subList(0, versions.indexOf(version));
+		ServerVersion currentVers = resolveVersion();
+
+		return (!splitVers.contains(currentVers)) || isCurrentEqual(version) && currentVers != OTHER;
 	}
 
 	/**
@@ -82,6 +98,53 @@ public class VersionResolver {
 	 */
 	public static boolean isAllSupported() {
 		return Arrays.stream(values()).anyMatch(version -> resolveVersion() == version && version != OTHER);
+	}
+
+	/**
+	 * Checks if server version is supported without given one or not.
+	 *
+	 * @return server version is supported without given one
+	 */
+	public static boolean isAllSupportedExcept(ServerVersion... versions) {
+		return Arrays.stream(values()).filter(version -> !Arrays.asList(versions).contains(version)).anyMatch(version -> resolveVersion() == version && version != OTHER);
+	}
+
+	/**
+	 * Checks if current version equals to given version.
+	 *
+	 * @param version must be equals to current
+	 * @return true if equals otherwise false
+	 */
+	public static boolean isCurrentEqual(ServerVersion version) {
+		return resolveVersion() == version;
+	}
+
+	/**
+	 * Checks if current version equals or higher than the given version.
+	 *
+	 * @param version given version
+	 * @return true if current version equals or higher than given one
+	 */
+	public static boolean isCurrentEqualOrHigher(ServerVersion version) {
+		List<ServerVersion> versions = Arrays.asList(values());
+		List<ServerVersion> splitVers = versions.subList(versions.indexOf(version), versions.size());
+		ServerVersion currentVers = resolveVersion();
+
+		return isCurrentEqual(version) || splitVers.contains(currentVers);
+	}
+
+	/**
+	 * Checks if current version is higher than the given version.
+	 *
+	 * @param version given version
+	 * @return true if current version is higher than given one
+	 */
+	public static boolean isCurrentHigher(ServerVersion version) {
+		List<ServerVersion> versions = Arrays.asList(values());
+		List<ServerVersion> splitVers = versions.subList(versions.indexOf(version), versions.size());
+		ServerVersion currentVers = resolveVersion();
+
+		return !isCurrentEqual(version) && splitVers.contains(currentVers);
 	}
 
 	/**
