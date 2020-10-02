@@ -1,3 +1,10 @@
+### 1.1.4 Release (30.09.2020)
+* Reworked on XMaterial class.
+  * Added lots of new methods.
+  * Added missing item stacks.
+* Added MigratorUtils class.
+* Added new seriazilation method for Inventory size.
+
 ### 1.1.3 Release (30.09.2020)
 * Added more methods to compare server versions.
 * Added new string matcher method to match Hex color codes.
