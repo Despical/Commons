@@ -1,3 +1,21 @@
+/*
+ * CommonsBox - Library box of common utilities.
+ * Copyright (C) 2020 Despical
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package me.despical.commonsbox.item;
 
 import java.util.ArrayList;
@@ -30,29 +48,30 @@ public class ItemBuilder {
 	}
 
 	public ItemBuilder type(Material material) {
-		this.itemStack.setType(material);
+		itemStack.setType(material);
 		return this;
 	}
 
 	public ItemBuilder amount(int amount) {
-		this.itemStack.setAmount(amount);
+		itemStack.setAmount(amount);
 		return this;
 	}
 
 	public ItemBuilder data(byte data) {
-		this.itemStack.getData().setData(data);
+		itemStack.getData().setData(data);
 		return this;
 	}
 
-	public ItemBuilder name(final String name) {
-		final ItemMeta meta = itemStack.getItemMeta();
-		meta.setDisplayName(name);
+	public ItemBuilder name(String name) {
+		ItemMeta meta = itemStack.getItemMeta();
+		meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
+
 		itemStack.setItemMeta(meta);
 		return this;
 	}
 
 	public ItemBuilder enchantment(Enchantment enchantment) {
-		this.itemStack.addUnsafeEnchantment(enchantment, 1);
+		itemStack.addUnsafeEnchantment(enchantment, 1);
 		return this;
 	}
 
@@ -67,43 +86,37 @@ public class ItemBuilder {
 	}
 
 	public ItemBuilder flag(ItemFlag itemFlag) {
-		ItemMeta meta = this.itemStack.getItemMeta();
+		ItemMeta meta = itemStack.getItemMeta();
 		meta.addItemFlags(itemFlag);
-		this.itemStack.setItemMeta(meta);
-		return this;
-	}
 
-	public ItemBuilder unbreakable(boolean unbreakable) {
-		ItemMeta meta = this.itemStack.getItemMeta();
-		meta.setUnbreakable(unbreakable);
-		this.itemStack.setItemMeta(meta);
-		return this;
-	}
-
-	public ItemBuilder lore(final String... name) {
-		return lore(Arrays.asList(name));
-	}
-
-	public ItemBuilder lore(final List<String> name) {
-		final ItemMeta meta = itemStack.getItemMeta();
-		List<String> lore = meta.getLore();
-		if (lore == null) {
-			lore = new ArrayList<>();
-		}
-		lore.addAll(name);
-		meta.setLore(lore);
 		itemStack.setItemMeta(meta);
 		return this;
 	}
 
-	public ItemBuilder colorize() {
-		ItemMeta meta = this.itemStack.getItemMeta();
-		if (meta.hasDisplayName()) {
-			meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', meta.getDisplayName()));
+	public ItemBuilder unbreakable(boolean unbreakable) {
+		ItemMeta meta = itemStack.getItemMeta();
+		meta.setUnbreakable(unbreakable);
+
+		itemStack.setItemMeta(meta);
+		return this;
+	}
+
+	public ItemBuilder lore(String... name) {
+		return lore(Arrays.asList(name));
+	}
+
+	public ItemBuilder lore(List<String> name) {
+		ItemMeta meta = itemStack.getItemMeta();
+		List<String> lore = meta.getLore();
+
+		if (lore == null) {
+			lore = new ArrayList<>();
 		}
-		if (meta.hasLore()) {
-			meta.setLore(meta.getLore().stream().map(line -> ChatColor.translateAlternateColorCodes('&', line)).collect(Collectors.toList()));
-		}
+
+		lore.addAll(name);
+		meta.setLore(lore.stream().map(str -> ChatColor.translateAlternateColorCodes('&', str)).collect(Collectors.toList()));
+
+		itemStack.setItemMeta(meta);
 		return this;
 	}
 

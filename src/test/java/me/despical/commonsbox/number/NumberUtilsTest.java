@@ -16,30 +16,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package me.despical.commonsbox.sorter;
+package me.despical.commonsbox.number;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import org.junit.Assert;
+import org.junit.Test;
 
-/**
- * @author Despical
- * <p>
- * Created at 30.05.2020
- */
-public class SortUtils {
+public class NumberUtilsTest {
 
-	public static Map sortByValue(Map unsortMap) {
-		List list = new LinkedList(unsortMap.entrySet());
-		list.sort((o1, o2) -> ((Comparable) ((Map.Entry) (o1)).getValue()).compareTo(((Map.Entry) (o2)).getValue()));
-		Map sortedMap = new LinkedHashMap();
-
-		for (Object aList : list) {
-			Map.Entry entry = (Map.Entry) aList;
-			sortedMap.put(entry.getKey(), entry.getValue());
-		}
-
-		return sortedMap;
+	@Test
+	public void serializeInt() {
+		Assert.assertEquals(9, NumberUtils.serializeInt(3));
+		Assert.assertEquals(9, NumberUtils.serializeInt(9));
+		Assert.assertEquals(27, NumberUtils.serializeInt(24));
+		Assert.assertEquals(45, NumberUtils.serializeInt(37));
+		Assert.assertEquals(45, NumberUtils.serializeInt(43));
 	}
 }

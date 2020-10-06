@@ -1,3 +1,10 @@
+### 1.1.5 Release (06.10.2020)
+* Added license header.
+* Added test for NumberUtils#serializeInt.
+* Fixed static skull item.
+* Fixed colors in item name and lore for ItemBuilder.
+* Removed ItemBuilder#colorize method.
+
 ### 1.1.4 Release (30.09.2020)
 * Reworked on XMaterial class.
   * Added lots of new methods.
