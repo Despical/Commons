@@ -23,8 +23,11 @@ import com.mojang.authlib.properties.Property;
 
 import java.lang.reflect.Field;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import me.despical.commonsbox.compat.XMaterial;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
@@ -73,5 +76,17 @@ public class ItemUtils {
 
 		head.setItemMeta(headMeta);
 		return head;
+	}
+
+	public static SkullMeta setPlayerHead(Player player, SkullMeta meta) {
+		if (Bukkit.getServer().getVersion().contains("Paper") && player.getPlayerProfile().hasTextures()) {
+			return CompletableFuture.supplyAsync(() -> {
+				meta.setPlayerProfile(player.getPlayerProfile());
+				return meta;
+			}).exceptionally(e -> meta).join();
+		}
+
+		meta.setOwningPlayer(player);
+		return meta;
 	}
 }
