@@ -91,7 +91,6 @@ public class ConfigUtils {
 	 */
 	private static void copyResource(InputStream resource, File file) {
 		try {
-
 			OutputStream out = new FileOutputStream(file);
 			int lenght;
 			byte[] buf = new byte[1024];

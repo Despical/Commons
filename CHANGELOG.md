@@ -1,3 +1,6 @@
+### 1.1.7 Release (29.10.2020)
+* Added durability option to Item Builder class.
+
 ### 1.1.6 Release (13.10.2020)
 * Added ItemUtils#setPlayerHead method for skull metas with thread-safe.
 * Added attribute utils class for controlling player attributes in 1.9 and higher versions.

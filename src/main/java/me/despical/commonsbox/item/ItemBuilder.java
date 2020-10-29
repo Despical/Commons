@@ -93,6 +93,11 @@ public class ItemBuilder {
 		return this;
 	}
 
+	public ItemBuilder durability(short durability) {
+		itemStack.setDurability(durability);
+		return this;
+	}
+
 	public ItemBuilder unbreakable(boolean unbreakable) {
 		ItemMeta meta = itemStack.getItemMeta();
 		meta.setUnbreakable(unbreakable);
