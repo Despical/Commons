@@ -18,17 +18,18 @@
 
 package me.despical.commonsbox.number;
 
-import org.junit.Assert;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class NumberUtilsTest {
 
 	@Test
 	public void serializeInt() {
-		Assert.assertEquals(9, NumberUtils.serializeInt(3));
-		Assert.assertEquals(9, NumberUtils.serializeInt(9));
-		Assert.assertEquals(27, NumberUtils.serializeInt(24));
-		Assert.assertEquals(45, NumberUtils.serializeInt(37));
-		Assert.assertEquals(45, NumberUtils.serializeInt(43));
+		assertEquals(9, NumberUtils.serializeInt(3));
+		assertEquals(9, NumberUtils.serializeInt(9));
+		assertEquals(27, NumberUtils.serializeInt(24));
+		assertEquals(45, NumberUtils.serializeInt(37));
+		assertEquals(45, NumberUtils.serializeInt(43));
 	}
 }

@@ -1,3 +1,6 @@
+### 1.1.8 Release (31.10.2020)
+* Added FileUtils class.
+
 ### 1.1.7 Release (29.10.2020)
 * Added durability option to Item Builder class.
 
