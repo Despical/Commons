@@ -39,4 +39,13 @@ public class AttributeUtils {
 	public static void resetAttackCooldown(Player player) {
 		setAttackCooldown(player, 4);
 	}
+
+	public static void healPlayer(Player player) {
+		if (VersionResolver.isCurrentEqualOrHigher(VersionResolver.ServerVersion.v1_9_R1)) {
+			player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+			return;
+		}
+
+		player.setHealthScale(20f);
+	}
 }

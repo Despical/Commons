@@ -74,6 +74,8 @@ public class VersionResolver {
 			return v1_16_R1;
 		} else if (version.equalsIgnoreCase("v_16_R2")) {
 			return v1_16_R2;
+		} else if (version.equalsIgnoreCase("v_16_R3")) {
+			return v1_16_R3;
 		}
 
 		return OTHER;
@@ -115,7 +117,7 @@ public class VersionResolver {
 	 * @return server version is supported
 	 */
 	public static boolean isAllSupported() {
-		return Arrays.stream(values()).anyMatch(version -> resolveVersion() == version && version != OTHER);
+		return resolveVersion() != OTHER;
 	}
 
 	/**
@@ -124,7 +126,11 @@ public class VersionResolver {
 	 * @return server version is supported without given one
 	 */
 	public static boolean isAllSupportedExcept(ServerVersion... versions) {
-		return Arrays.stream(values()).filter(version -> !Arrays.asList(versions).contains(version)).anyMatch(version -> resolveVersion() == version && version != OTHER);
+		List<ServerVersion> supported = Arrays.asList(values());
+		List<ServerVersion> unsupported = Arrays.asList(versions);
+
+		supported.removeAll(unsupported);
+		return isAllSupported() && supported.contains(resolveVersion());
 	}
 
 	/**
@@ -170,6 +176,6 @@ public class VersionResolver {
 	 */
 	public enum ServerVersion {
 		v1_8_R1, v1_8_R2, v1_8_R3, v1_9_R1, v1_9_R2, v1_10_R1, v1_11_R1, v1_12_R1,
-		v1_13_R1, v1_13_R2, v1_14_R1, v1_15_R1, v1_16_R1, v1_16_R2, OTHER
+		v1_13_R1, v1_13_R2, v1_14_R1, v1_15_R1, v1_16_R1, v1_16_R2, v1_16_R3, OTHER
 	}
 }

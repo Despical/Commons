@@ -1,3 +1,8 @@
+### 1.1.9 Release (03.11.2020)
+* Added PlayerUtils class to show and hide players.
+* Added new NMS version (v1_16_R3) to VersionResolver class.
+* Fixed player skulls in lower versions of Minecraft 1.12.2.
+
 ### 1.1.8 Release (31.10.2020)
 * Added FileUtils class.
 
