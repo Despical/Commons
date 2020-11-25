@@ -45,6 +45,24 @@ public class NumberUtils {
 		}
 	}
 
+	public static boolean isLong(String s) {
+		try {
+			Long.parseLong(s);
+			return true;
+		} catch (NumberFormatException ex) {
+			return false;
+		}
+	}
+
+	public static boolean isShort(String s) {
+		try {
+			Short.parseShort(s);
+			return true;
+		} catch (NumberFormatException ex) {
+			return false;
+		}
+	}
+
 	public static boolean isBetween(int value, int min, int max) {
 		return value >= min && value <= max;
 	}
