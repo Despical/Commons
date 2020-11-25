@@ -1,3 +1,9 @@
+### 1.2.0 Release (25.11.2020)
+* Changes on scoreboard system:
+  * Fixed colors in Minecraft 1.16 and higher versions
+  * Fixed not working in Minecraft 1.16.4
+  * Some performance updates.
+
 ### 1.1.9 Release (03.11.2020)
 * Added PlayerUtils class to show and hide players.
 * Added new NMS version (v1_16_R3) to VersionResolver class.

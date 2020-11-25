@@ -24,10 +24,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.*;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -58,9 +56,9 @@ public class SimpleScoreboard implements Scoreboard {
 
 	private boolean activated;
 	private ScoreboardHandler handler;
-	private Map<FakePlayer, Integer> entryCache = new ConcurrentHashMap<>();
-	private Table<String, Integer, FakePlayer> playerCache = HashBasedTable.create();
-	private Table<Team, String, String> teamCache = HashBasedTable.create();
+	private final Map<FakePlayer, Integer> entryCache = new ConcurrentHashMap<>();
+	private final Table<String, Integer, FakePlayer> playerCache = HashBasedTable.create();
+	private final Table<Team, String, String> teamCache = HashBasedTable.create();
 	private BukkitRunnable updateTask;
 
 	public SimpleScoreboard(Player holder) {
@@ -72,34 +70,34 @@ public class SimpleScoreboard implements Scoreboard {
 
 	@Override
 	public void activate() {
-		if (activated)
-			return;
-		if (handler == null)
-			throw new IllegalArgumentException("Scoreboard handler not set");
+		if (activated) return;
+		if (handler == null) throw new IllegalArgumentException("Scoreboard handler not set");
+
 		activated = true;
 		holder.setScoreboard(scoreboard);
 		updateTask = new BukkitRunnable() {
+
 			@Override
 			public void run() {
 				update();
 			}
 		};
+
 		updateTask.runTaskTimer(ScoreboardLib.getInstance(), 0, updateInterval);
 	}
 
 	@Override
 	public void deactivate() {
-		if (!activated)
-			return;
+		if (!activated) return;
 		activated = false;
+
 		if (holder.isOnline()) {
 			synchronized (this) {
 				holder.setScoreboard((Bukkit.getScoreboardManager().getMainScoreboard()));
 			}
 		}
-		for (Team team : teamCache.rowKeySet()) {
-			team.unregister();
-		}
+
+		teamCache.rowKeySet().forEach(Team::unregister);
 		updateTask.cancel();
 	}
 
@@ -126,8 +124,7 @@ public class SimpleScoreboard implements Scoreboard {
 
 	@Override
 	public SimpleScoreboard setUpdateInterval(long updateInterval) {
-		if (activated)
-			throw new IllegalStateException("Scoreboard is already activated");
+		if (activated) throw new IllegalStateException("Scoreboard is already activated");
 		this.updateInterval = updateInterval;
 		return this;
 	}
@@ -142,35 +139,43 @@ public class SimpleScoreboard implements Scoreboard {
 			deactivate();
 			return;
 		}
+
 		String handlerTitle = handler.getTitle(holder);
 		String finalTitle = Strings.format(handlerTitle != null ? handlerTitle : ChatColor.BOLD.toString());
-		if (!objective.getDisplayName().equals(finalTitle))
-			objective.setDisplayName(Strings.format(finalTitle));
+
+		if (!objective.getDisplayName().equals(finalTitle)) objective.setDisplayName(Strings.format(finalTitle));
+
 		List<Entry> passed = handler.getEntries(holder);
 		Map<String, Integer> appeared = new HashMap<>();
 		Map<FakePlayer, Integer> current = new HashMap<>();
-		if (passed == null)
-			return;
+
+		if (passed == null) return;
+
 		for (Entry entry : passed) {
 			String key = entry.getName();
-			Integer score = entry.getPosition();
-			if (key.length() > 48)
-				key = key.substring(0, 47);
+			int score = entry.getPosition();
+
+			if (key.length() > 48) key = key.substring(0, 47);
+
 			String appearance;
+
 			if (key.length() > 16) {
 				appearance = key.substring(16);
 			} else {
 				appearance = key;
 			}
-			if (!appeared.containsKey(appearance))
-				appeared.put(appearance, -1);
+
+			if (!appeared.containsKey(appearance)) appeared.put(appearance, -1);
+
 			appeared.put(appearance, appeared.get(appearance) + 1);
 			FakePlayer faker = getFakePlayer(key, appeared.get(appearance));
 			objective.getScore(faker).setScore(score);
 			entryCache.put(faker, score);
 			current.put(faker, score);
 		}
+
 		appeared.clear();
+
 		for (FakePlayer fakePlayer : entryCache.keySet()) {
 			if (!current.containsKey(fakePlayer)) {
 				entryCache.remove(fakePlayer);
@@ -182,6 +187,7 @@ public class SimpleScoreboard implements Scoreboard {
 	private FakePlayer getFakePlayer(String text, int offset) {
 		Team team = null;
 		String name;
+
 		if (text.length() <= 16) {
 			name = text + Strings.repeat(" ", offset);
 		} else {
@@ -190,15 +196,16 @@ public class SimpleScoreboard implements Scoreboard {
 			offset++;
 			prefix = text.substring(0, 16 - offset);
 			name = text.substring(16 - offset);
-			if (name.length() > 16)
-				name = name.substring(0, 16);
-			if (text.length() > 32)
-				suffix = text.substring(32 - offset);
+
+			if (name.length() > 16) name = name.substring(0, 16);
+			if (text.length() > 32) suffix = text.substring(32 - offset);
+
 			for (Team other : teamCache.rowKeySet()) {
 				if (other.getPrefix().equals(prefix) && other.getSuffix().equals(suffix)) {
 					team = other;
 				}
 			}
+
 			if (team == null) {
 				team = scoreboard.registerNewTeam(TEAM_PREFIX + TEAM_COUNTER++);
 				team.setPrefix(prefix);
@@ -206,23 +213,25 @@ public class SimpleScoreboard implements Scoreboard {
 				teamCache.put(team, prefix, suffix);
 			}
 		}
+
 		FakePlayer faker;
+
 		if (!playerCache.contains(name, offset)) {
 			faker = new FakePlayer(name, team, offset);
 			playerCache.put(name, offset, faker);
-			if (faker.getTeam() != null) {
-				faker.getTeam().addPlayer(faker);
-			}
 		} else {
 			faker = playerCache.get(name, offset);
 			if (team != null && faker.getTeam() != null) {
 				faker.getTeam().removePlayer(faker);
 			}
+
 			faker.setTeam(team);
-			if (faker.getTeam() != null) {
-				faker.getTeam().addPlayer(faker);
-			}
 		}
+
+		if (faker.getTeam() != null) {
+			faker.getTeam().addPlayer(faker);
+		}
+
 		return faker;
 	}
 
@@ -239,7 +248,7 @@ public class SimpleScoreboard implements Scoreboard {
 		private final String name;
 
 		private Team team;
-		private int offset;
+		private final int offset;
 
 		FakePlayer(String name, Team team, int offset) {
 			this.name = name;
@@ -260,10 +269,10 @@ public class SimpleScoreboard implements Scoreboard {
 		}
 
 		public String getFullName() {
-			if (team == null)
+			if (team == null) {
 				return name;
-			if (team.getSuffix() == null)
-				return team.getPrefix() + name;
+			}
+
 			return team.getPrefix() + name + team.getSuffix();
 		}
 
@@ -322,6 +331,76 @@ public class SimpleScoreboard implements Scoreboard {
 		}
 
 		@Override
+		public long getLastLogin() {
+			return 0;
+		}
+
+		@Override
+		public long getLastSeen() {
+			return 0;
+		}
+
+		@Override
+		public void incrementStatistic(Statistic statistic) throws IllegalArgumentException {}
+
+		@Override
+		public void decrementStatistic(Statistic statistic) throws IllegalArgumentException {}
+
+		@Override
+		public void incrementStatistic(Statistic statistic, int i) throws IllegalArgumentException {}
+
+		@Override
+		public void decrementStatistic(Statistic statistic, int i) throws IllegalArgumentException {}
+
+		@Override
+		public void setStatistic(Statistic statistic, int i) throws IllegalArgumentException {}
+
+		@Override
+		public int getStatistic(Statistic statistic) throws IllegalArgumentException {
+			return 0;
+		}
+
+		@Override
+		public void incrementStatistic(Statistic statistic, Material material) throws IllegalArgumentException {}
+
+		@Override
+		public void decrementStatistic(Statistic statistic, Material material) throws IllegalArgumentException {}
+
+		@Override
+		public int getStatistic(Statistic statistic, Material material) throws IllegalArgumentException {
+			return 0;
+		}
+
+		@Override
+		public void incrementStatistic(Statistic statistic, Material material, int i) throws IllegalArgumentException {}
+
+		@Override
+		public void decrementStatistic(Statistic statistic, Material material, int i) throws IllegalArgumentException {}
+
+		@Override
+		public void setStatistic(Statistic statistic, Material material, int i) throws IllegalArgumentException {}
+
+		@Override
+		public void incrementStatistic(Statistic statistic, EntityType entityType) throws IllegalArgumentException {}
+
+		@Override
+		public void decrementStatistic(Statistic statistic, EntityType entityType) throws IllegalArgumentException {}
+
+		@Override
+		public int getStatistic(Statistic statistic, EntityType entityType) throws IllegalArgumentException {
+			return 0;
+		}
+
+		@Override
+		public void incrementStatistic(Statistic statistic, EntityType entityType, int i) throws IllegalArgumentException { }
+
+		@Override
+		public void decrementStatistic(Statistic statistic, EntityType entityType, int i) {}
+
+		@Override
+		public void setStatistic(Statistic statistic, EntityType entityType, int i) {}
+
+		@Override
 		public Map<String, Object> serialize() {
 			return null;
 		}
@@ -332,8 +411,7 @@ public class SimpleScoreboard implements Scoreboard {
 		}
 
 		@Override
-		public void setOp(boolean op) {
-		}
+		public void setOp(boolean op) {}
 
 		@Override
 		public String toString() {

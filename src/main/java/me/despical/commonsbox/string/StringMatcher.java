@@ -90,7 +90,7 @@ public class StringMatcher {
 			String group2 = matcher.group(1);
 
 			try {
-				s = s.replace(group, net.md_5.bungee.api.ChatColor.class.getMethod("of",String.class).invoke(null, "#" + group2) + "");
+				s = s.replace(group, net.md_5.bungee.api.ChatColor.of("#" + group2) + "");
 			} catch (Exception ignored) {}
 		}
 

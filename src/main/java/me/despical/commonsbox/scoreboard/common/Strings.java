@@ -18,6 +18,8 @@
 
 package me.despical.commonsbox.scoreboard.common;
 
+import me.despical.commonsbox.compat.VersionResolver;
+import me.despical.commonsbox.string.StringMatcher;
 import org.bukkit.ChatColor;
 
 /**
@@ -30,6 +32,14 @@ public final class Strings {
 	private Strings() {}
 
 	public static String format(String string) {
+		if (string == null) {
+			return "";
+		}
+
+		if (string.contains("#") && VersionResolver.isCurrentEqualOrHigher(VersionResolver.ServerVersion.v1_16_R1)) {
+			string = StringMatcher.matchColorRegex(string);
+		}
+
 		return ChatColor.translateAlternateColorCodes('&', string);
 	}
 
@@ -40,15 +50,18 @@ public final class Strings {
 			int len = string.length();
 			long longSize = (long) len * (long) count;
 			int size = (int) longSize;
+
 			if ((long) size != longSize) {
 				throw new ArrayIndexOutOfBoundsException("Required array size too large: " + longSize);
 			} else {
 				char[] array = new char[size];
 				string.getChars(0, len, array, 0);
 				int n;
+
 				for (n = len; n < size - n; n <<= 1) {
 					System.arraycopy(array, 0, array, n, n);
 				}
+
 				System.arraycopy(array, 0, array, n, size - n);
 				return new String(array);
 			}

@@ -42,9 +42,7 @@ public final class EntryBuilder {
 	}
 
 	public List<Entry> build() {
-		for (Entry entry : entries) {
-			entry.setPosition(entries.size() - entry.getPosition());
-		}
+		entries.forEach(entry -> entry.setPosition(entries.size() - entry.getPosition()));
 		return entries;
 	}
 
