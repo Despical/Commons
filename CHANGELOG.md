@@ -1,6 +1,9 @@
-### 1.2.0 Release (25.11.2020)
+### 1.2.0 Release (25.11.2020 - 27.11.2020)
+* Added more JavaDoc content for NumberUtils class.
 * Added NumberUtils#isLong method to check if given string is primitive type long.
 * Added NumberUtils#isShort method to check if given string is primitive type short.
+* Recoded NumberUtils#isInteger method in a super faster way, now works faster than older.
+* Fixed license header.
 * Changes on scoreboard system:
   * Fixed colors in Minecraft 1.16 and higher versions
   * Fixed not working in Minecraft 1.16.4
