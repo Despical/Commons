@@ -10,7 +10,7 @@ To add this project as a dependency to your pom.xml, add the following to your p
 <dependency>
     <groupId>com.github.Despical</groupId>
     <artifactId>commons-box</artifactId>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
     <scope>compile</scope>
 </dependency>
 ```

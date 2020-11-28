@@ -1,3 +1,9 @@
+### 1.2.1 Release (28.11.2020)
+* Added new utility classes:
+  * ReflectionUtils class.
+  * Titles class.
+  * XSound class.
+
 ### 1.2.0 Release (25.11.2020 - 27.11.2020)
 * Added more JavaDoc content for NumberUtils class.
 * Added NumberUtils#isLong method to check if given string is primitive type long.
