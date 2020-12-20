@@ -36,7 +36,8 @@ import static me.despical.commonsbox.compat.VersionResolver.ServerVersion.*;
  */
 public class VersionResolver {
 
-	private VersionResolver() {}
+	private VersionResolver() {
+	}
 
 	/**
 	 * Get the server's version.

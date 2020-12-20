@@ -1,3 +1,7 @@
+### 1.2.2 Release (20.11.2020)
+* Added support of 144 characters in scoreboard entries.
+* Recoded SimpleScoreboard class and fixed remaining issues.
+
 ### 1.2.1 Release (28.11.2020)
 * Added new utility classes:
   * ReflectionUtils class.

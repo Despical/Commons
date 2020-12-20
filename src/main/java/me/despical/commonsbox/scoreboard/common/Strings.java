@@ -36,7 +36,7 @@ public final class Strings {
 			return "";
 		}
 
-		if (string.contains("#") && VersionResolver.isCurrentEqualOrHigher(VersionResolver.ServerVersion.v1_16_R1)) {
+		if (VersionResolver.isCurrentEqualOrHigher(VersionResolver.ServerVersion.v1_16_R1) && string.contains("#") ) {
 			string = StringMatcher.matchColorRegex(string);
 		}
 
