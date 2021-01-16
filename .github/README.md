@@ -18,4 +18,4 @@ To add this project as a dependency to your pom.xml, add the following to your p
 The project is in the Central Repository, so specifying a repository is not needed.
 
 ## License
-Commons-Box is free and open source software under the [GPL-3.0 License](https://github.com/Despical/Commons-Box/blob/master/LICENSE.)
+Commons-Box is free and open source software under the [GPL-3.0 License](https://github.com/Despical/Commons-Box/blob/master/LICENSE)
