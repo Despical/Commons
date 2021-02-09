@@ -2,13 +2,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.Despical</groupId>
-	<artifactId>commons-box</artifactId>
+	<artifactId>commons</artifactId>
 	<version>1.2.2</version>
 	<packaging>jar</packaging>
 
 	<name>Commons-Box</name>
 	<description>A library box of common utilities needed for Java and Minecraft</description>
-	<url>https://github.com/Despical/Commons-Box</url>
+	<url>https://github.com/Despical/Commons</url>
 
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -25,7 +25,7 @@
 	</licenses>
 
 	<scm>
-		<url>https://github.com/Despical/Commons-Box.git</url>
+		<url>https://github.com/Despical/Commons.git</url>
 	</scm>
 
 	<developers>
@@ -50,7 +50,7 @@
 		<dependency>
 			<groupId>com.destroystokyo.paper</groupId>
 			<artifactId>paper-api</artifactId>
-			<version>1.16.4-R0.1-SNAPSHOT</version>
+			<version>1.16.5-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

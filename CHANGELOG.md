@@ -1,3 +1,11 @@
+### 1.2.3 Release (09.02.2021)
+* Updated license header.
+* Renamed project to Commons.
+* Reworked on some methods.
+* Deleted ``Configuration`` and ``PropertyConfiguration`` classes.
+* Deleted ``MigratorUtils`` class.
+* Deleted ``#getProgressBar`` method from API.
+
 ### 1.2.2 Release (20.11.2020)
 * Added support of 144 characters in scoreboard entries.
 * Recoded SimpleScoreboard class and fixed remaining issues.
