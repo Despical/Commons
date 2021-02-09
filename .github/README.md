@@ -1,6 +1,6 @@
 # Commons
 [![](https://jitpack.io/v/Despical/Commons-Box.svg)](https://jitpack.io/#Despical/Commons-Box)
-[![](https://img.shields.io/badge/javadocs-latest-lime.svg)](https://javadoc.io/doc/com.github.Despical/commons-box/latest/index.html)
+[![](https://img.shields.io/badge/javadocs-latest-lime.svg)](https://javadoc.io/doc/com.github.Despical/commons/latest/index.html)
 [![discord](https://img.shields.io/discord/719922452259668000.svg?color=lime&label=discord)](https://discord.gg/Vhyy4HA)
 
 Commons is a open-source library that provides utilities needed for Java and Minecraft.
@@ -45,7 +45,7 @@ dependencies {
 ## License
 This code is under [GPL-3.0 License](http://www.gnu.org/licenses/gpl-3.0.html)
 
-See the [LICENSE.txt](https://github.com/Despical/Commons/blob/main/LICENSE) file for required notices and attributions.
+See the [LICENSE.txt](https://github.com/Despical/Commons/blob/master/LICENSE) file for required notices and attributions.
 
 ## Donations
 You like the Commons? Then [donate](https://www.patreon.com/despical) back me to support the development.
