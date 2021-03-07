@@ -30,9 +30,9 @@ import org.bukkit.entity.Player;
  */
 public class AttributeUtils {
 
-	public static void setAttackCooldown(Player player, double f) {
+	public static void setAttackCooldown(Player player, double value) {
 		if (VersionResolver.isCurrentEqualOrHigher(VersionResolver.ServerVersion.v1_9_R1)) {
-			player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(f);
+			player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(value);
 		}
 	}
 

@@ -25,6 +25,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
+/**
+ * @author Despical
+ * <p>
+ * Created at 30.05.2020
+ */
 public class LocationSerializer {
 
 	private static final DecimalFormat decimalFormat;

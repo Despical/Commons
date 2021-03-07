@@ -1,3 +1,7 @@
+### 1.2.4 Release (07.03.2021)
+* Added documentations in missing ones.
+* Changed name of `#serializeInt` method to `#roundInteger` and added new parameter.
+
 ### 1.2.3 Release (09.02.2021)
 * Updated license header.
 * Renamed project to Commons.

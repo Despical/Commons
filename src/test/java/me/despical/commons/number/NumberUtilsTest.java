@@ -26,10 +26,10 @@ public class NumberUtilsTest {
 
 	@Test
 	public void serializeInt() {
-		assertEquals(9, NumberUtils.serializeInt(3));
-		assertEquals(9, NumberUtils.serializeInt(9));
-		assertEquals(27, NumberUtils.serializeInt(24));
-		assertEquals(45, NumberUtils.serializeInt(37));
-		assertEquals(45, NumberUtils.serializeInt(43));
+		assertEquals(9, NumberUtils.roundInteger(3, 9));
+		assertEquals(9, NumberUtils.roundInteger(9, 9));
+		assertEquals(27, NumberUtils.roundInteger(24, 9));
+		assertEquals(45, NumberUtils.roundInteger(37, 9));
+		assertEquals(45, NumberUtils.roundInteger(43, 9));
 	}
 }

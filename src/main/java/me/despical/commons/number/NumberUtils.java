@@ -125,16 +125,19 @@ public class NumberUtils {
 	}
 
 	/**
-	 * Serialize int to use it in Inventories size
-	 * ex.you have 38 kits and it will serialize it to 45 (9 * 5)
-	 * because it is valid inventory size
-	 * next ex. you have 55 items and it will serialize it to 63 (9 * 7) not 54 because it's too less
+	 * Round an integer to nearest multiple of floor.
 	 *
-	 * @param i integer to serialize
-	 * @return serialized number
+	 * If 14 is the integer and 9 is the floor then
+	 * method will return 18 or if the floor is same
+	 * and integer is 13 it will return 9 not 18 because
+	 * remainder between floor and integer is greater.
+	 *
+	 * @param integer  int to be rounded
+	 * @param floor    int to be rounded multiple of
+	 * @return         rounded integer
 	 */
-	public static int serializeInt(Integer i) {
-		if (i == 0) return 9;
-		return i % 9 == 0 ? i : (i + 9 - 1) / 9 * 9;
+	public static int roundInteger(int integer, int floor) {
+		if (integer < floor) return floor;
+		return (int) (floor * (Math.round((double) integer / floor)));
 	}
 }
