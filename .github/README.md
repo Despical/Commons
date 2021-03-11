@@ -7,7 +7,7 @@ Commons is a open-source library that provides utilities needed for Java and Min
 
 ## Documentation
 More information will be found on the [wiki page](https://github.com/Despical/Commons/wiki) soon. The [Javadoc](https://javadoc.io/doc/com.github.Despical/commons/latest/index.html) can be browsed. Questions
-related to the usage of Command Framework should be posted on my [Discord server](https://discord.com/invite/Vhyy4HA).
+related to the usage of Commons should be posted on my [Discord server](https://discord.com/invite/Vhyy4HA).
 
 ## Using Commons
 The project isn't in the Central Repository yet, so specifying a repository is needed.<br>
@@ -45,7 +45,7 @@ dependencies {
 ## License
 This code is under [GPL-3.0 License](http://www.gnu.org/licenses/gpl-3.0.html)
 
-See the [LICENSE.txt](https://github.com/Despical/Commons/blob/master/LICENSE) file for required notices and attributions.
+See the [LICENSE](https://github.com/Despical/Commons/blob/master/LICENSE) file for required notices and attributions.
 
 ## Donations
 You like the Commons? Then [donate](https://www.patreon.com/despical) back me to support the development.
