@@ -57,7 +57,7 @@ I accept Pull Requests via GitHub. There are some guidelines which will make app
 + Respect the code style.
 + Create minimal diffs. If you feel the source code should be reformatted create a separate PR for this change.
 
-You can learn more about contributing via GitHub in [contribution guidelines](CONTRIBUTING.md).
+You can learn more about contributing via GitHub in [contribution guidelines](https://github.com/Despical/Commons/blob/master/CONTRIBUTING.md).
 
 ## Building from source
 If you want to build this project from source code, run the following from Git Bash:
