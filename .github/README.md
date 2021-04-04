@@ -24,8 +24,8 @@ To add this project as a dependency to your project, add the following to your p
 ```xml
 <dependency>
     <groupId>com.github.Despical</groupId>
-    <artifactId>commons</artifactId>
-    <version>1.2.3</version>
+    <artifactId>Commons</artifactId>
+    <version>1.2.4</version>
     <scope>compile</scope>
 </dependency>
 ```
@@ -38,7 +38,7 @@ repositories {
 ```
 ```
 dependencies {
-    compileOnly group: "com.github.Despical", name: "commons", version: "1.2.3";
+    compileOnly group: "com.github.Despical", name: "commons", version: "1.2.4";
 }
 ```
 
