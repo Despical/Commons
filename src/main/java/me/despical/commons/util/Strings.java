@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package me.despical.commons.scoreboard.common;
+package me.despical.commons.util;
 
 import me.despical.commons.compat.VersionResolver;
 import me.despical.commons.string.StringMatcher;

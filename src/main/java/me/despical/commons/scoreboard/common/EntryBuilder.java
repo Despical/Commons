@@ -23,6 +23,7 @@ import java.util.List;
 
 import me.despical.commons.compat.VersionResolver;
 import me.despical.commons.scoreboard.type.Entry;
+import me.despical.commons.util.Strings;
 
 /**
  * @author Despical

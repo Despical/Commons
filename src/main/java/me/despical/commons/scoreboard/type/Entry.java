@@ -18,7 +18,7 @@
 
 package me.despical.commons.scoreboard.type;
 
-import me.despical.commons.scoreboard.common.Strings;
+import me.despical.commons.util.Strings;
 
 /**
  * @author Despical

@@ -25,7 +25,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import me.despical.commons.scoreboard.ScoreboardLib;
-import me.despical.commons.scoreboard.common.Strings;
+import me.despical.commons.util.Strings;
 import me.despical.commons.compat.VersionResolver;
 import org.bukkit.*;
 import org.bukkit.entity.EntityType;
