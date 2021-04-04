@@ -57,7 +57,7 @@ public class Collections {
 	 */
 	@SafeVarargs
 	public static <T> Set<T> immutableSetOf(T... a) {
-		return java.util.Collections.unmodifiableSet(new HashSet<>(Arrays.asList(a)));
+		return java.util.Collections.unmodifiableSet(setOf(a));
 	}
 
 	/**
