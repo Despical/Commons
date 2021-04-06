@@ -32,6 +32,8 @@ import org.bukkit.World;
  */
 public class LocationSerializer {
 
+	public static String DEFAULT_LOCATION = toString(Bukkit.getWorlds().get(0).getSpawnLocation());
+
 	private static final DecimalFormat decimalFormat;
 
 	private LocationSerializer() {
@@ -44,7 +46,7 @@ public class LocationSerializer {
 		decimalFormat.setDecimalFormatSymbols(formatSymbols);
 	}
 
-	public static Location locationFromString(String input) {
+	public static Location fromString(String input) {
 		if (input == null) {
 			return null;
 		}
@@ -76,7 +78,7 @@ public class LocationSerializer {
 		return null;
 	}
 
-	public static String locationToString(Location loc) {
+	public static String toString(Location loc) {
 		return loc.getWorld().getName() + ", " + decimalFormat.format(loc.getX()) + ", " + decimalFormat.format(loc.getY()) + ", " + decimalFormat.format(loc.getZ()) + ", " + decimalFormat.format(loc.getYaw()) + ", " + decimalFormat.format(loc.getPitch());
 	}
 }
