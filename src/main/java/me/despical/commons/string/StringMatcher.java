@@ -39,6 +39,7 @@ public class StringMatcher {
 			if (o1.length() == o2.length()) {
 				return 0;
 			}
+
 			return Integer.compare(o2.length(), o1.length());
 		});
 
@@ -62,7 +63,7 @@ public class StringMatcher {
 				}
 
 				for (int i = 0; i < Math.min(baseLength, poss.length()); i++) {
-					if ((pos != -1) && (base.charAt(i) == poss.charAt(Math.min(i + pos, poss.length() - 1)))) {
+					if (pos != -1 && base.charAt(i) == poss.charAt(Math.min(i + pos, poss.length() - 1))) {
 						matches++;
 					}
 				}
@@ -71,7 +72,7 @@ public class StringMatcher {
 					bestMatch = new Match(poss, matches);
 				}
 
-				if ((matches > 0) && (matches >= bestMatch.length) && (!poss.equalsIgnoreCase(bestMatch.match))) {
+				if (matches > 0 && matches >= bestMatch.length && !poss.equalsIgnoreCase(bestMatch.match)) {
 					otherMatches.add(new Match(poss, matches));
 				}
 			}

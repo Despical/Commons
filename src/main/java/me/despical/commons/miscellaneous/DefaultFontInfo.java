@@ -148,7 +148,6 @@ enum DefaultFontInfo {
 	}
 
 	public int getBoldLength() {
-		if (this == DefaultFontInfo.SPACE) return this.getLength();
-		return this.length + 1;
+		return this == DefaultFontInfo.SPACE ? this.getLength() : this.length + 1;
 	}
 }

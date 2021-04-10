@@ -18,9 +18,9 @@
 
 package me.despical.commons.compat;
 
+import me.despical.commons.util.Collections;
 import org.bukkit.Bukkit;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static me.despical.commons.compat.VersionResolver.ServerVersion.*;
@@ -89,11 +89,10 @@ public class VersionResolver {
 	 * @return server version is before the given NMS version
 	 */
 	public static boolean isCurrentLower(ServerVersion version) {
-		List<ServerVersion> versions = Arrays.asList(ServerVersion.values());
-
+		List<ServerVersion> versions = Collections.listOf(ServerVersion.values());
 		List<ServerVersion> splitVers = versions.subList(0, versions.indexOf(version));
-		ServerVersion currentVers = resolveVersion();
 
+		ServerVersion currentVers = resolveVersion();
 		return splitVers.contains(currentVers) && !isCurrentEqual(version) && currentVers != OTHER;
 	}
 
@@ -104,11 +103,10 @@ public class VersionResolver {
 	 * @return server version is before the given NMS version
 	 */
 	public static boolean isCurrentEqualOrLower(ServerVersion version) {
-		List<ServerVersion> versions = Arrays.asList(ServerVersion.values());
-
+		List<ServerVersion> versions = Collections.listOf(ServerVersion.values());
 		List<ServerVersion> splitVers = versions.subList(0, versions.indexOf(version));
-		ServerVersion currentVers = resolveVersion();
 
+		ServerVersion currentVers = resolveVersion();
 		return (!splitVers.contains(currentVers)) || isCurrentEqual(version) && currentVers != OTHER;
 	}
 
@@ -127,8 +125,8 @@ public class VersionResolver {
 	 * @return server version is supported without given one
 	 */
 	public static boolean isAllSupportedExcept(ServerVersion... versions) {
-		List<ServerVersion> supported = Arrays.asList(ServerVersion.values());
-		List<ServerVersion> unsupported = Arrays.asList(versions);
+		List<ServerVersion> supported = Collections.listOf(ServerVersion.values());
+		List<ServerVersion> unsupported = Collections.listOf(versions);
 
 		supported.removeAll(unsupported);
 		return isAllSupported() && supported.contains(resolveVersion());
@@ -151,10 +149,10 @@ public class VersionResolver {
 	 * @return true if current version equals or higher than given one
 	 */
 	public static boolean isCurrentEqualOrHigher(ServerVersion version) {
-		List<ServerVersion> versions = Arrays.asList(ServerVersion.values());
+		List<ServerVersion> versions = Collections.listOf(ServerVersion.values());
 		List<ServerVersion> splitVers = versions.subList(versions.indexOf(version), versions.size());
-		ServerVersion currentVers = resolveVersion();
 
+		ServerVersion currentVers = resolveVersion();
 		return isCurrentEqual(version) || splitVers.contains(currentVers);
 	}
 
@@ -165,10 +163,10 @@ public class VersionResolver {
 	 * @return true if current version is higher than given one
 	 */
 	public static boolean isCurrentHigher(ServerVersion version) {
-		List<ServerVersion> versions = Arrays.asList(ServerVersion.values());
+		List<ServerVersion> versions = Collections.listOf(ServerVersion.values());
 		List<ServerVersion> splitVers = versions.subList(versions.indexOf(version), versions.size());
-		ServerVersion currentVers = resolveVersion();
 
+		ServerVersion currentVers = resolveVersion();
 		return !isCurrentEqual(version) && splitVers.contains(currentVers);
 	}
 

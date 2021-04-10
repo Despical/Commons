@@ -56,9 +56,9 @@ public class SimpleScoreboard implements Scoreboard {
 
 	private boolean activated;
 	private ScoreboardHandler handler;
-	private Map<FakePlayer, Integer> entryCache = new ConcurrentHashMap<>();
-	private Table<String, Integer, FakePlayer> playerCache = HashBasedTable.create();
-	private Table<Team, String, String> teamCache = HashBasedTable.create();
+	private final Map<FakePlayer, Integer> entryCache = new ConcurrentHashMap<>();
+	private final Table<String, Integer, FakePlayer> playerCache = HashBasedTable.create();
+	private final Table<Team, String, String> teamCache = HashBasedTable.create();
 	private BukkitRunnable updateTask;
 
 	public SimpleScoreboard(Player holder) {
@@ -270,7 +270,7 @@ public class SimpleScoreboard implements Scoreboard {
 
 		private final String name;
 		private Team team;
-		private int offset;
+		private final int offset;
 
 		FakePlayer(String name, Team team, int offset) {
 			this.name = name;

@@ -137,7 +137,6 @@ public class NumberUtils {
 	 * @return         rounded integer
 	 */
 	public static int roundInteger(int integer, int floor) {
-		if (integer < floor) return floor;
-		return (int) (floor * (Math.round((double) integer / floor)));
+		return integer < floor ? floor : (int) (floor * (Math.round((double) integer / floor)));
 	}
 }

@@ -19,11 +19,12 @@
 package me.despical.commons.item;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.bukkit.ChatColor;
+import me.despical.commons.compat.XMaterial;
+import me.despical.commons.util.Collections;
+import me.despical.commons.util.Strings;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
@@ -47,6 +48,10 @@ public class ItemBuilder {
 		this.itemStack = new ItemStack(material);
 	}
 
+	public ItemBuilder(final XMaterial xmaterial) {
+		this.itemStack = xmaterial.parseItem();
+	}
+
 	public ItemBuilder type(Material material) {
 		itemStack.setType(material);
 		return this;
@@ -64,7 +69,7 @@ public class ItemBuilder {
 
 	public ItemBuilder name(String name) {
 		ItemMeta meta = itemStack.getItemMeta();
-		meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
+		meta.setDisplayName(Strings.format(name));
 
 		itemStack.setItemMeta(meta);
 		return this;
@@ -107,7 +112,7 @@ public class ItemBuilder {
 	}
 
 	public ItemBuilder lore(String... name) {
-		return lore(Arrays.asList(name));
+		return lore(Collections.listOf(name));
 	}
 
 	public ItemBuilder lore(List<String> name) {
@@ -119,7 +124,7 @@ public class ItemBuilder {
 		}
 
 		lore.addAll(name);
-		meta.setLore(lore.stream().map(str -> ChatColor.translateAlternateColorCodes('&', str)).collect(Collectors.toList()));
+		meta.setLore(lore.stream().map(Strings::format).collect(Collectors.toList()));
 
 		itemStack.setItemMeta(meta);
 		return this;
