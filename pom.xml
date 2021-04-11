@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.Despical</groupId>
 	<artifactId>commons</artifactId>
-	<version>1.2.4</version>
+	<version>1.2.6</version>
 	<packaging>jar</packaging>
 
-	<name>Commons-Box</name>
-	<description>A library box of common utilities needed for Java and Minecraft</description>
+	<name>Commons</name>
+	<description>A library of common utilities needed for Java and Minecraft</description>
 	<url>https://github.com/Despical/Commons</url>
 
 	<properties>
