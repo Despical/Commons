@@ -19,7 +19,6 @@
 package me.despical.commons.string;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -49,8 +48,7 @@ public class StringMatcher {
 
 		for (String poss : possibilities) {
 			if (!poss.isEmpty()) {
-				int matches = 0;
-				int pos = -1;
+				int matches = 0, pos = -1;
 
 				for (int i = 0; i < Math.min(baseLength, poss.length()); i++) {
 					if (base.charAt(i) == poss.charAt(i)) {
@@ -79,7 +77,7 @@ public class StringMatcher {
 		}
 
 		otherMatches.add(bestMatch);
-		Collections.sort(otherMatches);
+		otherMatches.sort(null);
 		return otherMatches;
 	}
 

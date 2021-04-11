@@ -36,7 +36,7 @@ import com.zaxxer.hikari.HikariDataSource;
 public class MysqlDatabase {
 
 	private HikariDataSource hikariDataSource;
-	private final Logger databaseLogger = Logger.getLogger("Commons-Box Database");
+	private final Logger databaseLogger = Logger.getLogger("Commons Database");
 
 	public MysqlDatabase(String user, String password, String jdbcUrl) {
 		databaseLogger.log(Level.INFO, "Configuring MySQL connection!");

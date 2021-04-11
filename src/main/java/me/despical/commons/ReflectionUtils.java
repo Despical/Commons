@@ -53,22 +53,15 @@ public class ReflectionUtils {
 	 * In order to maintain cross-version compatibility we cannot import these classes.
 	 */
 	public static final String VERSION = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
-	public static final String CRAFTBUKKIT = "org.bukkit.craftbukkit." + VERSION + '.';
-	public static final String NMS = "net.minecraft.server." + VERSION + '.';
+	public static final String CRAFTBUKKIT = String.format("org.bukkit.craftbukkit.%s.", VERSION);
+	public static final String NMS = String.format("net.minecraft.server.%s.", VERSION);
 
-	private static final MethodHandle PLAYER_CONNECTION;
-	private static final MethodHandle GET_HANDLE;
-	private static final MethodHandle SEND_PACKET;
+	private static final MethodHandle PLAYER_CONNECTION, GET_HANDLE, SEND_PACKET;
 
 	static {
-		Class<?> entityPlayer = getNMSClass("EntityPlayer");
-		Class<?> craftPlayer = getCraftClass("entity.CraftPlayer");
-		Class<?> playerConnection = getNMSClass("PlayerConnection");
-
+		Class<?> entityPlayer = getNMSClass("EntityPlayer"), craftPlayer = getCraftClass("entity.CraftPlayer"), playerConnection = getNMSClass("PlayerConnection");
 		MethodHandles.Lookup lookup = MethodHandles.lookup();
-		MethodHandle sendPacket = null;
-		MethodHandle getHandle = null;
-		MethodHandle connection = null;
+		MethodHandle sendPacket = null, getHandle = null, connection = null;
 
 		try {
 			connection = lookup.findGetter(entityPlayer, "playerConnection", playerConnection);

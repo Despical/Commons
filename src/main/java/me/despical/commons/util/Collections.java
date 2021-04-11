@@ -1,6 +1,8 @@
 package me.despical.commons.util;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author Despical
@@ -21,7 +23,7 @@ public class Collections {
 	 */
 	@SafeVarargs
 	public static <T> List<T> listOf(T... a) {
-		return new ArrayList<>(Arrays.asList(a));
+		return new ArrayList<>(immutableListOf(a));
 	}
 
 	/**
@@ -37,6 +39,52 @@ public class Collections {
 	}
 
 	/**
+	 * Returns an mutable list containing elements of given set.
+	 *
+	 * @param a Set to be converted to list.
+	 * @param <T> Type of given set.
+	 * @return mutable list containing elements of given set.
+	 */
+	public static <T> List<T> listFromSet(Set<T> a) {
+		return new ArrayList<>(a);
+	}
+
+	/**
+	 * Returns an immutable list containing elements of given set.
+	 *
+	 * @param a Set to be converted to list.
+	 * @param <T> Type of given set.
+	 * @return immutable list containing elements of given set.
+	 */
+	public static <T> List<T> immutableListFromSet(Set<T> a) {
+		return java.util.Collections.unmodifiableList(listFromSet(a));
+	}
+
+	/**
+	 * Returns an mutable list containing entry set elements of given map.
+	 *
+	 * @param a Map to be converted to list.
+	 * @param <K> Type of entry.
+	 * @param <V> Value of entry.
+	 * @return mutable list containing entry set elements of given map.
+	 */
+	public static <K, V> List<Map.Entry<K, V>> listFromMap(Map<K, V> a) {
+		return listFromSet(a.entrySet());
+	}
+
+	/**
+	 * Returns an immutable list containing an arbitrary number of elements.
+	 *
+	 * @param a Map to be converted to list.
+	 * @param <K> Type of entry.
+	 * @param <V> Value of entry.
+	 * @return immutable list containing entry set elements of given map.
+	 */
+	public static <K, V> List<Map.Entry<K, V>> immutableListFromMap(Map<K, V> a) {
+		return java.util.Collections.unmodifiableList(listFromSet(a.entrySet()));
+	}
+
+	/**
 	 * Returns an mutable set containing an arbitrary number of elements.
 	 *
 	 * @param a Array of given parameters.
@@ -45,7 +93,7 @@ public class Collections {
 	 */
 	@SafeVarargs
 	public static <T> Set<T> setOf(T... a) {
-		return new HashSet<>(Arrays.asList(a));
+		return new HashSet<>(immutableListOf(a));
 	}
 
 	/**
@@ -83,13 +131,7 @@ public class Collections {
 	 */
 	@SafeVarargs
 	public static <K, V> Map<K, V> mapOf(Map.Entry<K, V>... a) {
-		Map<K, V> map = new HashMap<>();
-
-		for (Map.Entry<K, V> b : a) {
-			map.put(b.getKey(), b.getValue());
-		}
-
-		return map;
+		return streamOf(a).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (b, c) -> c));
 	}
 
 	/**
@@ -128,12 +170,18 @@ public class Collections {
 	 */
 	@SafeVarargs
 	public static <K, V> Map<K, V> immutableMapOf(Map.Entry<K, V>... a) {
-		Map<K, V> map = new HashMap<>();
+		return java.util.Collections.unmodifiableMap(mapOf(a));
+	}
 
-		for (Map.Entry<K, V> b : a) {
-			map.put(b.getKey(), b.getValue());
-		}
-
-		return java.util.Collections.unmodifiableMap(map);
+	/**
+	 * Returns a sequential ordered stream whose elements are the specified values.
+	 *
+	 * @param <T> the type of stream elements
+	 * @param a the elements of the new stream
+	 * @return the new stream
+	 */
+	@SafeVarargs
+	public static <T> Stream<T> streamOf(T... a) {
+		return Arrays.stream(a);
 	}
 }

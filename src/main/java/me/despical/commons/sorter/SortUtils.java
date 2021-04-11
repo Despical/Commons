@@ -18,10 +18,8 @@
 
 package me.despical.commons.sorter;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Despical
@@ -33,16 +31,9 @@ public class SortUtils {
 	private SortUtils() {
 	}
 
-	public static Map sortByValue(Map unsortMap) {
-		List list = new LinkedList(unsortMap.entrySet());
-		list.sort((o1, o2) -> ((Comparable) ((Map.Entry) (o1)).getValue()).compareTo(((Map.Entry) (o2)).getValue()));
-		Map sortedMap = new LinkedHashMap();
-
-		for (Object aList : list) {
-			Map.Entry entry = (Map.Entry) aList;
-			sortedMap.put(entry.getKey(), entry.getValue());
-		}
-
-		return sortedMap;
+	public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
+		List<Map.Entry<K, V>> list = new ArrayList<>(map.entrySet());
+		list.sort(Map.Entry.comparingByValue());
+		return list.stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> b, LinkedHashMap::new));
 	}
 }
