@@ -35,7 +35,7 @@ public class LocationSerializer {
 	/**
 	 * Default serialized location.
 	 */
-	public static final String DEFAULT_LOCATION = toString(Bukkit.getWorlds().get(0).getSpawnLocation());
+	public static final String DEFAULT_LOCATION;
 
 	private static final DecimalFormat decimalFormat;
 
@@ -47,6 +47,8 @@ public class LocationSerializer {
 		DecimalFormatSymbols formatSymbols = decimalFormat.getDecimalFormatSymbols();
 		formatSymbols.setDecimalSeparator('.');
 		decimalFormat.setDecimalFormatSymbols(formatSymbols);
+
+		DEFAULT_LOCATION = toString(Bukkit.getWorlds().get(0).getSpawnLocation());
 	}
 
 	public static Location fromString(String input) {
