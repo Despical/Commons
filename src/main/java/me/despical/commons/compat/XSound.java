@@ -23,15 +23,10 @@ import com.google.common.base.Strings;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.WordUtils;
-import org.bukkit.Instrument;
 import org.bukkit.Location;
-import org.bukkit.Note;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -1069,7 +1064,7 @@ public enum XSound {
 	private final Sound sound;
 
 	XSound(@Nonnull String... legacies) {
-		Sound bukkitSound = Data.BUKKIT_NAMES.get(this.name());
+		Sound bukkitSound = Data.BUKKIT_NAMES.get(name());
 
 		if (bukkitSound == null) {
 			for (String legacy : legacies) {
@@ -1080,7 +1075,7 @@ public enum XSound {
 
 		this.sound = bukkitSound;
 
-		Data.NAMES.put(this.name(), this);
+		Data.NAMES.put(name(), this);
 
 		for (String legacy : legacies) {
 			Data.NAMES.putIfAbsent(legacy, this);
@@ -1099,9 +1094,8 @@ public enum XSound {
 	 */
 	@Nonnull
 	private static String format(@Nonnull String name) {
-		int len = name.length();
+		int len = name.length(), count = 0;
 		char[] chs = new char[len];
-		int count = 0;
 		boolean appendUnderline = false;
 
 		for (int i = 0; i < len; i++) {
@@ -1235,8 +1229,7 @@ public enum XSound {
 			Sound type = typeOpt.get().parseSound();
 			if (type == null) return null;
 
-			float volume = 1.0f;
-			float pitch = 1.0f;
+			float volume = 1.0f, pitch = 1.0f;
 
 			try {
 				if (split.length > 1) {
@@ -1266,7 +1259,7 @@ public enum XSound {
 	 * @param player the player to stop all the sounds from.
 	 * @return the async task handling the operation.
 	 * @see #stopSound(Player)
-	 * @since            // We don't need to cache because it's rarely used.
+	 * @since 1.2.1
 	 */
 	@Nonnull
 	public static CompletableFuture<Void> stopMusic(@Nonnull Player player) {
@@ -1288,46 +1281,13 @@ public enum XSound {
 	}
 
 	/**
-	 * Plays an instrument's notes in an ascending form.
-	 * This method is not really relevant to this utility class, but a nice feature.
-	 *
-	 * @param plugin      the plugin handling schedulers.
-	 * @param player      the player to play the note from.
-	 * @param playTo      the entity to play the note to.
-	 * @param instrument  the instrument.
-	 * @param ascendLevel the ascend level of notes. Can only be positive and not higher than 7
-	 * @param delay       the delay between each play.
-	 * @return the async task handling the operation.
-	 * @since 2.0.0
-	 */
-	@Nonnull
-	public static BukkitTask playAscendingNote(@Nonnull JavaPlugin plugin, @Nonnull Player player, @Nonnull Entity playTo, @Nonnull Instrument instrument, int ascendLevel, int delay) {
-		Objects.requireNonNull(player, "Cannot play note from null player");
-		Objects.requireNonNull(playTo, "Cannot play note to null entity");
-
-		Validate.isTrue(ascendLevel > 0, "Note ascend level cannot be lower than 1");
-		Validate.isTrue(ascendLevel <= 7, "Note ascend level cannot be greater than 7");
-		Validate.isTrue(delay > 0, "Delay ticks must be at least 1");
-
-		return new BukkitRunnable() {
-			int repeating = ascendLevel;
-
-			@Override
-			public void run() {
-				player.playNote(playTo.getLocation(), instrument, Note.natural(1, Note.Tone.values()[ascendLevel - repeating]));
-				if (repeating-- == 0) cancel();
-			}
-		}.runTaskTimerAsynchronously(plugin, 0, delay);
-	}
-
-	/**
 	 * In most cases your should be using {@link #name()} instead.
 	 *
 	 * @return a friendly readable string name.
 	 */
 	@Override
 	public String toString() {
-		return WordUtils.capitalize(this.name().replace('_', ' ').toLowerCase(Locale.ENGLISH));
+		return WordUtils.capitalize(name().replace('_', ' ').toLowerCase(Locale.ENGLISH));
 	}
 
 	/**
@@ -1354,39 +1314,7 @@ public enum XSound {
 	 * @since 1.2.1
 	 */
 	public boolean isSupported() {
-		return this.parseSound() != null;
-	}
-
-	/**
-	 * Plays a sound repeatedly with the given delay at a moving target's location.
-	 *
-	 * @param plugin the plugin handling schedulers. (You can replace this with a static instance)
-	 * @param entity the entity to play the sound to. We exactly need an entity to keep the track of location changes.
-	 * @param volume the volume of the sound.
-	 * @param pitch  the pitch of the sound.
-	 * @param repeat the amount of times to repeat playing.
-	 * @param delay  the delay between each repeat.
-	 * @return the async task handling this operation.
-	 * @see #play(Location, float, float)
-	 * @since 1.2.1
-	 */
-	@Nonnull
-	public BukkitTask playRepeatedly(@Nonnull JavaPlugin plugin, @Nonnull Entity entity, float volume, float pitch, int repeat, int delay) {
-		Objects.requireNonNull(plugin, "Cannot play repeating sound from null plugin");
-		Objects.requireNonNull(entity, "Cannot play repeating sound at null location");
-
-		Validate.isTrue(repeat > 0, "Cannot repeat playing sound " + repeat + " times");
-		Validate.isTrue(delay > 0, "Delay ticks must be at least 1");
-
-		return new BukkitRunnable() {
-			int repeating = repeat;
-
-			@Override
-			public void run() {
-				play(entity.getLocation(), volume, pitch);
-				if (repeating-- == 0) cancel();
-			}
-		}.runTaskTimer(plugin, 0, delay);
+		return parseSound() != null;
 	}
 
 	/**
@@ -1425,7 +1353,7 @@ public enum XSound {
 		Objects.requireNonNull(entity, "Cannot play sound to a null entity");
 
 		if (entity instanceof Player) {
-			Sound sound = this.parseSound();
+			Sound sound = parseSound();
 			if (sound != null) ((Player) entity).playSound(entity.getLocation(), sound, volume, pitch);
 		} else {
 			play(entity.getLocation(), volume, pitch);
@@ -1492,8 +1420,7 @@ public enum XSound {
 		public final Sound sound;
 		public final Player player;
 		public final Location location;
-		public final float volume;
-		public final float pitch;
+		public final float volume, pitch;
 		public final boolean playAtLocation;
 
 		public Record(@Nonnull Sound sound, @Nullable Player player, @Nonnull Location location, float volume, float pitch, boolean playAtLocation) {
@@ -1517,7 +1444,7 @@ public enum XSound {
 		/**
 		 * Plays the sound with the updated location.
 		 *
-		 * @param updatedLocation the upated location.
+		 * @param updatedLocation the updated location.
 		 * @since 1.2.1
 		 */
 		public void play(@Nonnull Location updatedLocation) {

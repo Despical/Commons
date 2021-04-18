@@ -18,6 +18,8 @@
 
 package me.despical.commons.miscellaneous;
 
+import me.despical.commons.util.Collections;
+
 /**
  * @see <a href="https://www.spigotmc.org/threads/free-code-sending-perfectly-centered-chat-message.95872">Spigot Thread</a>
  * @author Despical
@@ -132,22 +134,18 @@ enum DefaultFontInfo {
 	}
 
 	public static DefaultFontInfo getDefaultFontInfo(char c) {
-		for (DefaultFontInfo dFI : DefaultFontInfo.values()) {
-			if (dFI.getCharacter() == c) return dFI;
-		}
-
-		return DefaultFontInfo.DEFAULT;
+		return Collections.streamOf(DefaultFontInfo.values()).filter(dFI -> dFI.getCharacter() == c).findFirst().orElse(DefaultFontInfo.DEFAULT);
 	}
 
 	public char getCharacter() {
-		return this.character;
+		return character;
 	}
 
 	public int getLength() {
-		return this.length;
+		return length;
 	}
 
 	public int getBoldLength() {
-		return this == DefaultFontInfo.SPACE ? this.getLength() : this.length + 1;
+		return this == DefaultFontInfo.SPACE ? getLength() : length + 1;
 	}
 }

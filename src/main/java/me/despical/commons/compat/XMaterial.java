@@ -18,6 +18,8 @@
 
 package me.despical.commons.compat;
 
+import me.despical.commons.util.Collections;
+
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -1126,10 +1128,10 @@ public enum XMaterial {
 	ZOMBIE_WALL_HEAD(2, "SKULL", "SKULL_ITEM"),
 	ZOMBIFIED_PIGLIN_SPAWN_EGG(57, "MONSTER_EGG", "ZOMBIE_PIGMAN_SPAWN_EGG");
 
-	public static final List<XMaterial> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
-	private static final Map<String, XMaterial> NAMES = new HashMap();
-	private static final Set<String> DAMAGEABLE = new HashSet(Arrays.asList("HELMET", "CHESTPLATE", "LEGGINGS", "BOOTS", "SWORD", "AXE", "PICKAXE", "SHOVEL", "HOE", "ELYTRA", "TRIDENT", "HORSE_ARMOR", "BARDING", "SHEARS", "FLINT_AND_STEEL", "BOW", "FISHING_ROD", "CARROT_ON_A_STICK", "CARROT_STICK", "SPADE", "SHIELD"));
-	private static final EnumMap<XMaterial, XMaterial> DUPLICATED = new EnumMap(XMaterial.class);
+	public static final List<XMaterial> VALUES = Collections.immutableListOf(values());
+	private static final Map<String, XMaterial> NAMES = new HashMap<>();
+	private static final Set<String> DAMAGEABLE = Collections.setOf("HELMET", "CHESTPLATE", "LEGGINGS", "BOOTS", "SWORD", "AXE", "PICKAXE", "SHOVEL", "HOE", "ELYTRA", "TRIDENT", "HORSE_ARMOR", "BARDING", "SHEARS", "FLINT_AND_STEEL", "BOW", "FISHING_ROD", "CARROT_ON_A_STICK", "CARROT_STICK", "SPADE", "SHIELD");
+	private static final EnumMap<XMaterial, XMaterial> DUPLICATED = new EnumMap<>(XMaterial.class);
 	private static final Cache<String, XMaterial> NAME_CACHE = CacheBuilder.newBuilder().expireAfterAccess(15L, TimeUnit.MINUTES).build();
 	private static final Cache<XMaterial, Optional<Material>> PARSED_CACHE = CacheBuilder.newBuilder().expireAfterAccess(10L, TimeUnit.MINUTES).build();
 	private static final LoadingCache<String, Pattern> CACHED_REGEX = CacheBuilder.newBuilder().expireAfterAccess(1L, TimeUnit.HOURS).build(new CacheLoader<String, Pattern>() {
@@ -1137,8 +1139,8 @@ public enum XMaterial {
 		public Pattern load(@Nonnull String str) {
 			try {
 				return Pattern.compile(str);
-			} catch (PatternSyntaxException var3) {
-				var3.printStackTrace();
+			} catch (PatternSyntaxException e) {
+				e.printStackTrace();
 				return null;
 			}
 		}
@@ -1187,16 +1189,16 @@ public enum XMaterial {
 		if (cache != null) {
 			return cache;
 		} else {
-			Iterator var4 = VALUES.iterator();
+			Iterator<XMaterial> iterator = VALUES.iterator();
 
 			XMaterial material;
 			do {
 				do {
-					if (!var4.hasNext()) {
+					if (!iterator.hasNext()) {
 						return null;
 					}
 
-					material = (XMaterial) var4.next();
+					material = (XMaterial) iterator.next();
 				} while (data != -1 && data != material.data);
 			} while (!material.anyMatchLegacy(name));
 
@@ -1208,15 +1210,15 @@ public enum XMaterial {
 	public static boolean contains(@Nonnull String name) {
 		Validate.notEmpty(name, "Cannot check for null or empty material name");
 		name = format(name);
-		Iterator var1 = VALUES.iterator();
+		Iterator<XMaterial> iterator = VALUES.iterator();
 
 		XMaterial materials;
 		do {
-			if (!var1.hasNext()) {
+			if (!iterator.hasNext()) {
 				return false;
 			}
 
-			materials = (XMaterial) var1.next();
+			materials = iterator.next();
 		} while (!materials.name().equals(name));
 
 		return true;
@@ -1238,7 +1240,7 @@ public enum XMaterial {
 			try {
 				byte data = (byte) Integer.parseInt(StringUtils.deleteWhitespace(name.substring(index + 1)));
 				return matchDefinedXMaterial(mat, data);
-			} catch (NumberFormatException var4) {}
+			} catch (NumberFormatException ignored) {}
 		}
 
 		return Optional.empty();
@@ -1247,9 +1249,7 @@ public enum XMaterial {
 	@Nonnull
 	public static XMaterial matchXMaterial(@Nonnull Material material) {
 		Objects.requireNonNull(material, "Cannot match null material");
-		return matchDefinedXMaterial(material.name(), (byte) -1).orElseThrow(() -> {
-			return new IllegalArgumentException("Unsupported material with no data value: " + material.name());
-		});
+		return matchDefinedXMaterial(material.name(), (byte) -1).orElseThrow(() -> new IllegalArgumentException("Unsupported material with no data value: " + material.name()));
 	}
 
 	@Nonnull
@@ -1257,17 +1257,17 @@ public enum XMaterial {
 		Objects.requireNonNull(item, "Cannot match null ItemStack");
 		String material = item.getType().name();
 		byte data = (byte) (!ISFLAT && !isDamageable(material) ? item.getDurability() : 0);
-		return matchDefinedXMaterial(material, data).orElseThrow(() -> {
-			return new IllegalArgumentException("Unsupported material: " + material + " (" + data + ')');
-		});
+		return matchDefinedXMaterial(material, data).orElseThrow(() -> new IllegalArgumentException("Unsupported material: " + material + " (" + data + ')'));
 	}
 
 	@Nonnull
 	private static Optional<XMaterial> matchDefinedXMaterial(@Nonnull String name, byte data) {
 		boolean duplicated = isDuplicated(name);
-		Optional<XMaterial> xMaterial = null;
+		Optional<XMaterial> xMaterial;
+
 		if (data <= 0 && (ISFLAT || !duplicated)) {
 			xMaterial = getIfPresent(name);
+
 			if (xMaterial.isPresent()) {
 				return xMaterial;
 			}
@@ -1277,22 +1277,23 @@ public enum XMaterial {
 		if (xMat == null) {
 			return data > 0 && name.endsWith("MAP") ? Optional.of(FILLED_MAP) : Optional.empty();
 		} else if (!ISFLAT && duplicated && xMat.name().charAt(xMat.name().length() - 1) == 'S') {
-			return xMaterial == null ? getIfPresent(name) : xMaterial;
+			return getIfPresent(name);
 		} else {
-			return Optional.ofNullable(xMat);
+			return Optional.of(xMat);
 		}
 	}
 
 	private static boolean isDuplicated(@Nonnull String name) {
-		Iterator var1 = DUPLICATED.entrySet().iterator();
+		Iterator<Entry<XMaterial, XMaterial>> iterator = DUPLICATED.entrySet().iterator();
 
 		XMaterial material;
+
 		do {
-			if (!var1.hasNext()) {
+			if (!iterator.hasNext()) {
 				return false;
 			}
 
-			Entry<XMaterial, XMaterial> duplicated = (Entry) var1.next();
+			Entry<XMaterial, XMaterial> duplicated = iterator.next();
 			material = duplicated.getKey();
 		} while (!material.name().equals(name) && !material.anyMatchLegacy(name));
 
@@ -1302,15 +1303,15 @@ public enum XMaterial {
 	@Nonnull
 	public static Optional<XMaterial> matchXMaterial(int id, byte data) {
 		if (id >= 0 && data >= 0) {
-			Iterator var2 = VALUES.iterator();
+			Iterator<XMaterial> iterator = VALUES.iterator();
 
 			XMaterial materials;
 			do {
-				if (!var2.hasNext()) {
+				if (!iterator.hasNext()) {
 					return Optional.empty();
 				}
 
-				materials = (XMaterial) var2.next();
+				materials = iterator.next();
 			} while (materials.data != data || materials.getId() != id);
 
 			return Optional.of(materials);
@@ -1386,15 +1387,16 @@ public enum XMaterial {
 
 	public static boolean isDamageable(@Nonnull String name) {
 		Objects.requireNonNull(name, "Material name cannot be null");
-		Iterator var1 = DAMAGEABLE.iterator();
+		Iterator<String> iterator = DAMAGEABLE.iterator();
 
 		String damageable;
+
 		do {
-			if (!var1.hasNext()) {
+			if (!iterator.hasNext()) {
 				return false;
 			}
 
-			damageable = (String) var1.next();
+			damageable = iterator.next();
 		} while (!name.contains(damageable));
 
 		return true;
@@ -1402,14 +1404,14 @@ public enum XMaterial {
 
 	public boolean isOneOf(@Nullable Collection<String> materials) {
 		if (materials != null && !materials.isEmpty()) {
-			String name = this.name();
-			Iterator var3 = materials.iterator();
+			String name = name();
 
-			while (var3.hasNext()) {
-				String comp = (String) var3.next();
+			for (String comp : materials) {
 				String checker = comp.toUpperCase(Locale.ENGLISH);
+
 				if (checker.startsWith("CONTAINS:")) {
 					comp = format(checker.substring(9));
+
 					if (name.contains(comp)) {
 						return true;
 					}
@@ -1426,11 +1428,9 @@ public enum XMaterial {
 					}
 				}
 			}
-
-			return false;
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 
 	public int getMaterialVersion() {
@@ -1445,11 +1445,12 @@ public enum XMaterial {
 	@Nonnull
 	public ItemStack setType(@Nonnull ItemStack item) {
 		Objects.requireNonNull(item, "Cannot set material for null ItemStack");
-		Material material = this.parseMaterial();
-		Objects.requireNonNull(material, "Unsupported material: " + this.name());
+		Material material = parseMaterial();
+		Objects.requireNonNull(material, "Unsupported material: " + name());
 		item.setType(material);
-		if (!ISFLAT && !this.isDamageable()) {
-			item.setDurability(this.data);
+
+		if (!ISFLAT && !isDamageable()) {
+			item.setDurability(data);
 		}
 
 		return item;
@@ -1457,10 +1458,9 @@ public enum XMaterial {
 
 	private boolean anyMatchLegacy(@Nonnull String name) {
 		String[] var2 = this.legacy;
-		int var3 = var2.length;
+		int length = var2.length;
 
-		for (int var4 = 0; var4 < var3; ++var4) {
-			String legacy = var2[var4];
+		for (String legacy : var2) {
 			if (legacy.isEmpty()) {
 				break;
 			}
@@ -1474,7 +1474,7 @@ public enum XMaterial {
 	}
 
 	public String toString() {
-		return toWord(this.name());
+		return toWord(name());
 	}
 
 	public int getId() {
@@ -1495,47 +1495,45 @@ public enum XMaterial {
 	}
 
 	public byte getData() {
-		return this.data;
+		return data;
 	}
 
 	@Nonnull
 	public String[] getLegacy() {
-		return this.legacy;
+		return legacy;
 	}
 
 	@Nullable
 	public ItemStack parseItem() {
-		return this.parseItem(false);
+		return parseItem(false);
 	}
 
 	@Nullable
 	public ItemStack parseItem(boolean suggest) {
-		Material material = this.parseMaterial(suggest);
-		if (material == null) {
-			return null;
-		} else {
-			return ISFLAT ? new ItemStack(material) : new ItemStack(material, 1, this.data);
-		}
+		Material material = parseMaterial(suggest);
+
+		return material == null ? null : ISFLAT ? new ItemStack(material) : new ItemStack(material, 1, data);
 	}
 
 	@Nullable
 	public Material parseMaterial() {
-		return this.parseMaterial(false);
+		return parseMaterial(false);
 	}
 
 	@Nullable
 	public Material parseMaterial(boolean suggest) {
 		Optional<Material> cache = PARSED_CACHE.getIfPresent(this);
-		if (cache != null) {
+
+		if (cache.isPresent()) {
 			return cache.orElse(null);
 		} else {
 			Material mat;
-			if (!ISFLAT && this.isDuplicated()) {
-				mat = this.requestOldMaterial(suggest);
+			if (!ISFLAT && isDuplicated()) {
+				mat = requestOldMaterial(suggest);
 			} else {
-				mat = Material.getMaterial(this.name());
+				mat = Material.getMaterial(name());
 				if (mat == null) {
-					mat = this.requestOldMaterial(suggest);
+					mat = requestOldMaterial(suggest);
 				}
 			}
 
@@ -1549,6 +1547,7 @@ public enum XMaterial {
 	private Material requestOldMaterial(boolean suggest) {
 		for (int i = this.legacy.length - 1; i >= 0; --i) {
 			String legacy = this.legacy[i];
+
 			if (i == 0 && legacy.charAt(1) == '.') {
 				return null;
 			}
@@ -1559,6 +1558,7 @@ public enum XMaterial {
 				}
 			} else {
 				Material material = Material.getMaterial(legacy);
+
 				if (material != null) {
 					return material;
 				}
@@ -1570,22 +1570,15 @@ public enum XMaterial {
 
 	public boolean isSimilar(@Nonnull ItemStack item) {
 		Objects.requireNonNull(item, "Cannot compare with null ItemStack");
-		if (item.getType() != this.parseMaterial()) {
-			return false;
-		} else {
-			return ISFLAT || this.isDamageable() || item.getDurability() == this.data;
-		}
+		return item.getType() == parseMaterial() && (ISFLAT || isDamageable() || item.getDurability() == data);
 	}
 
 	@Nonnull
 	public List<String> getSuggestions() {
 		if (this.legacy.length != 0 && this.legacy[0].charAt(1) == '.') {
-			List<String> suggestions = new ArrayList();
-			String[] var2 = this.legacy;
-			int var3 = var2.length;
+			List<String> suggestions = new ArrayList<>();
 
-			for (int var4 = 0; var4 < var3; ++var4) {
-				String legacy = var2[var4];
+			for (String legacy : this.legacy) {
 				if (legacy.isEmpty()) {
 					break;
 				}
@@ -1594,9 +1587,9 @@ public enum XMaterial {
 			}
 
 			return suggestions;
-		} else {
-			return new ArrayList();
 		}
+
+		return new ArrayList<>();
 	}
 
 	public boolean isSupported() {
@@ -1604,12 +1597,8 @@ public enum XMaterial {
 		if (version != 0) {
 			return supports(version);
 		} else {
-			Material material = Material.getMaterial(this.name());
-			if (material != null) {
-				return true;
-			} else {
-				return this.requestOldMaterial(false) != null;
-			}
+			Material material = Material.getMaterial(name());
+			return material != null || requestOldMaterial(false) != null;
 		}
 	}
 
@@ -1633,12 +1622,9 @@ public enum XMaterial {
 		DUPLICATED.put(CAULDRON, CAULDRON);
 		DUPLICATED.put(BREWING_STAND, BREWING_STAND);
 		DUPLICATED.put(FLOWER_POT, FLOWER_POT);
-		Iterator var0 = VALUES.iterator();
 
-		while (var0.hasNext()) {
-			XMaterial material = (XMaterial) var0.next();
+		for (XMaterial material : VALUES) {
 			NAMES.put(material.name(), material);
 		}
-
 	}
 }
