@@ -19,7 +19,6 @@
 package me.despical.commons.database;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
@@ -109,10 +108,6 @@ public class MysqlDatabase {
 		} catch (SQLException e) {
 			databaseLogger.warning("Failed to execute update: " + query);
 		}
-	}
-
-	public ResultSet executeQuery(String query) {
-		throw new UnsupportedOperationException("Queries should be created with own auto-closeable connection!");
 	}
 
 	public void shutdownConnPool() {

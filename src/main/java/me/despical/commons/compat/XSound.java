@@ -1449,7 +1449,7 @@ public enum XSound {
 		 */
 		public void play(@Nonnull Location updatedLocation) {
 			if (playAtLocation) location.getWorld().playSound(updatedLocation, sound, volume, pitch);
-			else if (player.isOnline()) player.playSound(updatedLocation, sound, volume, pitch);
+			else if (player != null && player.isOnline()) player.playSound(updatedLocation, sound, volume, pitch);
 		}
 	}
 }
