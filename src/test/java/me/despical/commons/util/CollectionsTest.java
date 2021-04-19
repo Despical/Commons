@@ -46,7 +46,7 @@ public class CollectionsTest {
 	@Test
 	public void listCreationsFromMap() {
 		// Collections#listFromMap returns list that contains map entry so we also need to
-		// make list that contains same type, there is no difference creating from abstract.
+		// make list that contains same type, there is no difference creating from abstract
 		// map entry or from Collections#mapEntry; both of them are same.
 		assertEquals(listFromMap(mapOf("A", 1)), listOf(mapEntry("A", 1)));
 		assertEquals(listFromMap(mapOf('B', "b")), listOf(mapEntry('B', "b")));
