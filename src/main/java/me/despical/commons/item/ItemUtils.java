@@ -50,7 +50,6 @@ public class ItemUtils {
 
 	public static boolean isNamed(ItemStack stack) {
 		return stack != null && stack.hasItemMeta() && stack.getItemMeta().hasDisplayName();
-
 	}
 
 	public static ItemStack getSkull(String url) {

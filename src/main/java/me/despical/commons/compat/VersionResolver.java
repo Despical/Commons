@@ -18,10 +18,8 @@
 
 package me.despical.commons.compat;
 
-import me.despical.commons.util.Collections;
+import me.despical.commons.number.NumberUtils;
 import org.bukkit.Bukkit;
-
-import java.util.List;
 
 import static me.despical.commons.compat.VersionResolver.ServerVersion.*;
 
@@ -36,6 +34,15 @@ import static me.despical.commons.compat.VersionResolver.ServerVersion.*;
  */
 public class VersionResolver {
 
+	/**
+	 * Current version of server.
+	 */
+	public static final ServerVersion CURRENT_VERSION;
+
+	static {
+		CURRENT_VERSION = resolveVersion();
+	}
+
 	private VersionResolver() {
 	}
 
@@ -44,7 +51,7 @@ public class VersionResolver {
 	 *
 	 * @return version of the server in split NMS format enum
 	 */
-	public static ServerVersion resolveVersion() {
+	private static ServerVersion resolveVersion() {
 		String version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
 
 		if (version.equalsIgnoreCase("v1_8_R1")) {
@@ -89,11 +96,7 @@ public class VersionResolver {
 	 * @return server version is before the given NMS version
 	 */
 	public static boolean isCurrentLower(ServerVersion version) {
-		List<ServerVersion> versions = Collections.listOf(ServerVersion.values());
-		List<ServerVersion> splitVers = versions.subList(0, versions.indexOf(version));
-
-		ServerVersion currentVers = resolveVersion();
-		return splitVers.contains(currentVers) && !isCurrentEqual(version) && currentVers != OTHER;
+		return CURRENT_VERSION.versionAsInt() < version.versionAsInt();
 	}
 
 	/**
@@ -103,11 +106,7 @@ public class VersionResolver {
 	 * @return server version is before the given NMS version
 	 */
 	public static boolean isCurrentEqualOrLower(ServerVersion version) {
-		List<ServerVersion> versions = Collections.listOf(ServerVersion.values());
-		List<ServerVersion> splitVers = versions.subList(0, versions.indexOf(version));
-
-		ServerVersion currentVers = resolveVersion();
-		return (!splitVers.contains(currentVers)) || isCurrentEqual(version) && currentVers != OTHER;
+		return CURRENT_VERSION.versionAsInt() <= version.versionAsInt();
 	}
 
 	/**
@@ -116,20 +115,7 @@ public class VersionResolver {
 	 * @return server version is supported
 	 */
 	public static boolean isAllSupported() {
-		return resolveVersion() != OTHER;
-	}
-
-	/**
-	 * Checks if server version is supported without given one or not.
-	 *
-	 * @return server version is supported without given one
-	 */
-	public static boolean isAllSupportedExcept(ServerVersion... versions) {
-		List<ServerVersion> supported = Collections.listOf(ServerVersion.values());
-		List<ServerVersion> unsupported = Collections.listOf(versions);
-
-		supported.removeAll(unsupported);
-		return isAllSupported() && supported.contains(resolveVersion());
+		return CURRENT_VERSION.versionAsInt() != 0;
 	}
 
 	/**
@@ -139,7 +125,7 @@ public class VersionResolver {
 	 * @return true if equals otherwise false
 	 */
 	public static boolean isCurrentEqual(ServerVersion version) {
-		return resolveVersion() == version;
+		return CURRENT_VERSION == version;
 	}
 
 	/**
@@ -149,11 +135,7 @@ public class VersionResolver {
 	 * @return true if current version equals or higher than given one
 	 */
 	public static boolean isCurrentEqualOrHigher(ServerVersion version) {
-		List<ServerVersion> versions = Collections.listOf(ServerVersion.values());
-		List<ServerVersion> splitVers = versions.subList(versions.indexOf(version), versions.size());
-
-		ServerVersion currentVers = resolveVersion();
-		return isCurrentEqual(version) || splitVers.contains(currentVers);
+		return CURRENT_VERSION.versionAsInt() >= version.versionAsInt();
 	}
 
 	/**
@@ -163,11 +145,18 @@ public class VersionResolver {
 	 * @return true if current version is higher than given one
 	 */
 	public static boolean isCurrentHigher(ServerVersion version) {
-		List<ServerVersion> versions = Collections.listOf(ServerVersion.values());
-		List<ServerVersion> splitVers = versions.subList(versions.indexOf(version), versions.size());
+		return CURRENT_VERSION.versionAsInt() > version.versionAsInt();
+	}
 
-		ServerVersion currentVers = resolveVersion();
-		return !isCurrentEqual(version) && splitVers.contains(currentVers);
+	/**
+	 * Checks if current version is between given two versions.
+	 *
+	 * @param min version to check.
+	 * @param max version to check.
+	 * @return true if current version is between these two versions, false otherwise.
+	 */
+	public static boolean isCurrentBetween(ServerVersion min, ServerVersion max) {
+		return NumberUtils.isBetween(CURRENT_VERSION.versionAsInt(), min.versionAsInt(), max.versionAsInt());
 	}
 
 	/**
@@ -175,6 +164,10 @@ public class VersionResolver {
 	 */
 	public enum ServerVersion {
 		v1_8_R1, v1_8_R2, v1_8_R3, v1_9_R1, v1_9_R2, v1_10_R1, v1_11_R1, v1_12_R1,
-		v1_13_R1, v1_13_R2, v1_14_R1, v1_15_R1, v1_16_R1, v1_16_R2, v1_16_R3, OTHER
+		v1_13_R1, v1_13_R2, v1_14_R1, v1_15_R1, v1_16_R1, v1_16_R2, v1_16_R3, OTHER;
+
+		int versionAsInt() {
+			return this == OTHER ? 0 : Integer.parseInt(name().replaceAll("[v_R]", ""));
+		}
 	}
 }

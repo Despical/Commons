@@ -108,8 +108,7 @@ public class ReflectionUtils {
 	public static CompletableFuture<Void> sendPacket(@Nonnull Player player, @Nonnull Object... packets) {
 		return CompletableFuture.runAsync(() -> {
 			try {
-				Object handle = GET_HANDLE.invoke(player);
-				Object connection = PLAYER_CONNECTION.invoke(handle);
+				Object handle = GET_HANDLE.invoke(player), connection = PLAYER_CONNECTION.invoke(handle);
 
 				if (connection != null) {
 					for (Object packet : packets) SEND_PACKET.invoke(connection, packet);
