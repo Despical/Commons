@@ -19,10 +19,7 @@
 package me.despical.commons.configuration;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -49,7 +46,7 @@ public class ConfigUtils {
 		if (!file.exists()) {
 			try {
 				file.createNewFile();
-				copyResource(plugin.getResource(filename + ".yml"), file);
+				plugin.saveResource(filename + ".yml", false);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -78,29 +75,6 @@ public class ConfigUtils {
 		try {
 			config.save(new File(plugin.getDataFolder(), name + ".yml"));
 		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Copy input stream to another file
-	 *
-	 * @param resource to copy
-	 * @param file to paste
-	 */
-	private static void copyResource(InputStream resource, File file) {
-		try {
-			OutputStream out = new FileOutputStream(file);
-			int lenght;
-			byte[] buf = new byte[1024];
-
-			while ((lenght = resource.read(buf)) > 0) {
-				out.write(buf, 0, lenght);
-			}
-
-			out.close();
-			resource.close();
-		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
