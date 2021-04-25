@@ -201,8 +201,8 @@ public class InventorySerializer {
 				List<String> activePotions = invConfig.getStringList("potion-effects");
 
 				for (String potion : activePotions) {
-					String[] splited = potion.split("#");
-					player.addPotionEffect(new PotionEffect(PotionEffectType.getByName(splited[0]), Integer.parseInt(splited[1]), Integer.parseInt(splited[2])));
+					String[] splitted = potion.split("#");
+					player.addPotionEffect(new PotionEffect(PotionEffectType.getByName(splitted[0]), Integer.parseInt(splitted[1]), Integer.parseInt(splitted[2])));
 				}
 			} catch (Exception ignored) {}
 

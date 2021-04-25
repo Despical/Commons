@@ -141,8 +141,7 @@ public class SimpleScoreboard implements Scoreboard {
 			return;
 		}
 
-		String handlerTitle = handler.getTitle(holder);
-		String finalTitle = Strings.format(handlerTitle != null ? handlerTitle : ChatColor.BOLD.toString());
+		String finalTitle = Strings.format(handler.getTitle(holder));
 		if (!objective.getDisplayName().equals(finalTitle)) objective.setDisplayName(Strings.format(finalTitle));
 
 		List<Entry> passed = handler.getEntries(holder);
@@ -239,9 +238,6 @@ public class SimpleScoreboard implements Scoreboard {
 			faker = new FakePlayer(name, team, offset);
 			playerCache.put(name, offset, faker);
 
-			if (faker.getTeam() != null) {
-				faker.getTeam().addPlayer(faker);
-			}
 		} else {
 			faker = playerCache.get(name, offset);
 
@@ -251,10 +247,12 @@ public class SimpleScoreboard implements Scoreboard {
 
 			faker.setTeam(team);
 
-			if (faker.getTeam() != null) {
-				faker.getTeam().addPlayer(faker);
-			}
 		}
+
+		if (faker.getTeam() != null) {
+			faker.getTeam().addPlayer(faker);
+		}
+
 		return faker;
 	}
 

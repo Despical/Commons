@@ -20,7 +20,7 @@ package me.despical.commons.miscellaneous;
 
 import java.util.Random;
 
-import org.bukkit.ChatColor;
+import me.despical.commons.util.Strings;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
@@ -46,23 +46,22 @@ public class MiscUtils {
 		Firework fw = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
 		FireworkMeta fwm = fw.getFireworkMeta();
 
-		int rt = random.nextInt(4) + 1;
 		FireworkEffect.Type type;
 
-		switch (rt) {
-			case 1:
+		switch (random.nextInt(4)) {
+			case 0:
 				type = FireworkEffect.Type.BALL;
 				break;
-			case 2:
+			case 1:
 				type = FireworkEffect.Type.BALL_LARGE;
 				break;
-			case 3:
+			case 2:
 				type = FireworkEffect.Type.BURST;
 				break;
-			case 4:
+			case 3:
 				type = FireworkEffect.Type.CREEPER;
 				break;
-			case 5:
+			case 4:
 				type = FireworkEffect.Type.STAR;
 				break;
 			default:
@@ -70,18 +69,11 @@ public class MiscUtils {
 				break;
 		}
 
-		int r1i = random.nextInt(250) + 1;
-		int r2i = random.nextInt(250) + 1;
+		FireworkEffect effect = FireworkEffect.builder().flicker(random.nextBoolean()).withColor(Color.fromBGR(random.nextInt(250) + 1))
+			.withFade(Color.fromBGR(random.nextInt(250) + 1)).with(type).trail(random.nextBoolean()).build();
 
-		Color c1 = Color.fromBGR(r1i);
-		Color c2 = Color.fromBGR(r2i);
-
-		FireworkEffect effect = FireworkEffect.builder().flicker(random.nextBoolean()).withColor(c1).withFade(c2)
-			.with(type).trail(random.nextBoolean()).build();
 		fwm.addEffect(effect);
-
-		int rp = random.nextInt(2) + 1;
-		fwm.setPower(rp);
+		fwm.setPower(random.nextInt(2) + 1);
 		fw.setFireworkMeta(fwm);
 	}
 
@@ -91,11 +83,10 @@ public class MiscUtils {
 			return;
 		}
 
-		message = ChatColor.translateAlternateColorCodes('&', message);
+		message = Strings.format(message);
 
 		int messagePxSize = 0;
-		boolean previousCode = false;
-		boolean isBold = false;
+		boolean previousCode = false, isBold = false;
 
 		for (char c : message.toCharArray()) {
 			if (c == '�') {
@@ -111,16 +102,12 @@ public class MiscUtils {
 			}
 		}
 
-		int CENTER_PX = 154;
-		int halvedMessageSize = messagePxSize / 2;
-		int toCompensate = CENTER_PX - halvedMessageSize;
-		int spaceLength = DefaultFontInfo.SPACE.getLength() + 1;
-		int compensated = 0;
+		int toCompensate = 154 - messagePxSize / 2, compensated = 0;
 		StringBuilder sb = new StringBuilder();
 
 		while (compensated < toCompensate) {
 			sb.append(" ");
-			compensated += spaceLength;
+			compensated += 4;
 		}
 
 		player.sendMessage(sb.toString() + message);
