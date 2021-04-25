@@ -23,7 +23,6 @@ import com.mojang.authlib.properties.Property;
 
 import java.lang.reflect.Field;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 
 import me.despical.commons.compat.VersionResolver;
 import me.despical.commons.compat.XMaterial;
@@ -77,15 +76,10 @@ public class ItemUtils {
 	}
 
 	public static SkullMeta setPlayerHead(Player player, SkullMeta meta) {
-		if (Bukkit.getServer().getVersion().contains("Paper") && player.getPlayerProfile().hasTextures()) {
-			return CompletableFuture.supplyAsync(() -> {
-				meta.setPlayerProfile(player.getPlayerProfile());
-				return meta;
-			}).exceptionally(e -> meta).join();
-		}
-
 		if (VersionResolver.isCurrentHigher(VersionResolver.ServerVersion.v1_12_R1)) {
 			meta.setOwningPlayer(player);
+		} else if (Bukkit.getServer().getVersion().contains("Paper") && player.getPlayerProfile().hasTextures()) {
+			meta.setPlayerProfile(player.getPlayerProfile());
 		} else {
 			meta.setOwner(player.getName());
 		}
