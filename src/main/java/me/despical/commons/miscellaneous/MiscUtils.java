@@ -97,8 +97,7 @@ public class MiscUtils {
 			} else {
 				DefaultFontInfo dFI = DefaultFontInfo.getDefaultFontInfo(c);
 
-				messagePxSize += isBold ? dFI.getBoldLength() : dFI.getLength();
-				messagePxSize++;
+				messagePxSize += 1 + (isBold ? dFI.getBoldLength() : dFI.getLength());
 			}
 		}
 
