@@ -1,12 +1,12 @@
 # Commons
 [![](https://jitpack.io/v/Despical/Commons.svg)](https://jitpack.io/#Despical/Commons)
-[![](https://img.shields.io/badge/javadocs-latest-lime.svg)](https://javadoc.io/doc/com.github.Despical/commons/latest/index.html)
-[![discord](https://img.shields.io/discord/719922452259668000.svg?color=lime&label=discord)](https://discord.gg/Vhyy4HA)
+[![](https://img.shields.io/badge/Javadocs-latest-lime.svg)](https://javadoc.jitpack.io/com/github/Despical/Commons/latest/javadoc/index.html)
+[![](https://img.shields.io/discord/719922452259668000.svg?color=lime&label=Discord)](https://discord.gg/Vhyy4HA)
 
 Commons is a open-source library that provides utilities needed for Java and Minecraft.
 
 ## Documentation
-More information will be found on the [wiki page](https://github.com/Despical/Commons/wiki) soon. The [Javadoc](https://javadoc.io/doc/com.github.Despical/commons/latest/index.html) can be browsed. Questions
+More information will be found on the [wiki page](https://github.com/Despical/Commons/wiki) soon. The [Javadoc](https://javadoc.jitpack.io/com/github/Despical/Commons/latest/javadoc/index.html) can be browsed. Questions
 related to the usage of Commons should be posted on my [Discord server](https://discord.com/invite/Vhyy4HA).
 
 ## Using Commons
@@ -38,7 +38,7 @@ repositories {
 ```
 ```
 dependencies {
-    compileOnly group: "com.github.Despical", name: "commons", version: "1.2.7";
+    compileOnly group: "com.github.Despical", name: "Commons", version: "1.2.7";
 }
 ```
 
