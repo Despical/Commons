@@ -20,16 +20,17 @@ package me.despical.commons.number;
 
 import org.junit.Test;
 
+import static me.despical.commons.number.NumberUtils.roundInteger;
 import static org.junit.Assert.assertEquals;
 
 public class NumberUtilsTest {
 
 	@Test
 	public void serializeInt() {
-		assertEquals(9, NumberUtils.roundInteger(3, 9));
-		assertEquals(9, NumberUtils.roundInteger(9, 9));
-		assertEquals(27, NumberUtils.roundInteger(24, 9));
-		assertEquals(45, NumberUtils.roundInteger(37, 9));
-		assertEquals(45, NumberUtils.roundInteger(43, 9));
+		assertEquals(9, roundInteger(3, 9));
+		assertEquals(9, roundInteger(9, 9));
+		assertEquals(27, roundInteger(24, 9));
+		assertEquals(45, roundInteger(37, 9));
+		assertEquals(45, roundInteger(43, 9));
 	}
 }
