@@ -1196,11 +1196,7 @@ public enum XMaterial {
 						return null;
 					}
 
-<<<<<<< HEAD
-					material = iterator.next();
-=======
 					material = (XMaterial) var4.next();
->>>>>>> parent of 5f227da (Some XMaterial and other improvements)
 				} while (data != -1 && data != material.data);
 			} while (!material.anyMatchLegacy(name));
 
@@ -1242,7 +1238,8 @@ public enum XMaterial {
 			try {
 				byte data = (byte) Integer.parseInt(StringUtils.deleteWhitespace(name.substring(index + 1)));
 				return matchDefinedXMaterial(mat, data);
-			} catch (NumberFormatException var4) {}
+			} catch (NumberFormatException var4) {
+			}
 		}
 
 		return Optional.empty();
@@ -1318,9 +1315,9 @@ public enum XMaterial {
 			} while (materials.data != data || materials.getId() != id);
 
 			return Optional.of(materials);
+		} else {
+			return Optional.empty();
 		}
-
-		return Optional.empty();
 	}
 
 	@Nonnull
@@ -1438,12 +1435,12 @@ public enum XMaterial {
 	}
 
 	public int getMaterialVersion() {
-		if (legacy.length == 0) {
+		if (this.legacy.length == 0) {
 			return 0;
+		} else {
+			String version = this.legacy[0];
+			return version.charAt(1) != '.' ? 0 : Integer.parseInt(version.substring(2));
 		}
-
-		String version = legacy[0];
-		return version.charAt(1) != '.' ? 0 : Integer.parseInt(version.substring(2));
 	}
 
 	@Nonnull
@@ -1460,15 +1457,11 @@ public enum XMaterial {
 	}
 
 	private boolean anyMatchLegacy(@Nonnull String name) {
-<<<<<<< HEAD
-		for (String legacy : this.legacy) {
-=======
 		String[] var2 = this.legacy;
 		int var3 = var2.length;
 
 		for (int var4 = 0; var4 < var3; ++var4) {
 			String legacy = var2[var4];
->>>>>>> parent of 5f227da (Some XMaterial and other improvements)
 			if (legacy.isEmpty()) {
 				break;
 			}
@@ -1486,12 +1479,12 @@ public enum XMaterial {
 	}
 
 	public int getId() {
-		if (data == 0 && (legacy.length == 0 || legacy[0].charAt(1) != '.' || Integer.parseInt(legacy[0].substring(2)) < 13)) {
-			Material material = parseMaterial();
+		if (this.data == 0 && (this.legacy.length == 0 || this.legacy[0].charAt(1) != '.' || Integer.parseInt(this.legacy[0].substring(2)) < 13)) {
+			Material material = this.parseMaterial();
 			return material == null ? -1 : material.getId();
+		} else {
+			return -1;
 		}
-
-		return -1;
 	}
 
 	public boolean isDuplicated() {
@@ -1499,7 +1492,7 @@ public enum XMaterial {
 	}
 
 	public boolean isDamageable() {
-		return isDamageable(name());
+		return isDamageable(this.name());
 	}
 
 	public byte getData() {
@@ -1608,10 +1601,6 @@ public enum XMaterial {
 	}
 
 	public boolean isSupported() {
-<<<<<<< HEAD
-		int version = getMaterialVersion();
-		return getMaterialVersion() != 0 ? supports(version) : Material.getMaterial(name()) != null || requestOldMaterial(false) != null;
-=======
 		int version = this.getMaterialVersion();
 		if (version != 0) {
 			return supports(version);
@@ -1623,7 +1612,6 @@ public enum XMaterial {
 				return this.requestOldMaterial(false) != null;
 			}
 		}
->>>>>>> parent of 5f227da (Some XMaterial and other improvements)
 	}
 
 	public boolean isFromNewSystem() {
