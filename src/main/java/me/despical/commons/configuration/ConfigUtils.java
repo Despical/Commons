@@ -43,16 +43,14 @@ public class ConfigUtils {
 	public static FileConfiguration getConfig(JavaPlugin plugin, String filename) {
 		File file = new File(plugin.getDataFolder() + File.separator + filename + ".yml");
 
-		if (!file.exists()) {
-			try {
-				file.createNewFile();
-				plugin.saveResource(filename + ".yml", false);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		if (filename.contains(File.separator)) {
+			new File(plugin.getDataFolder() + File.separator + filename.replace(filename.substring(filename.indexOf(File.separator)), "")).mkdirs();
 		}
 
-		file = new File(plugin.getDataFolder(), filename + ".yml");
+		if (!file.exists()) {
+			plugin.saveResource(filename + ".yml", false);
+		}
+
 		YamlConfiguration config = new YamlConfiguration();
 
 		try {
