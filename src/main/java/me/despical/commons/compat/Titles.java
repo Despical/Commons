@@ -20,6 +20,7 @@ package me.despical.commons.compat;
 
 import me.despical.commons.ReflectionUtils;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import javax.annotation.Nonnull;
@@ -59,11 +60,14 @@ public class Titles {
 	private static final Object TIMES, TITLE, SUBTITLE, CLEAR;
 
 	/**
-	 * PacketPlayOutTitle Types: TITLE, SUBTITLE, ACTIONBAR, TIMES, CLEAR, RESET.
-	 *
+	 * PacketPlayOutTitle Types: TITLE, SUBTITLE, ACTIONBAR, TIMES, CLEAR, RESET;
+	 */
+	private static final MethodHandle PACKET;
+
+	/**
 	 * ChatComponentText JSON message builder.
 	 */
-	private static final MethodHandle PACKET, CHAT_COMPONENT_TEXT;
+	private static final MethodHandle CHAT_COMPONENT_TEXT;
 
 	static {
 		MethodHandle packetCtor = null, chatComp = null;
@@ -165,6 +169,33 @@ public class Titles {
 	}
 
 	/**
+	 * Parses and sends a title from the config.
+	 * The configuration section must at least
+	 * contain {@code title} or {@code subtitle}
+	 *
+	 * <p>
+	 * <b>Example:</b>
+	 * <blockquote><pre>
+	 *     ConfigurationSection titleSection = plugin.getConfig().getConfigurationSection("restart-title");
+	 *     Titles.sendTitle(player, titleSection);
+	 * </pre></blockquote>
+	 *
+	 * @param player the player to send the title to.
+	 * @param config the configuration section to parse the title properties from.
+	 * @since 1.2.1
+	 */
+	public static void sendTitle(@Nonnull Player player, @Nonnull ConfigurationSection config) {
+		String title = config.getString("title");
+		String subtitle = config.getString("subtitle");
+
+		int fadeIn = Math.max(10, config.getInt("fade-in"));
+		int stay = Math.max(20, config.getInt("stay"));
+		int fadeOut = Math.max(10, config.getInt("fade-out"));
+
+		sendTitle(player, fadeIn, stay, fadeOut, title, subtitle);
+	}
+
+	/**
 	 * Clears the title and subtitle message from the player's screen.
 	 *
 	 * @param player the player to clear the title from.
@@ -172,14 +203,12 @@ public class Titles {
 	 */
 	public static void clearTitle(@Nonnull Player player) {
 		Objects.requireNonNull(player, "Cannot clear title from null player");
-
 		if (SUPPORTED_API) {
 			player.resetTitle();
 			return;
 		}
 
 		Object clearPacket;
-
 		try {
 			clearPacket = PACKET.invoke(CLEAR, null, -1, -1, -1);
 		} catch (Throwable throwable) {
