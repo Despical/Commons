@@ -33,6 +33,14 @@ public class PlayerUtils {
 	private PlayerUtils() {
 	}
 
+	/**
+	 * Hides given player to given other player to avoid using deprecated
+	 * methods.
+	 *
+	 * @param to player to hide
+	 * @param p player to be hidden
+	 * @param plugin instance for method to avoid deprecation
+	 */
 	public static void hidePlayer(Player to, Player p, JavaPlugin plugin) {
 		if (VersionResolver.isCurrentEqualOrHigher(VersionResolver.ServerVersion.v1_13_R1)) {
 			to.hidePlayer(plugin, p);
@@ -41,11 +49,34 @@ public class PlayerUtils {
 		}
 	}
 
+	/**
+	 * Shows given player to given other player to avoid using deprecated
+	 * methods.
+	 *
+	 * @param to player to show
+	 * @param p player to be shown
+	 * @param plugin instance for method to avoid deprecation
+	 */
 	public static void showPlayer(Player to, Player p, JavaPlugin plugin) {
 		if (VersionResolver.isCurrentEqualOrHigher(VersionResolver.ServerVersion.v1_13_R1)) {
 			to.showPlayer(plugin, p);
 		} else {
 			to.showPlayer(p);
+		}
+	}
+
+	/**
+	 * Makes player can collides with other entities to avoid using deprecated
+	 * methods.
+	 *
+	 * @param player to set collidable
+	 * @param collidable value to set
+	 */
+	public static void setCollidable(Player player, boolean collidable) {
+		if (VersionResolver.isCurrentEqualOrLower(VersionResolver.ServerVersion.v1_8_R3)) {
+			player.spigot().setCollidesWithEntities(collidable);
+		} else {
+			player.setCollidable(collidable);
 		}
 	}
 }
