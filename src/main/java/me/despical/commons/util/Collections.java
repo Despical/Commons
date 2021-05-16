@@ -215,4 +215,32 @@ public class Collections {
 
 		return false;
 	}
+
+	/**
+	 * Adds all of the elements in the specified collection to this collection
+	 * (optional operation).  The behavior of this operation is undefined if
+	 * the specified collection is modified while the operation is in progress.
+	 * (This implies that the behavior of this call is undefined if the
+	 * specified collection is this collection, and this collection is
+	 * nonempty.)
+	 *
+	 * @param collection containing elements to be added to this collection
+	 * @return <tt>true</tt> if this collection changed as a result of the call
+	 * @throws UnsupportedOperationException if the <tt>addAll</tt> operation
+	 *         is not supported by this collection
+	 * @throws ClassCastException if the class of an element of the specified
+	 *         collection prevents it from being added to this collection
+	 * @throws NullPointerException if the specified collection contains a
+	 *         null element and this collection does not permit null elements,
+	 *         or if the specified collection is null
+	 * @throws IllegalArgumentException if some property of an element of the
+	 *         specified collection prevents it from being added to this
+	 *         collection
+	 * @throws IllegalStateException if not all the elements can be added at
+	 *         this time due to insertion restrictions
+	 */
+	@SafeVarargs
+	public static <T> boolean addAll(Collection<T> collection, T... elements) {
+		return collection.addAll(listOf(elements));
+	}
 }
