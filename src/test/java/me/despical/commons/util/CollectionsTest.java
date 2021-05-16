@@ -5,8 +5,8 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import static org.junit.Assert.assertEquals;
 import static me.despical.commons.util.Collections.*;
+import static org.junit.Assert.*;
 
 /**
  * @author Despical
@@ -51,5 +51,13 @@ public class CollectionsTest {
 		assertEquals(listFromMap(mapOf("A", 1)), listOf(mapEntry("A", 1)));
 		assertEquals(listFromMap(mapOf('B', "b")), listOf(mapEntry('B', "b")));
 		assertEquals(listFromMap(mapOf(1, 'C')), listOf(mapEntry(1, 'C')));
+	}
+
+	@Test
+	public void arrayContains() {
+		assertFalse(contains("test", "best", "east", "nest"));
+		assertFalse(contains('a', 'A', 'b', 'c'));
+		assertTrue(contains(listOf(), listOf(), listOf(1), listOf(0.)));
+		assertTrue(contains(.1, 0.1, 0., .0));
 	}
 }

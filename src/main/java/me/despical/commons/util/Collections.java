@@ -184,4 +184,35 @@ public class Collections {
 	public static <T> Stream<T> streamOf(T... a) {
 		return Arrays.stream(a);
 	}
+
+	/**
+	 * Checks if the object is in the given array.
+	 *
+	 * The method returns false if a null array is passed in.
+	 *
+	 * @param objectToFind the object to find
+	 * @param array the array to search through
+	 * @return true if the array contains the object
+	 */
+	public static boolean contains(Object objectToFind, Object... array) {
+		if (array == null) {
+			return false;
+		}
+
+		if (objectToFind == null) {
+			for (Object o : array) {
+				if (o == null) {
+					return true;
+				}
+			}
+		} else if (array.getClass().getComponentType().isInstance(objectToFind)) {
+			for (Object o : array) {
+				if (objectToFind.equals(o)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
 }
