@@ -79,4 +79,16 @@ public class PlayerUtils {
 			player.setCollidable(collidable);
 		}
 	}
+
+	/**
+	 * Change player's glowing to avoid using deprecated methods.
+	 *
+	 * @param player to be glowed
+	 * @param glowing value to set
+	 */
+	public static void setGlowing(Player player, boolean glowing) {
+		if (VersionResolver.isCurrentEqualOrHigher(VersionResolver.ServerVersion.v1_9_R1)) {
+			player.setGlowing(glowing);
+		}
+	}
 }
