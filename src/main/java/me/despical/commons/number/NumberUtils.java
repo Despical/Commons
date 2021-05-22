@@ -33,7 +33,7 @@ public class NumberUtils {
 	 * A decimal point is not a unicode digit and returns false.
 	 *
 	 * @param str the String to check, may be null
-	 * @return    true if only contains digits, and is non-null
+	 * @return true if only contains digits, and is non-null
 	 */
 	public static boolean isInteger(String str) {
 		if (str == null) {
@@ -68,10 +68,39 @@ public class NumberUtils {
 	}
 
 	/**
+	 * Convert a String to an int, returning zero if the conversion
+	 * fails. If the string is null, zero is returned.
+	 *
+	 * @param string the string to convert, may be null
+	 * @return the int represented by the string, or zero if conversion fails
+	 */
+	public static int getInt(String string) {
+		return getInt(string, 0);
+	}
+
+	/**
+	 * Convert a String to an int, returning a default value if the conversion
+	 * fails. If the string is null, the default value is returned.
+	 *
+	 * @param string the string to convert, may be null
+	 * @param def the default value
+	 * @return the int represented by the string, or the default if conversion fails
+	 */
+	public static int getInt(String string, int def) {
+		if (string == null) return def;
+
+		try {
+			return Integer.parseInt(string);
+		} catch (NumberFormatException ignored) {
+			return def;
+		}
+	}
+
+	/**
 	 * Checks if the String is primitive type double or not.
 	 *
 	 * @param str the String to check, may be null
-	 * @return    true if double, and is non-null
+	 * @return true if double, and is non-null
 	 */
 	public static boolean isDouble(String str) {
 		try {
@@ -83,10 +112,39 @@ public class NumberUtils {
 	}
 
 	/**
+	 * Convert a String to an double, returning zero if the conversion
+	 * fails. If the string is null, zero is returned.
+	 *
+	 * @param string the string to convert, may be null
+	 * @return the double represented by the string, or zero if conversion fails
+	 */
+	public static double getDouble(String string) {
+		return getDouble(string, 0);
+	}
+
+	/**
+	 * Convert a String to an double, returning a default value if the conversion
+	 * fails. If the string is null, the default value is returned.
+	 *
+	 * @param string the string to convert, may be null
+	 * @param def the default value
+	 * @return the double represented by the string, or the default if conversion fails
+	 */
+	public static double getDouble(String string, double def) {
+		if (string == null) return def;
+
+		try {
+			return Double.parseDouble(string);
+		} catch (NumberFormatException ignored) {
+			return def;
+		}
+	}
+
+	/**
      * Checks if the String is primitive type long or not.
 	 *
 	 * @param str the String to check, may be null
-	 * @return    true if long, and is non-null
+	 * @return true if long, and is non-null
 	 */
 	public static boolean isLong(String str) {
 		try {
@@ -98,10 +156,39 @@ public class NumberUtils {
 	}
 
 	/**
+	 * Convert a String to an long, returning zero if the conversion
+	 * fails. If the string is null, zero is returned.
+	 *
+	 * @param string the string to convert, may be null
+	 * @return the long represented by the string, or zero if conversion fails
+	 */
+	public static long getLong(String string) {
+		return getLong(string, 0);
+	}
+
+	/**
+	 * Convert a String to an long, returning a default value if the conversion
+	 * fails. If the string is null, the default value is returned.
+	 *
+	 * @param string the string to convert, may be null
+	 * @param def the default value
+	 * @return the long represented by the string, or the default if conversion fails
+	 */
+	public static long getLong(String string, long def) {
+		if (string == null) return def;
+
+		try {
+			return Long.parseLong(string);
+		} catch (NumberFormatException ignored) {
+			return def;
+		}
+	}
+
+	/**
 	 * Checks if the String is primitive type short.
 	 *
 	 * @param str the String to check, may be null
-	 * @return    true if short, and is non-null
+	 * @return true if short, and is non-null
 	 */
 	public static boolean isShort(String str) {
 		try {
@@ -113,12 +200,41 @@ public class NumberUtils {
 	}
 
 	/**
+	 * Convert a String to an short, returning zero if the conversion
+	 * fails. If the string is null, zero is returned.
+	 *
+	 * @param string the string to convert, may be null
+	 * @return the short represented by the string, or zero if conversion fails
+	 */
+	public static long getShort(String string) {
+		return getShort(string, (short) 0);
+	}
+
+	/**
+	 * Convert a String to an short, returning a default value if the conversion
+	 * fails. If the string is null, the default value is returned.
+	 *
+	 * @param string the string to convert, may be null
+	 * @param def the default value
+	 * @return the short represented by the string, or the default if conversion fails
+	 */
+	public static long getShort(String string, short def) {
+		if (string == null) return def;
+
+		try {
+			return Short.parseShort(string);
+		} catch (NumberFormatException ignored) {
+			return def;
+		}
+	}
+
+	/**
 	 * Checks if the given value is between given values.
 	 *
 	 * @param value the Integer to check is between values
-	 * @param min   the minimum value to check given Integer
-	 * @param max   the maximum value to check given Integer
-	 * @return      true if value is between min and max values
+	 * @param min the minimum value to check given Integer
+	 * @param max the maximum value to check given Integer
+	 * @return true if value is between min and max values
 	 */
 	public static boolean isBetween(int value, int min, int max) {
 		return value >= min && value <= max;
@@ -133,8 +249,8 @@ public class NumberUtils {
 	 * remainder between floor and integer is greater.
 	 *
 	 * @param integer  int to be rounded
-	 * @param floor    int to be rounded multiple of
-	 * @return         rounded integer
+	 * @param floor int to be rounded multiple of
+	 * @return rounded integer
 	 */
 	public static int roundInteger(int integer, int floor) {
 		return integer < floor ? floor : (int) (floor * (Math.round((double) integer / floor)));
