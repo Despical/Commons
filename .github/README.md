@@ -2,6 +2,7 @@
 [![](https://jitpack.io/v/Despical/Commons.svg)](https://jitpack.io/#Despical/Commons)
 [![](https://img.shields.io/badge/Javadocs-latest-lime.svg)](https://javadoc.jitpack.io/com/github/Despical/Commons/latest/javadoc/index.html)
 [![](https://img.shields.io/discord/719922452259668000.svg?color=lime&label=Discord)](https://discord.gg/Vhyy4HA)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Despical/Commons/Commons%20Build)
 
 Commons is a open-source library that provides utilities needed for Java and Minecraft.
 
@@ -25,7 +26,7 @@ To add this project as a dependency to your project, add the following to your p
 <dependency>
     <groupId>com.github.Despical</groupId>
     <artifactId>Commons</artifactId>
-    <version>1.3.1</version>
+    <version>1.3.3</version>
     <scope>compile</scope>
 </dependency>
 ```
@@ -38,7 +39,7 @@ repositories {
 ```
 ```
 dependencies {
-    compileOnly group: "com.github.Despical", name: "Commons", version: "1.3.1";
+    compileOnly group: "com.github.Despical", name: "Commons", version: "1.3.3";
 }
 ```
 
