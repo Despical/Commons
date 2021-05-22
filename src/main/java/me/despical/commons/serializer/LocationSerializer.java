@@ -92,4 +92,26 @@ public class LocationSerializer {
 	public static String toString(Location loc) {
 		return loc.getWorld().getName() + ", " + decimalFormat.format(loc.getX()) + ", " + decimalFormat.format(loc.getY()) + ", " + decimalFormat.format(loc.getZ()) + ", " + decimalFormat.format(loc.getYaw()) + ", " + decimalFormat.format(loc.getPitch());
 	}
+
+	/**
+	 * Checks if serialized location is the same with default
+	 * serialized location.
+	 *
+	 * @param serializedLocation to check if default location
+	 * @return true if it is same with default location otherwise false
+	 */
+	public static boolean isDefaultLocation(String serializedLocation) {
+		return serializedLocation.equals(SERIALIZED_LOCATION);
+	}
+
+	/**
+	 * Checks if serialized location is the same with default
+	 * serialized location.
+	 *
+	 * @param location to check if default location
+	 * @return true if it is same with default location otherwise false
+	 */
+	public static boolean isDefaultLocation(Location location) {
+		return location.equals(DEFAULT_LOCATION);
+	}
 }
