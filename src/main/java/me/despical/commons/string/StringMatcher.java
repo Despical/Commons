@@ -34,13 +34,7 @@ public class StringMatcher {
 	}
 
 	public static List<Match> match(String base, List<String> possibilities) {
-		possibilities.sort((o1, o2) -> {
-			if (o1.length() == o2.length()) {
-				return 0;
-			}
-
-			return Integer.compare(o2.length(), o1.length());
-		});
+		possibilities.sort((a, b) -> a.length() == b.length() ? 0 : Integer.compare(b.length(), a.length()));
 
 		int baseLength = base.length();
 		Match bestMatch = new Match(base, -1);
@@ -81,20 +75,18 @@ public class StringMatcher {
 		return otherMatches;
 	}
 
-	public static String matchColorRegex(String s) {
-		String regex = "&?#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})";
-		Matcher matcher = Pattern.compile(regex).matcher(s);
+	public static String matchColorRegex(String str) {
+		Matcher matcher = Pattern.compile("&?#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})").matcher(str);
 
 		while (matcher.find()) {
-			String group = matcher.group(0);
-			String group2 = matcher.group(1);
-
 			try {
-				s = s.replace(group, net.md_5.bungee.api.ChatColor.of("#" + group2) + "");
-			} catch (Exception ignored) {}
+				str = str.replace(matcher.group(0), String.valueOf(net.md_5.bungee.api.ChatColor.of("#" + matcher.group(1))));
+			} catch (Exception ignored) {
+				// Ignore exception
+			}
 		}
 
-		return s;
+		return str;
 	}
 
 	public static class Match implements Comparable<Match> {
@@ -102,15 +94,12 @@ public class StringMatcher {
 		protected final String match;
 		protected final int length;
 
-		protected Match(String s, int i) {
-			this.match = s;
-			this.length = i;
+		protected Match(String match, int length) {
+			this.match = match;
+			this.length = length;
 		}
 
-		public String getMatch() {
-			return this.match;
-		}
-
+		@Override
 		public int compareTo(Match other) {
 			return Integer.compare(other.length, this.length);
 		}
