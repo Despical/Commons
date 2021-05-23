@@ -18,8 +18,6 @@
 
 package me.despical.commons.sorter;
 
-import me.despical.commons.util.Collections;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -34,7 +32,7 @@ public class SortUtils {
 	}
 
 	public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
-		List<Map.Entry<K, V>> list = Collections.listFromMap(map);
+		List<Map.Entry<K, V>> list = me.despical.commons.util.Collections.listFromMap(map);
 		list.sort(Map.Entry.comparingByValue());
 		return list.stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> b, LinkedHashMap::new));
 	}

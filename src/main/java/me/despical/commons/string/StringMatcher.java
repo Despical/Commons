@@ -99,6 +99,10 @@ public class StringMatcher {
 			this.length = length;
 		}
 
+		public String getMatch() {
+			return match;
+		}
+
 		@Override
 		public int compareTo(Match other) {
 			return Integer.compare(other.length, this.length);
