@@ -80,9 +80,9 @@ public class VersionResolver {
 			return v1_15_R1;
 		} else if (version.equalsIgnoreCase("v1_16_R1")) {
 			return v1_16_R1;
-		} else if (version.equalsIgnoreCase("v_16_R2")) {
+		} else if (version.equalsIgnoreCase("v1_16_R2")) {
 			return v1_16_R2;
-		} else if (version.equalsIgnoreCase("v_16_R3")) {
+		} else if (version.equalsIgnoreCase("v1_16_R3")) {
 			return v1_16_R3;
 		}
 
@@ -167,7 +167,7 @@ public class VersionResolver {
 		v1_13_R1, v1_13_R2, v1_14_R1, v1_15_R1, v1_16_R1, v1_16_R2, v1_16_R3, OTHER;
 
 		int versionAsInt() {
-			return this == OTHER ? 0 : Integer.parseInt(name().replaceAll("[v_R]", ""));
+			return this == OTHER ? 0 : NumberUtils.getInt(name().replaceAll("[v_R]", ""));
 		}
 	}
 }
