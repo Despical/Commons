@@ -55,7 +55,7 @@ public class FileUtils {
 	 * @return file's presence
 	 */
 	public static boolean exists(String pathName) {
-		return new File(pathName).exists();
+		return exists(null, pathName);
 	}
 
 	/**
