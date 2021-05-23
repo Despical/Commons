@@ -25,6 +25,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.zaxxer.hikari.HikariDataSource;
+import org.bukkit.configuration.file.FileConfiguration;
 
 /**
  * @author Despical
@@ -36,6 +37,14 @@ public class MysqlDatabase {
 
 	private HikariDataSource hikariDataSource;
 	private final Logger databaseLogger = Logger.getLogger("Commons Database");
+
+	public MysqlDatabase(FileConfiguration configuration) {
+		this(configuration, "user", "password", "address");
+	}
+
+	public MysqlDatabase(FileConfiguration configuration, String userPath, String passwordPath, String jdbcUrlPath) {
+		this(configuration.getString(userPath), configuration.getString(passwordPath), configuration.getString(jdbcUrlPath));
+	}
 
 	public MysqlDatabase(String user, String password, String jdbcUrl) {
 		databaseLogger.log(Level.INFO, "Configuring MySQL connection!");
