@@ -47,4 +47,25 @@ public class FileUtils {
 		channel.close();
 		stream.close();
 	}
+
+	/**
+	 * Checks if file exists in specified path.
+	 *
+	 * @param pathName to check file in
+	 * @return file's presence
+	 */
+	public static boolean exists(String pathName) {
+		return new File(pathName).exists();
+	}
+
+	/**
+	 * Checks if file exists in specified path.
+	 *
+	 * @param parent file of specified file
+	 * @param child to be checked file's name
+	 * @return file's presence
+	 */
+	public static boolean exists(File parent, String child) {
+		return new File(parent, child).exists();
+	}
 }

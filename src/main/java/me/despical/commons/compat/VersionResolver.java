@@ -167,7 +167,7 @@ public class VersionResolver {
 		v1_13_R1, v1_13_R2, v1_14_R1, v1_15_R1, v1_16_R1, v1_16_R2, v1_16_R3, OTHER;
 
 		int versionAsInt() {
-			return this == OTHER ? 0 : NumberUtils.getInt(name().replaceAll("[v_R]", ""));
+			return NumberUtils.getInt(name().replaceAll("[v_R]", ""));
 		}
 	}
 }
