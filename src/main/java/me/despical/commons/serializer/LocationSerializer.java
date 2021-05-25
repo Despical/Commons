@@ -21,6 +21,7 @@ package me.despical.commons.serializer;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
+import me.despical.commons.number.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -62,24 +63,24 @@ public class LocationSerializer {
 			return null;
 		}
 
-		String[] parts = input.split(",");
+		String[] parts = input.split(", ");
 
 		if (parts.length != 6) {
 			return null;
 		}
 
 		try {
-			double x = Double.parseDouble(parts[1].replace(" ", ""));
-			double y = Double.parseDouble(parts[2].replace(" ", ""));
-			double z = Double.parseDouble(parts[3].replace(" ", ""));
-			float yaw = Float.parseFloat(parts[4].replace(" ", ""));
-			float pitch = Float.parseFloat(parts[5].replace(" ", ""));
-
-			World world = Bukkit.getWorld(parts[0].trim());
+			World world = Bukkit.getWorld(parts[0]);
 
 			if (world == null) {
 				return null;
 			}
+
+			double x = NumberUtils.getDouble(parts[1]);
+			double y = NumberUtils.getDouble(parts[2]);
+			double z = NumberUtils.getDouble(parts[3]);
+			float yaw = NumberUtils.getFloat(parts[4]);
+			float pitch = NumberUtils.getFloat(parts[5]);
 
 			return new Location(world, x, y, z, yaw, pitch);
 		} catch (NumberFormatException ex) {

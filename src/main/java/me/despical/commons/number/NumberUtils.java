@@ -229,6 +229,50 @@ public class NumberUtils {
 	}
 
 	/**
+	 * Checks if the String is primitive type float.
+	 *
+	 * @param str the String to check, may be null
+	 * @return true if float, and is non-null
+	 */
+	public static boolean isFloat(String str) {
+		try {
+			Float.parseFloat(str);
+			return true;
+		} catch (NumberFormatException ignored) {
+			return false;
+		}
+	}
+
+	/**
+	 * Convert a String to an float, returning zero if the conversion
+	 * fails. If the string is null, zero is returned.
+	 *
+	 * @param string the string to convert, may be null
+	 * @return the float represented by the string, or zero if conversion fails
+	 */
+	public static float getFloat(String string) {
+		return getFloat(string, 0);
+	}
+
+	/**
+	 * Convert a String to an float, returning a default value if the conversion
+	 * fails. If the string is null, the default value is returned.
+	 *
+	 * @param string the string to convert, may be null
+	 * @param def the default value
+	 * @return the float represented by the string, or the default if conversion fails
+	 */
+	public static float getFloat(String string, float def) {
+		if (string == null) return def;
+
+		try {
+			return Float.parseFloat(string);
+		} catch (NumberFormatException ignored) {
+			return def;
+		}
+	}
+
+	/**
 	 * Checks if the given value is between given values.
 	 *
 	 * @param value the Integer to check is between values
