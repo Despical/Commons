@@ -19,7 +19,6 @@
 package me.despical.commons.compat;
 
 import me.despical.commons.number.NumberUtils;
-import org.bukkit.Bukkit;
 
 import static me.despical.commons.compat.VersionResolver.ServerVersion.*;
 
@@ -52,7 +51,7 @@ public class VersionResolver {
 	 * @return version of the server in split NMS format enum
 	 */
 	private static ServerVersion resolveVersion() {
-		String version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
+		String version = me.despical.commons.ReflectionUtils.VERSION;
 
 		if (version.equalsIgnoreCase("v1_8_R1")) {
 			return v1_8_R1;

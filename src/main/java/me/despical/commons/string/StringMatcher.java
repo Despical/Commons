@@ -34,7 +34,7 @@ public class StringMatcher {
 	}
 
 	public static List<Match> match(String base, List<String> possibilities) {
-		possibilities.sort((a, b) -> a.length() == b.length() ? 0 : Integer.compare(b.length(), a.length()));
+		possibilities.sort((a, b) -> Integer.compare(b.length(), a.length()));
 
 		int baseLength = base.length();
 		Match bestMatch = new Match(base, -1);
