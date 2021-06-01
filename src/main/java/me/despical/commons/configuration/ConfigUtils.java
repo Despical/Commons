@@ -41,10 +41,10 @@ public class ConfigUtils {
 	 * @return file configuration of given file
 	 */
 	public static FileConfiguration getConfig(JavaPlugin plugin, String filename) {
-		File file = new File(plugin.getDataFolder() + File.separator + filename + ".yml");
+		File file = new File(plugin.getDataFolder(), filename + ".yml");
 
 		if (filename.contains(File.separator)) {
-			new File(plugin.getDataFolder() + File.separator + filename.replace(filename.substring(filename.indexOf(File.separator)), "")).mkdirs();
+			new File(plugin.getDataFolder(), filename.replace(filename.substring(filename.indexOf(File.separator)), "")).mkdirs();
 		}
 
 		if (!file.exists()) {
