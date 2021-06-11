@@ -53,39 +53,11 @@ public class VersionResolver {
 	private static ServerVersion resolveVersion() {
 		String version = me.despical.commons.ReflectionUtils.VERSION;
 
-		if (version.equalsIgnoreCase("v1_8_R1")) {
-			return v1_8_R1;
-		} else if (version.equalsIgnoreCase("v1_8_R2")) {
-			return v1_8_R2;
-		} else if (version.equalsIgnoreCase("v1_8_R3")) {
-			return v1_8_R3;
-		} else if (version.equalsIgnoreCase("v1_9_R1")) {
-			return v1_9_R1;
-		} else if (version.equalsIgnoreCase("v1_9_R2")) {
-			return v1_9_R2;
-		} else if (version.equalsIgnoreCase("v1_10_R1")) {
-			return v1_10_R1;
-		} else if (version.equalsIgnoreCase("v1_11_R1")) {
-			return v1_11_R1;
-		} else if (version.equalsIgnoreCase("v1_12_R1")) {
-			return v1_12_R1;
-		} else if (version.equalsIgnoreCase("v1_13_R1")) {
-			return v1_13_R1;
-		} else if (version.equalsIgnoreCase("v1_13_R2")) {
-			return v1_13_R2;
-		} else if (version.equalsIgnoreCase("v1_14_R1")) {
-			return v1_14_R1;
-		} else if (version.equalsIgnoreCase("v1_15_R1")) {
-			return v1_15_R1;
-		} else if (version.equalsIgnoreCase("v1_16_R1")) {
-			return v1_16_R1;
-		} else if (version.equalsIgnoreCase("v1_16_R2")) {
-			return v1_16_R2;
-		} else if (version.equalsIgnoreCase("v1_16_R3")) {
-			return v1_16_R3;
+		try {
+			return ServerVersion.valueOf(version);
+		} catch(IllegalArgumentException exception) {
+			return OTHER;
 		}
-
-		return OTHER;
 	}
 
 	/**
@@ -150,7 +122,7 @@ public class VersionResolver {
 	/**
 	 * Checks if current version is between given two versions.
 	 *
-	 * @param min version to check.
+	 * @param min version to check
 	 * @param max version to check.
 	 * @return true if current version is between these two versions, false otherwise.
 	 */
@@ -163,7 +135,8 @@ public class VersionResolver {
 	 */
 	public enum ServerVersion {
 		v1_8_R1, v1_8_R2, v1_8_R3, v1_9_R1, v1_9_R2, v1_10_R1, v1_11_R1, v1_12_R1,
-		v1_13_R1, v1_13_R2, v1_14_R1, v1_15_R1, v1_16_R1, v1_16_R2, v1_16_R3, OTHER;
+		v1_13_R1, v1_13_R2, v1_14_R1, v1_15_R1, v1_16_R1, v1_16_R2, v1_16_R3, v1_17_R1,
+		OTHER;
 
 		int versionAsInt() {
 			return NumberUtils.getInt(name().replaceAll("[v_R]", ""));
