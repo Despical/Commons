@@ -23,8 +23,6 @@ import java.util.logging.Level;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
-import org.bukkit.Bukkit;
-
 /**
  * @author Despical
  * <p>
@@ -46,11 +44,12 @@ public class ScriptEngine {
 		try {
 			scriptEngine.eval(executable);
 		} catch (ScriptException e) {
-			Bukkit.getLogger().log(Level.SEVERE, "Script failed to parse expression! Expression was written wrongly!");
-			Bukkit.getLogger().log(Level.SEVERE, "Expression value: " + executable);
-			Bukkit.getLogger().log(Level.SEVERE, "Error log:");
+			java.util.logging.Logger logger = org.bukkit.Bukkit.getLogger();
+			logger.log(Level.SEVERE, "Script failed to parse expression! Expression was written wrongly!");
+			logger.log(Level.SEVERE, "Expression value: " + executable);
+			logger.log(Level.SEVERE, "Error log:");
 			e.printStackTrace();
-			Bukkit.getLogger().log(Level.SEVERE, "---- DO NOT REPORT THIS TO AUTHOR THIS IS NOT A BUG OR A CRASH ----");
+			logger.log(Level.SEVERE, "---- DO NOT REPORT THIS TO AUTHOR THIS IS NOT A BUG OR A CRASH ----");
 		}
 	}
 }
