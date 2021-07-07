@@ -39,7 +39,7 @@ import java.util.regex.PatternSyntaxException;
 
 /**
  *
- * An enum class for all of the items in Minecraft 1.8 - 1.16.5.
+ * An enum class for all of the items in Minecraft 1.8 - 1.17.
  *
  * @see <a href="https://github.com/CryptoMorin/XSeries">Original Code</a>
  * @author Despical

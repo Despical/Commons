@@ -18,8 +18,8 @@
 
 package me.despical.commons.scoreboard.common;
 
-import java.util.LinkedList;
 import java.util.List;
+import java.util.LinkedList;
 
 import me.despical.commons.compat.VersionResolver;
 import me.despical.commons.scoreboard.type.Entry;
@@ -32,7 +32,7 @@ import me.despical.commons.util.Strings;
  */
 public final class EntryBuilder {
 
-	private final LinkedList<Entry> entries = new LinkedList<>();
+	private final List<Entry> entries = new LinkedList<>();
 
 	public EntryBuilder blank() {
 		return next("");

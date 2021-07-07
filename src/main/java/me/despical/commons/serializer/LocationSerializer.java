@@ -25,6 +25,7 @@ import me.despical.commons.number.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Despical
@@ -90,7 +91,12 @@ public class LocationSerializer {
 		return null;
 	}
 
+	@NotNull
 	public static String toString(Location loc) {
+		if (loc == null) {
+			return "";
+		}
+
 		return loc.getWorld().getName() + ", " + decimalFormat.format(loc.getX()) + ", " + decimalFormat.format(loc.getY()) + ", " + decimalFormat.format(loc.getZ()) + ", " + decimalFormat.format(loc.getYaw()) + ", " + decimalFormat.format(loc.getPitch());
 	}
 
@@ -102,7 +108,7 @@ public class LocationSerializer {
 	 * @return true if it is same with default location otherwise false
 	 */
 	public static boolean isDefaultLocation(String serializedLocation) {
-		return serializedLocation.equals(SERIALIZED_LOCATION);
+		return serializedLocation != null && serializedLocation.equals(SERIALIZED_LOCATION);
 	}
 
 	/**
@@ -113,6 +119,6 @@ public class LocationSerializer {
 	 * @return true if it is same with default location otherwise false
 	 */
 	public static boolean isDefaultLocation(Location location) {
-		return location.equals(DEFAULT_LOCATION);
+		return location != null && location.equals(DEFAULT_LOCATION);
 	}
 }

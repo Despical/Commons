@@ -22,7 +22,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -50,7 +49,7 @@ public class InventorySerializer {
 	public static boolean saveInventoryToFile(JavaPlugin plugin, Player player) {
 		String uuid = player.getUniqueId().toString();
 		PlayerInventory inventory = player.getInventory();
-		File path = new File(plugin.getDataFolder() + File.separator + "inventories");
+		File path = new File(plugin.getDataFolder(), "inventories");
 
 		try {
 			File invFile = new File(plugin.getDataFolder() + File.separator + "inventories" + File.separator, uuid + ".inventory");
@@ -87,7 +86,7 @@ public class InventorySerializer {
 			invConfig.set("potion-effects", activePotions);
 
 			if (inventory.getHolder() instanceof Player) {
-				invConfig.set("inventory-holder", (inventory.getHolder()).getName());
+				invConfig.set("inventory-holder", inventory.getHolder().getName());
 			}
 
 			ItemStack[] invContents = inventory.getContents();
@@ -102,11 +101,11 @@ public class InventorySerializer {
 
 			ItemStack[] armorContents = inventory.getArmorContents();
 
-			for (int b = 0; b < armorContents.length; b++) {
-				ItemStack itemStack = armorContents[b];
+			for (int i = 0; i < armorContents.length; i++) {
+				ItemStack itemStack = armorContents[i];
 
 				if (itemStack != null && itemStack.getType() != Material.AIR) {
-					invConfig.set("armor-" + b, itemStack);
+					invConfig.set("armor-" + i, itemStack);
 				}
 			}
 
@@ -121,7 +120,7 @@ public class InventorySerializer {
 		File file = new File(plugin.getDataFolder() + File.separator + "inventories" + File.separator + uuid + ".inventory");
 
 		if (!file.exists() || file.isDirectory() || !file.getAbsolutePath().endsWith(".inventory")) {
-			return Bukkit.createInventory(null, 9);
+			return plugin.getServer().createInventory(null, 9);
 		}
 
 		try {
@@ -129,16 +128,15 @@ public class InventorySerializer {
 			Inventory inventory;
 
 			int invSize = invConfig.getInt("inventory-size", 36);
-			int invMaxStackSize = invConfig.getInt("max-stack-size", 64);
 
 			InventoryHolder invHolder = null;
 
 			if (invConfig.contains("inventory-holder")) {
-				invHolder = Bukkit.getPlayer(invConfig.getString("inventory-holder"));
+				invHolder = plugin.getServer().getPlayer(invConfig.getString("inventory-holder"));
 			}
 
-			inventory = Bukkit.getServer().createInventory(invHolder, InventoryType.PLAYER);
-			inventory.setMaxStackSize(invMaxStackSize);
+			inventory = plugin.getServer().createInventory(invHolder, InventoryType.PLAYER);
+			inventory.setMaxStackSize(invConfig.getInt("max-stack-size", 64));
 
 			try {
 				ItemStack[] invContents = new ItemStack[invSize];
@@ -159,7 +157,7 @@ public class InventorySerializer {
 			file.delete();
 			return inventory;
 		} catch (Exception ignore) {
-			return Bukkit.createInventory(null, 9);
+			return plugin.getServer().createInventory(null, 9);
 		}
 	}
 

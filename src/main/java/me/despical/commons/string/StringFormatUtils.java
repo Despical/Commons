@@ -28,12 +28,6 @@ public class StringFormatUtils {
 	private StringFormatUtils() {
 	}
 
-	/**
-	 * Formats the given time into MM:SS
-	 *
-	 * @param time to format
-	 * @return formatted time
-	 */
 	public static String formatIntoMMSS(int time) {
 		return String.format("%02d:%02d", time / 60, time % 60);
 	}
