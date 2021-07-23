@@ -55,19 +55,22 @@ public class ReflectionUtils {
 	 */
 	public static final String VERSION = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
 	public static final String CRAFTBUKKIT = String.format("org.bukkit.craftbukkit.%s.", VERSION);
-	public static final String NMS = String.format("net.minecraft.server.%s.", VERSION);
+
+	public static final boolean IS_NEW = Integer.parseInt(VERSION.substring(1).split("_")[1]) >= 17;
+
+	public static final String NMS = IS_NEW ? "net.minecraft." : "net.minecraft.server." + VERSION + '.';
 
 	private static final MethodHandle PLAYER_CONNECTION, GET_HANDLE, SEND_PACKET;
 
 	static {
-		Class<?> entityPlayer = getNMSClass("EntityPlayer"), craftPlayer = getCraftClass("entity.CraftPlayer"), playerConnection = getNMSClass("PlayerConnection");
+		Class<?> entityPlayer = getNMSClass("server.level", "EntityPlayer"), craftPlayer = getCraftClass("entity.CraftPlayer"), playerConnection = getNMSClass("server.network", "PlayerConnection");
 		MethodHandles.Lookup lookup = MethodHandles.lookup();
 		MethodHandle sendPacket = null, getHandle = null, connection = null;
 
 		try {
-			connection = lookup.findGetter(entityPlayer, "playerConnection", playerConnection);
+			connection = lookup.findGetter(entityPlayer, IS_NEW ? "b" : "playerConnection", playerConnection);
 			getHandle = lookup.findVirtual(craftPlayer, "getHandle", MethodType.methodType(entityPlayer));
-			sendPacket = lookup.findVirtual(playerConnection, "sendPacket", MethodType.methodType(void.class, getNMSClass("Packet")));
+			sendPacket = lookup.findVirtual(playerConnection, "sendPacket", MethodType.methodType(void.class, getNMSClass("network.protocol", "Packet")));
 		} catch (NoSuchMethodException | NoSuchFieldException | IllegalAccessException ex) {
 			ex.printStackTrace();
 		}
@@ -78,6 +81,11 @@ public class ReflectionUtils {
 	}
 
 	private ReflectionUtils() {}
+
+	public static Class<?> getNMSClass(String newPackage, String name) {
+		if (IS_NEW) name = newPackage + '.' + name;
+		return getNMSClass(name);
+	}
 
 	/**
 	 * Get a NMS (net.minecraft.server) class.
