@@ -23,7 +23,7 @@ public enum JavaVersion {
 	static {
 		String version = System.getProperty("java.specification.version");
 
-		currentVersion = version.equals("1.8") ? JAVA_8 : valueOf(version);
+		currentVersion = version.equals("1.8") ? JAVA_8 : valueOf("JAVA_" + version);
 	}
 
 	public static JavaVersion getCurrentVersion() {
