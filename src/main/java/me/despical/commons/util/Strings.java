@@ -33,7 +33,7 @@ public final class Strings {
 	}
 
 	public static String format(String string) {
-		if (string == null) {
+		if (string == null || string.isEmpty()) {
 			return "";
 		}
 
