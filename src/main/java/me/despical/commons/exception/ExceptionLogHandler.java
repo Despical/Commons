@@ -79,12 +79,10 @@ public class ExceptionLogHandler extends Handler {
 
 	@Override
 	public void flush() {
-		System.out.flush();
 	}
 
 	@Override
 	public void close() throws SecurityException {
-		System.out.close();
 	}
 
 	private boolean containsBlacklistedClass(Throwable throwable) {

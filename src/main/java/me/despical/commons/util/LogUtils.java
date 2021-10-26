@@ -1,5 +1,7 @@
 package me.despical.commons.util;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
@@ -11,25 +13,32 @@ import java.util.logging.Logger;
  */
 public class LogUtils {
 
+	@NotNull
+	private static String name = "[Commons Logging Manager]";
+
 	private static Logger logger;
 
 	// Do not cache to allow object's recreation twice
-	public static void activateLogging() {
-		logger = LogManager.getLogManager().getLogger("[Commons Logging Manager]");
+	public static void enableLogging() {
+		logger = LogManager.getLogManager().getLogger(name);
 	}
 
 	public static void disableLogging() {
 		logger = null;
 	}
 
-	private static void ensureLoggingActivated() {
+	public static void setLoggerName(@NotNull String loggerName) {
+		name = loggerName;
+	}
+
+	private static void ensureLoggingEnabled() {
 		if (logger == null) {
 			throw new NullPointerException();
 		}
 	}
 
 	public static void log(Level level, String message, Object... params) {
-		ensureLoggingActivated();
+		ensureLoggingEnabled();
 
 		logger.log(level, message, params);
 	}
