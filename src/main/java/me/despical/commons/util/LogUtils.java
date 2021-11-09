@@ -1,5 +1,6 @@
 package me.despical.commons.util;
 
+import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.logging.Level;
@@ -57,5 +58,9 @@ public class LogUtils {
 
 	public static void log(String... messages) {
 		for (String message : messages) log(message);
+	}
+
+	public static void sendConsoleMessage(String message) {
+		Bukkit.getConsoleSender().sendMessage(Strings.format(message));
 	}
 }
