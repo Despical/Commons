@@ -55,7 +55,7 @@ public class VersionResolver {
 
 		try {
 			return ServerVersion.valueOf(version);
-		} catch(IllegalArgumentException exception) {
+		} catch (IllegalArgumentException exception) {
 			return OTHER;
 		}
 	}
@@ -136,7 +136,7 @@ public class VersionResolver {
 	public enum ServerVersion {
 		v1_8_R1, v1_8_R2, v1_8_R3, v1_9_R1, v1_9_R2, v1_10_R1, v1_11_R1, v1_12_R1,
 		v1_13_R1, v1_13_R2, v1_14_R1, v1_15_R1, v1_16_R1, v1_16_R2, v1_16_R3, v1_17_R1,
-		OTHER;
+		v1_18_R1, OTHER;
 
 		int versionAsInt() {
 			return NumberUtils.getInt(name().replaceAll("[v_R]", ""));

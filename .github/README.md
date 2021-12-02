@@ -26,7 +26,7 @@ To add this project as a dependency to your project, add the following to your p
 <dependency>
     <groupId>com.github.Despical</groupId>
     <artifactId>Commons</artifactId>
-    <version>1.4.0</version>
+    <version>1.4.2</version>
     <scope>compile</scope>
 </dependency>
 ```
@@ -39,7 +39,7 @@ repositories {
 ```
 ```
 dependencies {
-    compileOnly group: "com.github.Despical", name: "Commons", version: "1.4.0";
+    compileOnly group: "com.github.Despical", name: "Commons", version: "1.4.2";
 }
 ```
 
@@ -51,7 +51,7 @@ See the [LICENSE](https://github.com/Despical/Commons/blob/master/LICENSE) file 
 ## Donations
 You like the Commons? Then [donate](https://www.patreon.com/despical) back me to support the development.
 
-## ~~Contributing~~ (No more contributing)
+## Contributing
 
 I accept Pull Requests via GitHub. There are some guidelines which will make applying PRs easier for me:
 + No spaces! Please use tabs for indentation.
