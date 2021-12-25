@@ -18,6 +18,7 @@
 
 package me.despical.commons.compat;
 
+import me.despical.commons.ReflectionUtils;
 import me.despical.commons.number.NumberUtils;
 
 import static me.despical.commons.compat.VersionResolver.ServerVersion.*;
@@ -51,11 +52,17 @@ public class VersionResolver {
 	 * @return version of the server in split NMS format enum
 	 */
 	private static ServerVersion resolveVersion() {
-		String version = me.despical.commons.ReflectionUtils.VERSION;
+		String version = ReflectionUtils.VERSION;
 
 		try {
 			return ServerVersion.valueOf(version);
 		} catch (IllegalArgumentException exception) {
+			if (ReflectionUtils.supports(17)) {
+				return v1_17_R1;
+			} else if (ReflectionUtils.supports(18)) {
+				return v1_18_R1;
+			}
+
 			return OTHER;
 		}
 	}
