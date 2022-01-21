@@ -28,6 +28,10 @@ public class LogUtils {
 		logger = null;
 	}
 
+	public static boolean isEnabled() {
+		return logger != null;
+	}
+
 	public static void setLoggerName(@NotNull String loggerName) {
 		name = loggerName;
 	}
