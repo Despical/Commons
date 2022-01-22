@@ -36,14 +36,10 @@ public class LogUtils {
 		name = loggerName;
 	}
 
-	private static void ensureLoggingEnabled() {
-		if (logger == null) {
-			throw new NullPointerException();
-		}
-	}
-
 	public static void log(Level level, String message, Object... params) {
-		ensureLoggingEnabled();
+		if (logger == null) {
+			return;
+		}
 
 		logger.log(level, message, params);
 	}
