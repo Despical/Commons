@@ -55,6 +55,10 @@ public final class EntryBuilder {
 		return entries;
 	}
 
+	public List<Entry> buildRaw() {
+		return new LinkedList<>(entries);
+	}
+
 	private String adapt(String entry) {
 		if (VersionResolver.isCurrentEqualOrHigher(VersionResolver.ServerVersion.v1_14_R1)) {
 			if (entry.length() > 144) entry = entry.substring(0, 143);
