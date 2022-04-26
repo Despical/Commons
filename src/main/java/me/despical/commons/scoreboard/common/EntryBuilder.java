@@ -39,7 +39,11 @@ public final class EntryBuilder {
 	}
 
 	public EntryBuilder next(String string) {
-		entries.add(new Entry(adapt(string), entries.size()));
+		return next(string, entries.size());
+	}
+
+	public EntryBuilder next(String string, int position) {
+		entries.add(new Entry(adapt(string), position));
 		return this;
 	}
 
