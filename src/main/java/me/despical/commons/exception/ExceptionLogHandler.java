@@ -2,8 +2,8 @@ package me.despical.commons.exception;
 
 import org.bukkit.plugin.Plugin;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
@@ -18,11 +18,13 @@ public class ExceptionLogHandler extends Handler {
 	private String mainPackage, recordMessage;
 
 	private final Plugin plugin;
-	private final List<String> blacklistedClasses;
+	private final Set<String> blacklistedClasses;
 
 	public ExceptionLogHandler(Plugin plugin) {
 		this.plugin = plugin;
-		this.blacklistedClasses = new ArrayList<>();
+		this.blacklistedClasses = new HashSet<>();
+
+		this.plugin.getServer().getLogger().addHandler(this);
 	}
 
 	public void addBlacklistedClass(String... classes) {
