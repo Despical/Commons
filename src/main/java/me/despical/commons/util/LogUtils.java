@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.logging.Level;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 /**
@@ -14,14 +13,15 @@ import java.util.logging.Logger;
  */
 public class LogUtils {
 
-	@NotNull
-	private static String name = "[Commons Logging Manager]";
+	private static String name;
 
 	private static Logger logger;
 
 	// Do not cache to allow object's recreation twice
 	public static void enableLogging() {
-		logger = LogManager.getLogManager().getLogger(name);
+		if (name == null) name = "Commons Logging Manager";
+
+		logger = Logger.getLogger(name); // Create a new logger
 	}
 
 	public static void disableLogging() {
@@ -54,10 +54,6 @@ public class LogUtils {
 
 	public static void log(String message, Object... params) {
 		log(Level.INFO, message, params);
-	}
-
-	public static void log(String... messages) {
-		for (String message : messages) log(message);
 	}
 
 	public static void sendConsoleMessage(String message) {
