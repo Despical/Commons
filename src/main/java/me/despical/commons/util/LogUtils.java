@@ -56,6 +56,10 @@ public class LogUtils {
 		log(Level.INFO, message, params);
 	}
 
+	public static Logger getLogger() {
+		return logger;
+	}
+
 	public static void sendConsoleMessage(String message) {
 		Bukkit.getConsoleSender().sendMessage(Strings.format(message));
 	}
