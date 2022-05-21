@@ -35,7 +35,8 @@ public enum JavaVersion {
 	JAVA_15,
 	JAVA_16,
 	JAVA_17,
-	JAVA_18;
+	JAVA_18,
+	JAVA_19;
 
 	private static final JavaVersion currentVersion;
 
