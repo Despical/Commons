@@ -1,6 +1,6 @@
 package me.despical.commons.exception;
 
-import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -17,10 +17,10 @@ public class ExceptionLogHandler extends Handler {
 
 	private String mainPackage, recordMessage;
 
-	private final Plugin plugin;
+	private final JavaPlugin plugin;
 	private final Set<String> blacklistedClasses;
 
-	public ExceptionLogHandler(Plugin plugin) {
+	public ExceptionLogHandler(JavaPlugin plugin) {
 		this.plugin = plugin;
 		this.blacklistedClasses = new HashSet<>();
 
@@ -40,51 +40,50 @@ public class ExceptionLogHandler extends Handler {
 	}
 
 	@Override
+	public void close() throws SecurityException {}
+
+	@Override
+	public void flush() {}
+
+	@Override
 	public void publish(LogRecord record) {
-		Throwable throwable = record.getThrown();
+		try {
+			Throwable throwable = record.getThrown();
 
-		if (throwable == null || throwable.getCause() == null) {
-			return;
-		}
+			if (throwable == null || throwable.getCause() == null) {
+				return;
+			}
 
-		StackTraceElement[] element = throwable.getCause().getStackTrace();
+			StackTraceElement[] element = throwable.getCause().getStackTrace();
 
-		if (element.length == 0 || element[0] == null || !element[0].getClassName().contains(mainPackage)) {
-			return;
-		}
+			if (element.length == 0 || element[0] == null || !element[0].getClassName().contains(mainPackage)) {
+				return;
+			}
 
-		if (containsBlacklistedClass(throwable)) {
-			return;
-		}
+			if(containsBlacklistedClass(throwable)) {
+				return;
+			}
 
-		record.setThrown(null);
+			Throwable exception = throwable.getCause() != null ? throwable.getCause() : throwable;
+			StringBuilder stacktrace = new StringBuilder(exception.getClass().getSimpleName());
 
-		Exception exception = throwable.getCause() != null ? (Exception) throwable.getCause() : (Exception) throwable;
-		StringBuilder stacktrace = new StringBuilder(exception.getClass().getSimpleName());
+			if (exception.getMessage() != null) {
+				stacktrace.append(" (").append(exception.getMessage()).append(')');
+			}
 
-		if (exception.getMessage() != null) {
-			stacktrace.append(" (").append(exception.getMessage()).append(")");
-		}
+			stacktrace.append("\n");
 
-		stacktrace.append("\n");
+			for (StackTraceElement traceElement :  exception.getStackTrace()) {
+				stacktrace.append(traceElement.toString()).append("\n");
+			}
 
-		for (StackTraceElement str : exception.getStackTrace()) {
-			stacktrace.append(str.toString()).append("\n");
-		}
+			plugin.getLogger().log(Level.WARNING, "[Reporter service] <<-----------------------------[START]----------------------------->>");
+			plugin.getLogger().log(Level.WARNING, stacktrace.toString());
+			plugin.getLogger().log(Level.WARNING, "[Reporter service] <<------------------------------[END]------------------------------>>");
 
-		plugin.getLogger().log(Level.WARNING, "[Reporter Service] <<-----------------------------[START]----------------------------->>");
-		plugin.getLogger().log(Level.WARNING, stacktrace.toString());
-		plugin.getLogger().log(Level.WARNING, "[Reporter Service] <<------------------------------[END]------------------------------>>");
-
-		record.setMessage(recordMessage);
-	}
-
-	@Override
-	public void flush() {
-	}
-
-	@Override
-	public void close() throws SecurityException {
+			record.setThrown(null);
+			record.setMessage(recordMessage);
+		} catch (ArrayIndexOutOfBoundsException ignored) {}
 	}
 
 	private boolean containsBlacklistedClass(Throwable throwable) {
