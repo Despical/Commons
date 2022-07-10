@@ -2,12 +2,13 @@
 [![](https://jitpack.io/v/Despical/Commons.svg)](https://jitpack.io/#Despical/Commons)
 [![](https://img.shields.io/badge/Javadocs-latest-lime.svg)](https://javadoc.jitpack.io/com/github/Despical/Commons/latest/javadoc/index.html)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Despical/Commons/Commons%20Build)
+[![Discord](https://img.shields.io/discord/719922452259668000.svg?color=lime&label=Discord)](https://discord.gg/rVkaGmyszE)
 
 Commons is a open-source library that provides utilities needed for Java and Minecraft.
 
 ## Documentation
 More information will be found on the [wiki page](https://github.com/Despical/Commons/wiki) soon. The [Javadoc](https://javadoc.jitpack.io/com/github/Despical/Commons/latest/javadoc/index.html) can be browsed. Questions
-related to the usage of Commons should be posted on issues page.
+related to the usage of Commons should be posted on issues page. You can also join our [Discord community](https://www.discord.gg/rVkaGmyszE) to get support.
 
 ## Using Commons
 The project isn't in the Central Repository yet, so specifying a repository is needed.<br>
@@ -25,7 +26,7 @@ To add this project as a dependency to your project, add the following to your p
 <dependency>
     <groupId>com.github.Despical</groupId>
     <artifactId>Commons</artifactId>
-    <version>1.5.1</version>
+    <version>1.5.3</version>
     <scope>compile</scope>
 </dependency>
 ```
@@ -38,7 +39,7 @@ repositories {
 ```
 ```
 dependencies {
-    compileOnly group: "com.github.Despical", name: "Commons", version: "1.5.1";
+    compileOnly group: "com.github.Despical", name: "Commons", version: "1.5.3";
 }
 ```
 
@@ -63,7 +64,7 @@ You can learn more about contributing via GitHub in [contribution guidelines](ht
 If you want to build this project from source code, run the following from Git Bash:
 ```
 git clone https://www.github.com/Despical/Commons.git && cd Commons
-mvn clean package
+mvn clean package -Dmaven.javadocs.skip=true -DskipTests
 ```
 The build can then be found in ``/Commons/target/``
 And also don't forget to install Maven before building.
