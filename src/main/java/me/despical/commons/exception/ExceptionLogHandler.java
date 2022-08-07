@@ -78,7 +78,7 @@ public class ExceptionLogHandler extends Handler {
 				return;
 			}
 
-			if(containsBlacklistedClass(throwable)) {
+			if (containsBlacklistedClass(throwable)) {
 				return;
 			}
 
