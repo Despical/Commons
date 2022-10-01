@@ -35,6 +35,11 @@ public class LogUtils {
 
 	private static Logger logger;
 
+	public static void enableLogging(String loggerName) {
+		setLoggerName(loggerName);
+		enableLogging();
+	}
+
 	// Do not cache to allow object's recreation twice
 	public static void enableLogging() {
 		if (name == null) name = "Commons Logging Manager";
