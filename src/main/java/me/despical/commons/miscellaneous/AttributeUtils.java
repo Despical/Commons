@@ -46,6 +46,6 @@ public class AttributeUtils {
 			return;
 		}
 
-		player.setHealthScale(20f);
+		player.setHealth(player.getMaxHealth());
 	}
 }
