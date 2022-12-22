@@ -1,20 +1,26 @@
-# Commons
-[![](https://jitpack.io/v/Despical/Commons.svg)](https://jitpack.io/#Despical/Commons)
+<h1 align="center">Commons</h1>
+
+<div align="center">
+
 [![](https://img.shields.io/badge/Javadocs-latest-lime.svg)](https://javadoc.jitpack.io/com/github/Despical/Commons/latest/javadoc/index.html)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Despical/Commons/Commons%20Build)
+[![Commons Build](https://github.com/Despical/Commons/actions/workflows/build-commons.yml/badge.svg)](https://github.com/Despical/Commons/actions/workflows/build-commons.yml)
 [![Discord](https://img.shields.io/discord/719922452259668000.svg?color=lime&label=Discord)](https://discord.gg/rVkaGmyszE)
+[![Support](https://img.shields.io/badge/Patreon-Support-lime.svg?logo=Patreon)](https://www.patreon.com/despical)
 
 Commons is a open-source library that provides utilities needed for Java and Minecraft.
 
+</div>
+
 ## Documentation
-More information will be found on the [wiki page](https://github.com/Despical/Commons/wiki) soon. The [Javadoc](https://javadoc.jitpack.io/com/github/Despical/Commons/latest/javadoc/index.html) can be browsed. Questions
-related to the usage of Commons should be posted on issues page. You can also join our [Discord community](https://www.discord.gg/rVkaGmyszE) to get support.
+- [Wiki](https://github.com/Despical/Commons/wiki)
+- [JavaDocs](https://javadoc.jitpack.io/com/github/Despical/Commons/latest/javadoc/index.html)
+- [Discord Community](https://www.discord.gg/rVkaGmyszE)
 
 ## Using Commons
 The project isn't in the Central Repository yet, so specifying a repository is needed.<br>
-To add this project as a dependency to your project, add the following to your pom.xml:
 
-### Maven dependency
+<details>
+<summary>Maven dependency</summary>
 
 ```xml
 <repository>
@@ -26,12 +32,16 @@ To add this project as a dependency to your project, add the following to your p
 <dependency>
     <groupId>com.github.Despical</groupId>
     <artifactId>Commons</artifactId>
-    <version>1.5.4</version>
+    <version>1.5.5</version>
     <scope>compile</scope>
 </dependency>
 ```
 
-### Gradle dependency
+</details>
+
+<details>
+<summary>Gradle dependency</summary>
+
 ```
 repositories {
     maven { url 'https://jitpack.io' }
@@ -39,9 +49,11 @@ repositories {
 ```
 ```
 dependencies {
-    compileOnly group: "com.github.Despical", name: "Commons", version: "1.5.4**";
+    compileOnly group: "com.github.Despical", name: "Commons", version: "1.5.5";
 }
 ```
+
+</details>
 
 ## License
 This code is under [GPL-3.0 License](http://www.gnu.org/licenses/gpl-3.0.html)
@@ -61,10 +73,10 @@ I accept Pull Requests via GitHub. There are some guidelines which will make app
 You can learn more about contributing via GitHub in [contribution guidelines](https://github.com/Despical/Commons/blob/master/CONTRIBUTING.md).
 
 ## Building from source
-If you want to build this project from source code, run the following from Git Bash:
+To build this project from source code, run the following from Git Bash:
 ```
 git clone https://www.github.com/Despical/Commons.git && cd Commons
-mvn clean package -Dmaven.javadocs.skip=true -DskipTests
+mvn clean package -Dmaven.javadoc.skip=true -DskipTests
 ```
-The build can then be found in ``/Commons/target/``
-And also don't forget to install Maven before building.
+
+> **Note** Don't forget to install Maven before building.
