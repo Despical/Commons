@@ -24,7 +24,7 @@ package me.despical.commons.miscellaneous;
  * <p>
  * Created at 30.05.2020
  */
-enum DefaultFontInfo {
+public enum DefaultFontInfo {
 
 	A('A', 5),
 	a('a', 5),
