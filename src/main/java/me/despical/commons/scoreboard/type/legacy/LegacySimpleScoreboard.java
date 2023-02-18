@@ -1,8 +1,8 @@
 package me.despical.commons.scoreboard.type.legacy;
 
-import com.destroystokyo.paper.profile.PlayerProfile;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import me.despical.commons.scoreboard.ScoreboardLib;
 import me.despical.commons.scoreboard.type.Entry;
 import me.despical.commons.scoreboard.type.Scoreboard;
 import me.despical.commons.scoreboard.type.ScoreboardHandler;
@@ -10,6 +10,7 @@ import me.despical.commons.util.Strings;
 import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
@@ -33,6 +34,8 @@ public class LegacySimpleScoreboard implements Scoreboard {
 
 	protected Player holder;
 	private ScoreboardHandler handler;
+	private BukkitRunnable updateTask;
+	private long updateInterval = 10L;
 
 	private boolean activated;
 	private final Map<FakePlayer, Integer> entryCache = new ConcurrentHashMap<>();
@@ -49,11 +52,20 @@ public class LegacySimpleScoreboard implements Scoreboard {
 	@Override
 	public void activate() {
 		if (activated) return;
-		if (handler == null) throw new IllegalArgumentException("Scoreboard handler not set");
+		if (handler == null) throw new IllegalArgumentException("Scoreboard handler is not set!");
 
 		activated = true;
 
 		holder.setScoreboard(scoreboard);
+
+		updateTask = new BukkitRunnable() {
+			@Override
+			public void run() {
+				update();
+			}
+		};
+
+		updateTask.runTaskTimer(ScoreboardLib.getInstance(), 0, updateInterval);
 	}
 
 	@Override
@@ -70,6 +82,8 @@ public class LegacySimpleScoreboard implements Scoreboard {
 		for (Team team : teamCache.rowKeySet()) {
 			team.unregister();
 		}
+
+		updateTask.cancel();
 	}
 
 	@Override
@@ -90,12 +104,14 @@ public class LegacySimpleScoreboard implements Scoreboard {
 
 	@Override
 	public long getUpdateInterval() {
-		throw new UnsupportedOperationException("Update interval is no longer supported!");
+		return this.updateInterval;
 	}
 
 	@Override
 	public LegacySimpleScoreboard setUpdateInterval(long updateInterval) {
-		throw new UnsupportedOperationException("Update interval is no longer supported!");
+		if (activated) throw new IllegalStateException("You can not change update interval during scoreboard is updating!");
+		this.updateInterval = updateInterval;
+		return this;
 	}
 
 	@Override
@@ -158,7 +174,6 @@ public class LegacySimpleScoreboard implements Scoreboard {
 
 		appeared.clear();
 
-		// Remove duplicated entries
 		for (FakePlayer fakePlayer : entryCache.keySet()) {
 			if (!current.contains(fakePlayer)) {
 				entryCache.remove(fakePlayer);

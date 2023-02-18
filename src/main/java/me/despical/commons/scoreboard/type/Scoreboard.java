@@ -37,10 +37,8 @@ public interface Scoreboard {
 
 	Scoreboard setHandler(ScoreboardHandler handler);
 
-	@Deprecated
 	long getUpdateInterval();
 
-	@Deprecated
 	Scoreboard setUpdateInterval(long updateInterval);
 
 	Player getHolder();

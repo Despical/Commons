@@ -18,10 +18,12 @@
 
 package me.despical.commons.scoreboard.type;
 
+import me.despical.commons.scoreboard.ScoreboardLib;
 import me.despical.commons.util.Strings;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Team;
@@ -39,9 +41,12 @@ public class SimpleScoreboard implements Scoreboard {
 	private static final String TEAM_PREFIX = "Board_";
 	private final org.bukkit.scoreboard.Scoreboard scoreboard;
 	private final Objective objective;
+
 	protected Player holder;
 	private boolean activated;
 	private ScoreboardHandler handler;
+	private BukkitRunnable updateTask;
+	private long updateInterval = 10L;
 
 	public SimpleScoreboard(Player holder) {
 		this.holder = holder;
@@ -57,10 +62,20 @@ public class SimpleScoreboard implements Scoreboard {
 	@Override
 	public void activate() {
 		if (activated) return;
-		if (handler == null) throw new IllegalArgumentException("Scoreboard handler not set");
+		if (handler == null) throw new IllegalArgumentException("Scoreboard handler not set!");
 
 		activated = true;
+
 		holder.setScoreboard(scoreboard);
+
+		updateTask = new BukkitRunnable() {
+			@Override
+			public void run() {
+				update();
+			}
+		};
+
+		updateTask.runTaskTimer(ScoreboardLib.getInstance(), 0, updateInterval);
 	}
 
 	@Override
@@ -78,6 +93,8 @@ public class SimpleScoreboard implements Scoreboard {
 		for (Team team : scoreboard.getTeams()) {
 			team.unregister();
 		}
+
+		this.updateTask.cancel();
 	}
 
 	@Override
@@ -98,12 +115,14 @@ public class SimpleScoreboard implements Scoreboard {
 
 	@Override
 	public long getUpdateInterval() {
-		throw new UnsupportedOperationException("Update interval is no longer supported!");
+		return this.updateInterval;
 	}
 
 	@Override
 	public SimpleScoreboard setUpdateInterval(long updateInterval) {
-		throw new UnsupportedOperationException("Update interval is no longer supported!");
+		if (activated) throw new IllegalStateException("You can not change update interval during scoreboard is updating!");
+		this.updateInterval = updateInterval;
+		return this;
 	}
 
 	@Override
@@ -158,7 +177,6 @@ public class SimpleScoreboard implements Scoreboard {
 			current.add(score);
 		}
 
-		// Remove duplicated
 		for (int i = 1; i <= 15; i++) {
 			if (!current.contains(i)) {
 				String entry = getEntry(i);
