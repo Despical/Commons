@@ -169,7 +169,7 @@ public class SimpleScoreboard implements Scoreboard {
 			int length = key.length();
 
 			String prefix = length > 64 ? key.substring(0, 64) : key;
-			String suffix = ChatColor.getLastColors(prefix) + (prefix.charAt(prefix.length() - 1) == '§' ? "§" : "") + limitKey(length, key);
+			String suffix = ChatColor.getLastColors(prefix) + (length != 0 ? (prefix.charAt(prefix.length() - 1) == '§' ? "§" : "") : "") + limitKey(length, key);
 
 			team.setPrefix(prefix);
 			team.setSuffix(suffix.length() > 64 ? suffix.substring(0, 64) : suffix);
