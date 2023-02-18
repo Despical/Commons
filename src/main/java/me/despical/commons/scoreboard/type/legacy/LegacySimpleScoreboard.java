@@ -14,7 +14,6 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Team;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -262,11 +261,6 @@ public class LegacySimpleScoreboard implements Scoreboard {
 		}
 
 		@Override
-		public PlayerProfile getPlayerProfile() {
-			return null;
-		}
-
-		@Override
 		public boolean isBanned() {
 			return false;
 		}
@@ -403,11 +397,6 @@ public class LegacySimpleScoreboard implements Scoreboard {
 		@Override
 		public void setStatistic(Statistic statistic, EntityType entityType, int i) {
 
-		}
-
-		@Override
-		public @Nullable Location getLastDeathLocation() {
-			return null;
 		}
 
 		@Override
