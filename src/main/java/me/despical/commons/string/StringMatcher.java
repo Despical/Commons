@@ -75,7 +75,7 @@ public class StringMatcher {
 		return otherMatches;
 	}
 
-	private static Pattern COLOR_REGEX = Pattern.compile("([A-Fa-f0-9]{6})");
+	private static Pattern COLOR_REGEX = Pattern.compile("<*&?#([A-Fa-f0-9]{6})>*");
 
 	public static String matchColorRegex(String str) {
 		Matcher matcher = COLOR_REGEX.matcher(str);
