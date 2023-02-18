@@ -33,7 +33,7 @@ The project isn't in the Central Repository yet, so specifying a repository is n
 <dependency>
     <groupId>com.github.Despical</groupId>
     <artifactId>Commons</artifactId>
-    <version>1.5.7</version>
+    <version>1.5.8</version>
     <scope>compile</scope>
 </dependency>
 ```
@@ -50,7 +50,7 @@ repositories {
 ```
 ```
 dependencies {
-    compileOnly group: "com.github.Despical", name: "Commons", version: "1.5.7";
+    compileOnly group: "com.github.Despical", name: "Commons", version: "1.5.8";
 }
 ```
 

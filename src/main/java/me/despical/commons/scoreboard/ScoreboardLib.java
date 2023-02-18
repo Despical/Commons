@@ -18,6 +18,8 @@
 
 package me.despical.commons.scoreboard;
 
+import me.despical.commons.compat.VersionResolver;
+import me.despical.commons.scoreboard.type.legacy.LegacySimpleScoreboard;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -42,6 +44,10 @@ public class ScoreboardLib {
 	}
 
 	public static Scoreboard createScoreboard(Player holder) {
-		return new SimpleScoreboard(holder);
+		if (VersionResolver.isCurrentEqualOrHigher(VersionResolver.ServerVersion.v1_13_R1)) {
+			return new SimpleScoreboard(holder);
+		}
+
+		return new LegacySimpleScoreboard(holder);
 	}
 }
