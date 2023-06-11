@@ -48,8 +48,8 @@ import java.util.concurrent.CompletableFuture;
  * <b>Volume:</b> 0.0-∞ - 1.0f (normal) - Using higher values increase the distance from which the sound can be heard.<br>
  * <b>Pitch:</b> 0.5-2.0 - 1.0f (normal) - How fast the sound is play.
  * <p>
- * 1.8: http://docs.codelanx.com/Bukkit/1.8/org/bukkit/Sound.html
- * play command: https://minecraft.gamepedia.com/Commands/play
+ * 1.8: <a href="http://docs.codelanx.com/Bukkit/1.8/org/bukkit/Sound.html">...</a>
+ * play command: <a href="https://minecraft.gamepedia.com/Commands/play">...</a>
  *
  * @author Despical
  * @version 1.2.1
@@ -1107,7 +1107,8 @@ public enum XSound {
 		for (int i = 0; i < len; i++) {
 			char ch = name.charAt(i);
 
-			if (!appendUnderline && count != 0 && (ch == '-' || ch == ' ' || ch == '_') && chs[count] != '_') appendUnderline = true;
+			if (!appendUnderline && count != 0 && (ch == '-' || ch == ' ' || ch == '_') && chs[count] != '_')
+				appendUnderline = true;
 			else {
 				boolean number = false;
 
@@ -1243,7 +1244,8 @@ public enum XSound {
 					volume = Float.parseFloat(split[1]);
 					if (split.length > 2) pitch = Float.parseFloat(split[2]);
 				}
-			} catch (NumberFormatException ignored) {}
+			} catch (NumberFormatException ignored) {
+			}
 			Record record = new Record(type, player, location, volume, pitch, playAtLocation);
 
 			if (play) record.play();
@@ -1266,7 +1268,6 @@ public enum XSound {
 	 * @param player the player to stop all the sounds from.
 	 * @return the async task handling the operation.
 	 * @see #stopSound(Player)
-	 * @since            // We don't need to cache because it's rarely used.
 	 */
 	@Nonnull
 	public static CompletableFuture<Void> stopMusic(@Nonnull Player player) {
