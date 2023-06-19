@@ -21,7 +21,7 @@ package me.despical.commons.scoreboard.common;
 import java.util.List;
 import java.util.LinkedList;
 
-import me.despical.commons.compat.VersionResolver;
+import me.despical.commons.ReflectionUtils;
 import me.despical.commons.scoreboard.type.Entry;
 import me.despical.commons.util.Strings;
 
@@ -60,7 +60,7 @@ public final class EntryBuilder {
 	}
 
 	private String adapt(String entry) {
-		if (VersionResolver.isCurrentEqualOrHigher(VersionResolver.ServerVersion.v1_14_R1)) {
+		if (ReflectionUtils.supports(14)) {
 			if (entry.length() > 144) entry = entry.substring(0, 143);
 		} else {
 			if (entry.length() > 48) entry = entry.substring(0, 47);

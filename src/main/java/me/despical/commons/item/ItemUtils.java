@@ -24,7 +24,7 @@ import com.mojang.authlib.properties.Property;
 import java.lang.reflect.Field;
 import java.util.UUID;
 
-import me.despical.commons.compat.VersionResolver;
+import me.despical.commons.ReflectionUtils;
 import me.despical.commons.compat.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -76,7 +76,7 @@ public class ItemUtils {
 	}
 
 	public static SkullMeta setPlayerHead(Player player, SkullMeta meta) {
-		if (VersionResolver.isCurrentHigher(VersionResolver.ServerVersion.v1_12_R1)) {
+		if (ReflectionUtils.supports(12)) {
 			meta.setOwningPlayer(player);
 		} else if (Bukkit.getServer().getVersion().contains("Paper") && player.getPlayerProfile().hasTextures()) {
 			meta.setPlayerProfile(player.getPlayerProfile());

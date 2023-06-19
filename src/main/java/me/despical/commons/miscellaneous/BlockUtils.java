@@ -18,7 +18,7 @@
 
 package me.despical.commons.miscellaneous;
 
-import me.despical.commons.compat.VersionResolver;
+import me.despical.commons.ReflectionUtils;
 import org.bukkit.block.Block;
 
 /**
@@ -32,7 +32,7 @@ public class BlockUtils {
 	}
 
 	public static void setData(Block block, byte data) {
-		if (VersionResolver.isCurrentEqualOrHigher(VersionResolver.ServerVersion.v1_13_R1)) {
+		if (ReflectionUtils.supports(13)) {
 			return;
 		}
 

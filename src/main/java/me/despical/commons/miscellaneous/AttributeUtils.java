@@ -18,7 +18,7 @@
 
 package me.despical.commons.miscellaneous;
 
-import me.despical.commons.compat.VersionResolver;
+import me.despical.commons.ReflectionUtils;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 
@@ -31,7 +31,7 @@ import org.bukkit.entity.Player;
 public class AttributeUtils {
 
 	public static void setAttackCooldown(Player player, double value) {
-		if (VersionResolver.isCurrentEqualOrHigher(VersionResolver.ServerVersion.v1_9_R1)) {
+		if (ReflectionUtils.supports(9)) {
 			player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(value);
 		}
 	}
@@ -41,7 +41,7 @@ public class AttributeUtils {
 	}
 
 	public static void healPlayer(Player player) {
-		if (VersionResolver.isCurrentEqualOrHigher(VersionResolver.ServerVersion.v1_9_R1)) {
+		if (ReflectionUtils.supports(9)) {
 			player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
 			return;
 		}

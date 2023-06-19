@@ -18,7 +18,7 @@
 
 package me.despical.commons.miscellaneous;
 
-import me.despical.commons.compat.VersionResolver;
+import me.despical.commons.ReflectionUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -42,7 +42,7 @@ public class PlayerUtils {
 	 * @param plugin instance for method to avoid deprecation
 	 */
 	public static void hidePlayer(Player to, Player p, JavaPlugin plugin) {
-		if (VersionResolver.isCurrentEqualOrHigher(VersionResolver.ServerVersion.v1_13_R1)) {
+		if (ReflectionUtils.supports(13)) {
 			to.hidePlayer(plugin, p);
 		} else {
 			to.hidePlayer(p);
@@ -58,7 +58,7 @@ public class PlayerUtils {
 	 * @param plugin instance for method to avoid deprecation
 	 */
 	public static void showPlayer(Player to, Player p, JavaPlugin plugin) {
-		if (VersionResolver.isCurrentEqualOrHigher(VersionResolver.ServerVersion.v1_13_R1)) {
+		if (ReflectionUtils.supports(13)) {
 			to.showPlayer(plugin, p);
 		} else {
 			to.showPlayer(p);
@@ -73,7 +73,7 @@ public class PlayerUtils {
 	 * @param collidable value to set
 	 */
 	public static void setCollidable(Player player, boolean collidable) {
-		if (VersionResolver.isCurrentEqualOrLower(VersionResolver.ServerVersion.v1_8_R3)) {
+		if (!ReflectionUtils.supports(9)) {
 			player.spigot().setCollidesWithEntities(collidable);
 		} else {
 			player.setCollidable(collidable);
@@ -87,7 +87,7 @@ public class PlayerUtils {
 	 * @param glowing value to set
 	 */
 	public static void setGlowing(Player player, boolean glowing) {
-		if (VersionResolver.isCurrentEqualOrHigher(VersionResolver.ServerVersion.v1_9_R1)) {
+		if (ReflectionUtils.supports(9)) {
 			player.setGlowing(glowing);
 		}
 	}

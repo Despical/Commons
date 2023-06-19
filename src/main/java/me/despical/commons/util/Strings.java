@@ -18,7 +18,7 @@
 
 package me.despical.commons.util;
 
-import me.despical.commons.compat.VersionResolver;
+import me.despical.commons.ReflectionUtils;
 import me.despical.commons.string.StringMatcher;
 import org.bukkit.ChatColor;
 
@@ -37,7 +37,7 @@ public final class Strings {
 			return "";
 		}
 
-		if (VersionResolver.isCurrentEqualOrHigher(VersionResolver.ServerVersion.v1_16_R1) && string.contains("#") ) {
+		if (ReflectionUtils.supports(16) && string.contains("#") ) {
 			string = StringMatcher.matchColorRegex(string);
 		}
 
