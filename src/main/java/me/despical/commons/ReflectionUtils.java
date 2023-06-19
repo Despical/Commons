@@ -38,18 +38,7 @@ import java.util.regex.Pattern;
  * @author Despical
  */
 public final class ReflectionUtils {
-	/**
-	 * We use reflection mainly to avoid writing a new class for version barrier.
-	 * The version barrier is for NMS that uses the Minecraft version as the main package name.
-	 * <p>
-	 * E.g. EntityPlayer in 1.15 is in the class {@code net.minecraft.server.v1_15_R1}
-	 * but in 1.14 it's in {@code net.minecraft.server.v1_14_R1}
-	 * In order to maintain cross-version compatibility we cannot import these classes.
-	 * <p>
-	 * Performance is not a concern for these specific statically initialized values.
-	 * <p>
-	 * <a href="https://www.spigotmc.org/wiki/spigot-nms-and-minecraft-versions-legacy/">Versions Legacy</a>
-	 */
+
 	public static final String NMS_VERSION;
 
 	static { // This needs to be right below VERSION because of initialization order.
@@ -81,26 +70,7 @@ public final class ReflectionUtils {
 		NMS_VERSION = found;
 	}
 
-	/**
-	 * The raw minor version number.
-	 * E.g. {@code v1_17_R1} to {@code 17}
-	 *
-	 * @see #supports(int)
-	 * @since 4.0.0
-	 */
 	public static final int MINOR_NUMBER;
-	/**
-	 * The raw patch version number.
-	 * E.g. {@code v1_17_R1} to {@code 1}
-	 * <p>
-	 * I'd not recommend developers to support individual patches at all. You should always support the latest patch.
-	 * For example, between v1.14.0, v1.14.1, v1.14.2, v1.14.3 and v1.14.4 you should only support v1.14.4
-	 * <p>
-	 * This can be used to warn server owners when your plugin will break on older patches.
-	 *
-	 * @see #supportsPatch(int)
-	 * @since 7.0.0
-	 */
 	public static final int PATCH_NUMBER;
 
 	static {
@@ -133,25 +103,12 @@ public final class ReflectionUtils {
 		}
 	}
 
-	/**
-	 * Gets the full version information of the server. Useful for including in errors.
-	 * @since 7.0.0
-	 */
 	public static String getVersionInformation() {
 		return "(NMS: " + NMS_VERSION + " | " +
 			"Minecraft: " + Bukkit.getVersion() + " | " +
 			"Bukkit: " + Bukkit.getBukkitVersion() + ')';
 	}
 
-	/**
-	 * Gets the latest known patch number of the given minor version.
-	 * For example: 1.14 -> 4, 1.17 -> 10
-	 * The latest version is expected to get newer patches, so make sure to account for unexpected results.
-	 *
-	 * @param minorVersion the minor version to get the patch number of.
-	 * @return the patch number of the given minor version if recognized, otherwise null.
-	 * @since 7.0.0
-	 */
 	public static Integer getLatestPatchNumberOf(int minorVersion) {
 		if (minorVersion <= 0) throw new IllegalArgumentException("Minor version must be positive: " + minorVersion);
 
@@ -185,29 +142,12 @@ public final class ReflectionUtils {
 		return patches[minorVersion - 1];
 	}
 
-	/**
-	 * Mojang remapped their NMS in 1.17: <a href="https://www.spigotmc.org/threads/spigot-bungeecord-1-17.510208/#post-4184317">Spigot Thread</a>
-	 */
 	public static final String
 		CRAFTBUKKIT_PACKAGE = "org.bukkit.craftbukkit." + NMS_VERSION + '.',
 		NMS_PACKAGE = v(17, "net.minecraft.").orElse("net.minecraft.server." + NMS_VERSION + '.');
-	/**
-	 * A nullable public accessible field only available in {@code EntityPlayer}.
-	 * This can be null if the player is offline.
-	 */
+
 	private static final MethodHandle PLAYER_CONNECTION;
-	/**
-	 * Responsible for getting the NMS handler {@code EntityPlayer} object for the player.
-	 * {@code CraftPlayer} is simply a wrapper for {@code EntityPlayer}.
-	 * Used mainly for handling packet related operations.
-	 * <p>
-	 * This is also where the famous player {@code ping} field comes from!
-	 */
 	private static final MethodHandle GET_HANDLE;
-	/**
-	 * Sends a packet to the player's client through a {@code NetworkManager} which
-	 * is where {@code ProtocolLib} controls packets by injecting channels!
-	 */
 	private static final MethodHandle SEND_PACKET;
 
 	static {
@@ -237,12 +177,6 @@ public final class ReflectionUtils {
 	private ReflectionUtils() {
 	}
 
-	/**
-	 * This method is purely for readability.
-	 * No performance is gained.
-	 *
-	 * @since 5.0.0
-	 */
 	public static <T> VersionHandler<T> v(int version, T handle) {
 		return new VersionHandler<>(version, handle);
 	}
@@ -251,51 +185,20 @@ public final class ReflectionUtils {
 		return new CallableVersionHandler<>(version, handle);
 	}
 
-	/**
-	 * Checks whether the server version is equal or greater than the given version.
-	 *
-	 * @param minorNumber the version to compare the server version with.
-	 * @return true if the version is equal or newer, otherwise false.
-	 * @see #MINOR_NUMBER
-	 * @since 4.0.0
-	 */
 	public static boolean supports(int minorNumber) {
 		return MINOR_NUMBER >= minorNumber;
 	}
 
-	/**
-	 * Checks whether the server version is equal or greater than the given version.
-	 *
-	 * @param patchNumber the version to compare the server version with.
-	 * @return true if the version is equal or newer, otherwise false.
-	 * @see #PATCH_NUMBER
-	 * @since 7.0.0
-	 */
 	public static boolean supportsPatch(int patchNumber) {
 		return PATCH_NUMBER >= patchNumber;
 	}
 
-	/**
-	 * Get a NMS (net.minecraft.server) class which accepts a package for 1.17 compatibility.
-	 *
-	 * @param newPackage the 1.17 package name.
-	 * @param name       the name of the class.
-	 * @return the NMS class or null if not found.
-	 * @since 4.0.0
-	 */
 	@Nullable
 	public static Class<?> getNMSClass(@Nonnull String newPackage, @Nonnull String name) {
 		if (supports(17)) name = newPackage + '.' + name;
 		return getNMSClass(name);
 	}
 
-	/**
-	 * Get a NMS (net.minecraft.server) class.
-	 *
-	 * @param name the name of the class.
-	 * @return the NMS class or null if not found.
-	 * @since 1.0.0
-	 */
 	@Nullable
 	public static Class<?> getNMSClass(@Nonnull String name) {
 		try {
@@ -306,16 +209,6 @@ public final class ReflectionUtils {
 		}
 	}
 
-	/**
-	 * Sends a packet to the player asynchronously if they're online.
-	 * Packets are thread-safe.
-	 *
-	 * @param player  the player to send the packet to.
-	 * @param packets the packets to send.
-	 * @return the async thread handling the packet.
-	 * @see #sendPacketSync(Player, Object...)
-	 * @since 1.0.0
-	 */
 	@Nonnull
 	public static CompletableFuture<Void> sendPacket(@Nonnull Player player, @Nonnull Object... packets) {
 		return CompletableFuture.runAsync(() -> sendPacketSync(player, packets))
@@ -325,14 +218,6 @@ public final class ReflectionUtils {
 			});
 	}
 
-	/**
-	 * Sends a packet to the player synchronously if they're online.
-	 *
-	 * @param player  the player to send the packet to.
-	 * @param packets the packets to send.
-	 * @see #sendPacket(Player, Object...)
-	 * @since 2.0.0
-	 */
 	public static void sendPacketSync(@Nonnull Player player, @Nonnull Object... packets) {
 		try {
 			Object handle = GET_HANDLE.invoke(player);
@@ -370,13 +255,6 @@ public final class ReflectionUtils {
 		}
 	}
 
-	/**
-	 * Get a CraftBukkit (org.bukkit.craftbukkit) class.
-	 *
-	 * @param name the name of the class to load.
-	 * @return the CraftBukkit class or null if not found.
-	 * @since 1.0.0
-	 */
 	@Nullable
 	public static Class<?> getCraftClass(@Nonnull String name) {
 		try {
