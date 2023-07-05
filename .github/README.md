@@ -33,7 +33,7 @@ The project isn't in the Central Repository yet, so specifying a repository is n
 <dependency>
     <groupId>com.github.Despical</groupId>
     <artifactId>Commons</artifactId>
-    <version>1.6.4</version>
+    <version>1.6.5</version>
     <scope>compile</scope>
 </dependency>
 ```
@@ -50,7 +50,7 @@ repositories {
 ```
 ```
 dependencies {
-    compileOnly group: "com.github.Despical", name: "Commons", version: "1.6.4";
+    compileOnly group: "com.github.Despical", name: "Commons", version: "1.6.5";
 }
 ```
 
@@ -62,7 +62,8 @@ This code is under [GPL-3.0 License](http://www.gnu.org/licenses/gpl-3.0.html)
 See the [LICENSE](https://github.com/Despical/Commons/blob/master/LICENSE) file for required notices and attributions.
 
 ## Donations
-You like the Commons? Then [donate](https://www.patreon.com/despical) back me to support the development.
+- [Patreon](https://www.patreon.com/despical)
+- [Buy me a Coffe](https://www.buymeacoffee.com/despical)
 
 ## Contributing
 

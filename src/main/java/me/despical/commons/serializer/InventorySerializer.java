@@ -19,8 +19,7 @@
 package me.despical.commons.serializer;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -43,7 +42,16 @@ import org.bukkit.potion.PotionEffectType;
  */
 public class InventorySerializer {
 
-	private InventorySerializer() {
+	private static final Set<String> doNotSerialize;
+
+	private InventorySerializer() {}
+
+	static {
+		doNotSerialize = new HashSet<>();
+	}
+
+	public static void addNonSerializableElements(String... elements) {
+		Collections.addAll(doNotSerialize, elements);
 	}
 
 	public static boolean saveInventoryToFile(JavaPlugin plugin, Player player) {
@@ -162,7 +170,7 @@ public class InventorySerializer {
 	}
 
 	public static void loadInventory(JavaPlugin plugin, Player player) {
-		File file = new File(plugin.getDataFolder() + File.separator + "inventories" + File.separator + player.getUniqueId().toString() + ".inventory");
+		File file = new File(plugin.getDataFolder() + File.separator + "inventories" + File.separator + player.getUniqueId() + ".inventory");
 
 		if (!file.exists() || file.isDirectory() || !file.getAbsolutePath().endsWith(".inventory")) {
 			return;
@@ -183,13 +191,13 @@ public class InventorySerializer {
 				}
 
 				player.getInventory().setArmorContents(armor);
-				player.setMaxHealth(invConfig.getDouble("max-health"));
+				if (shouldRestore("max-health")) player.setMaxHealth(invConfig.getDouble("max-health"));
 				player.setExp(0);
 				player.setLevel(0);
 				player.setLevel(invConfig.getInt("level"));
 				player.setExp(Float.parseFloat(invConfig.getString("exp")));
-				player.setHealth(invConfig.getDouble("health"));
-				player.setHealthScale(invConfig.getDouble("health-scale"));
+				if (shouldRestore("health"))player.setHealth(invConfig.getDouble("health"));
+				if (shouldRestore("health-scale"))player.setHealthScale(invConfig.getDouble("health-scale"));
 				player.setFoodLevel(invConfig.getInt("food-level"));
 				player.setSaturation(Float.parseFloat(invConfig.getString("saturation")));
 				player.setFireTicks(invConfig.getInt("fire-ticks"));
@@ -214,5 +222,9 @@ public class InventorySerializer {
 
 			player.updateInventory();
 		} catch (Exception ignored) {}
+	}
+
+	private static boolean shouldRestore(String element) {
+		return doNotSerialize.contains(element);
 	}
 }
