@@ -196,8 +196,8 @@ public class InventorySerializer {
 				player.setLevel(0);
 				player.setLevel(invConfig.getInt("level"));
 				player.setExp(Float.parseFloat(invConfig.getString("exp")));
-				if (shouldRestore("health"))player.setHealth(invConfig.getDouble("health"));
-				if (shouldRestore("health-scale"))player.setHealthScale(invConfig.getDouble("health-scale"));
+				if (shouldRestore("health")) player.setHealth(invConfig.getDouble("health"));
+				if (shouldRestore("health-scale")) player.setHealthScale(invConfig.getDouble("health-scale"));
 				player.setFoodLevel(invConfig.getInt("food-level"));
 				player.setSaturation(Float.parseFloat(invConfig.getString("saturation")));
 				player.setFireTicks(invConfig.getInt("fire-ticks"));
@@ -225,6 +225,6 @@ public class InventorySerializer {
 	}
 
 	private static boolean shouldRestore(String element) {
-		return doNotSerialize.contains(element);
+		return !doNotSerialize.contains(element);
 	}
 }
