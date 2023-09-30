@@ -5,7 +5,6 @@
 [![Commons Build](https://github.com/Despical/Commons/actions/workflows/build-commons.yml/badge.svg)](https://github.com/Despical/Commons/actions/workflows/build-commons.yml)
 [![](https://jitpack.io/v/Despical/Commons.svg)](https://jitpack.io/#Despical/Commons)
 [![](https://img.shields.io/badge/Javadocs-latest-lime.svg)](https://javadoc.jitpack.io/com/github/Despical/Commons/latest/javadoc/index.html)
-[![Discord](https://img.shields.io/discord/719922452259668000.svg?color=lime&label=Discord)](https://discord.gg/rVkaGmyszE)
 [![Support](https://img.shields.io/badge/Patreon-Support-lime.svg?logo=Patreon)](https://www.patreon.com/despical)
 
 Commons is a open-source library that provides utilities needed for Java and Minecraft.
@@ -15,7 +14,6 @@ Commons is a open-source library that provides utilities needed for Java and Min
 ## Documentation
 - [Wiki](https://github.com/Despical/Commons/wiki)
 - [JavaDocs](https://javadoc.jitpack.io/com/github/Despical/Commons/latest/javadoc/index.html)
-- [Discord Community](https://www.discord.gg/rVkaGmyszE)
 
 ## Using Commons
 The project isn't in the Central Repository yet, so specifying a repository is needed.<br>
