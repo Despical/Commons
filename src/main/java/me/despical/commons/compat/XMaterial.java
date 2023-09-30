@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
 
 /**
  *
- * An enum class for all the items in Minecraft 1.8 - 1.20.1.
+ * An enum class for all the items in Minecraft 1.8 - 1.20.2.
  *
  * @see <a href="https://github.com/CryptoMorin/XSeries">Original Code</a>
  * @author Despical
@@ -70,7 +70,7 @@ public enum XMaterial {
 	ACACIA_WOOD(0, "LOG_2"),
 	ACTIVATOR_RAIL,
 	/**
-	 * <a href="https://minecraft.gamepedia.com/Air">Air</a>
+	 * <a href="https://minecraft.wiki/w/Air">Air</a>
 	 * {@link Material#isAir()}
 	 *
 	 * @see #VOID_AIR
@@ -949,7 +949,7 @@ public enum XMaterial {
 	NETHER_SPROUTS,
 	NETHER_STAR,
 	/**
-	 * Just like mentioned in <a href="https://minecraft.gamepedia.com/Nether_Wart">Nether Wart</a>
+	 * Just like mentioned in <a href="https://minecraft.wiki/w/Nether_Wart">Nether Wart</a>
 	 * Nether wart is also known as nether stalk in the code.
 	 * NETHER_STALK is the planted state of nether warts.
 	 */
@@ -1648,7 +1648,7 @@ public enum XMaterial {
 	}
 
 	/**
-	 * The data value of this material <a href="https://minecraft.gamepedia.com/Java_Edition_data_values/Pre-flattening">Pre-flattening</a>
+	 * The data value of this material <a href="https://minecraft.wiki/w/Java_Edition_data_values/Pre-flattening">Pre-flattening</a>
 	 * It's never a negative number.
 	 *
 	 * @see #getData()
@@ -2025,7 +2025,9 @@ public enum XMaterial {
 	 * @param materials the material names to check base material on.
 	 * @return true if one of the given material names is similar to the base material.
 	 * @since 3.1.1
+	 * @deprecated Use XTag.stringMatcher() instead.
 	 */
+	@Deprecated
 	public boolean isOneOf(@Nullable Collection<String> materials) {
 		if (materials == null || materials.isEmpty()) return false;
 		String name = this.name();
@@ -2142,7 +2144,7 @@ public enum XMaterial {
 	}
 
 	/**
-	 * The data value of this material <a href="https://minecraft.gamepedia.com/Java_Edition_data_values/Pre-flattening">pre-flattening</a>.
+	 * The data value of this material <a href="https://minecraft.wiki/w/Java_Edition_data_values/Pre-flattening">pre-flattening</a>.
 	 * <p>
 	 * Can be accessed with {@link ItemStack#getData()} then {@code MaterialData#getData()}
 	 * or {@link ItemStack#getDurability()} if not damageable.
