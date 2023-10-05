@@ -24,6 +24,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
@@ -77,7 +78,7 @@ public class MiscUtils {
 		fw.setFireworkMeta(fwm);
 	}
 
-	public static void sendCenteredMessage(Player player, String message){
+	public static void sendCenteredMessage(CommandSender sender, String message){
 		String[] lines = ChatColor.translateAlternateColorCodes('&', message).split("\n", 40);
 		StringBuilder returnMessage = new StringBuilder();
 
@@ -100,13 +101,15 @@ public class MiscUtils {
 
 			int toCompensate = 165 - messagePxSize / 2, spaceLength = DefaultFontInfo.SPACE.getLength() + 1, compensated = 0;
 			StringBuilder sb = new StringBuilder();
+
 			while(compensated < toCompensate){
 				sb.append(" ");
 				compensated += spaceLength;
 			}
+
 			returnMessage.append(sb).append(line).append("\n");
 		}
 
-		player.sendMessage(returnMessage.toString());
+		sender.sendMessage(returnMessage.toString());
 	}
 }
