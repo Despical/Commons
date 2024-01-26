@@ -358,10 +358,10 @@ public class GlowingEntities implements Listener {
 
 		static {
 			try {
-				logger = new Logger("GlowingEntities", null) {
+				logger = new Logger("Commons (GlowingEntities)", null) {
 					@Override
 					public void log(LogRecord logRecord) {
-						logRecord.setMessage("[GlowingEntities] " + logRecord.getMessage());
+						logRecord.setMessage(logRecord.getMessage());
 						super.log(logRecord);
 					}
 				};
@@ -372,16 +372,12 @@ public class GlowingEntities implements Listener {
 				String[] versions = Bukkit.getBukkitVersion().split("-R")[0].split("\\.");
 				version = Integer.parseInt(versions[1]);
 				versionMinor = versions.length <= 2 ? 0 : Integer.parseInt(versions[2]);
-				logger.info("Found server version 1." + version + "." + versionMinor);
 
 				mappings = ProtocolMappings.getMappings(version, versionMinor);
 				if (mappings == null) {
 					mappings = ProtocolMappings.values()[ProtocolMappings.values().length - 1];
 					logger.warning("Loaded not matching version of the mappings for your server version");
 				}
-				logger.info("Loaded mappings " + mappings.name());
-
-				/* Global variables */
 
 				Class<?> entityClass = getNMSClass("world.entity", "Entity");
 				Class<?> entityTypesClass = getNMSClass("world.entity", "EntityTypes");
@@ -390,8 +386,6 @@ public class GlowingEntities implements Listener {
 
 				getHandle = getCraftClass("entity", "CraftEntity").getDeclaredMethod("getHandle");
 				getDataWatcher = entityClass.getDeclaredMethod(mappings.getWatcherAccessor());
-
-				/* Synched datas */
 
 				Class<?> dataWatcherClass = getNMSClass("network.syncher", "DataWatcher");
 
@@ -416,8 +410,6 @@ public class GlowingEntities implements Listener {
 						getNMSClass("network.syncher", "DataWatcherSerializer").getDeclaredMethod("a", int.class);
 				}
 
-				/* Networking */
-
 				playerConnection = getField(getNMSClass("server.level", "EntityPlayer"), mappings.getPlayerConnection());
 				sendPacket = getNMSClass("server.network", "PlayerConnection").getMethod(mappings.getSendPacket(),
 					getNMSClass("network.protocol", "Packet"));
@@ -430,8 +422,6 @@ public class GlowingEntities implements Listener {
 					packetBundlePackets = packetBundle.getMethod("a");
 				}
 
-				/* Metadata */
-
 				packetMetadata = getNMSClass("network.protocol.game", "PacketPlayOutEntityMetadata");
 				packetMetadataEntity = getField(packetMetadata, mappings.getMetadataEntity());
 				packetMetadataItems = getField(packetMetadata, mappings.getMetadataItems());
@@ -441,8 +431,6 @@ public class GlowingEntities implements Listener {
 				} else {
 					packetMetadataConstructor = packetMetadata.getDeclaredConstructor(int.class, List.class);
 				}
-
-				/* Teams */
 
 				Class<?> scoreboardClass = getNMSClass("world.scores", "Scoreboard");
 				Class<?> teamClass = getNMSClass("world.scores", "ScoreboardTeam");
@@ -461,8 +449,6 @@ public class GlowingEntities implements Listener {
 				setTeamColor = teamClass.getDeclaredMethod(mappings.getTeamSetColor(), chatFormatClass);
 				getColorConstant = chatFormatClass.getDeclaredMethod("a", char.class);
 
-				/* Entities */
-
 				Class<?> shulkerClass = getNMSClass("world.entity.monster", "EntityShulker");
 				for (Field field : entityTypesClass.getDeclaredFields()) {
 					if (field.getType() != entityTypesClass)
@@ -480,8 +466,6 @@ public class GlowingEntities implements Listener {
 				Class<?> vec3dClass = getNMSClass("world.phys", "Vec3D");
 				vec3dZero = vec3dClass.getConstructor(double.class, double.class, double.class).newInstance(0d, 0d, 0d);
 
-
-				// arg10 was added after version 1.18.2
 				if (version >= 19) {
 					packetAddEntity = getNMSClass("network.protocol.game", "PacketPlayOutSpawnEntity")
 						.getDeclaredConstructor(int.class, UUID.class, double.class, double.class, double.class, float.class,
