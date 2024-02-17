@@ -1,16 +1,7 @@
 package me.despical.commons.miscellaneous;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
-import java.util.logging.Logger;
-
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import io.netty.channel.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -23,8 +14,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 
 /**
  * A Spigot util to easily make entities glow.
@@ -51,7 +48,7 @@ public class GlowingEntities implements Listener {
 	public GlowingEntities(@NotNull Plugin plugin) {
 		if (!Packets.enabled)
 			throw new IllegalStateException(
-				"The Glowing Entities API is disabled. An error has occurred during initialization.");
+				"The Glowing Entities API is disabled. An error has occured during initialization.");
 
 		this.plugin = Objects.requireNonNull(plugin);
 
@@ -300,7 +297,6 @@ public class GlowingEntities implements Listener {
 			CacheBuilder.newBuilder().expireAfterWrite(5, TimeUnit.SECONDS).build();
 		private static Object dummy = new Object();
 
-		private static Logger logger;
 		private static int version;
 		private static int versionMinor;
 		private static String cpack = Bukkit.getServer().getClass().getPackage().getName() + ".";
@@ -358,17 +354,6 @@ public class GlowingEntities implements Listener {
 
 		static {
 			try {
-				logger = new Logger("Commons (GlowingEntities)", null) {
-					@Override
-					public void log(LogRecord logRecord) {
-						logRecord.setMessage(logRecord.getMessage());
-						super.log(logRecord);
-					}
-				};
-				logger.setParent(Bukkit.getServer().getLogger());
-				logger.setLevel(Level.ALL);
-
-				// e.g. Bukkit.getBukkitVersion() -> 1.17.1-R0.1-SNAPSHOT
 				String[] versions = Bukkit.getBukkitVersion().split("-R")[0].split("\\.");
 				version = Integer.parseInt(versions[1]);
 				versionMinor = versions.length <= 2 ? 0 : Integer.parseInt(versions[2]);
@@ -376,8 +361,9 @@ public class GlowingEntities implements Listener {
 				mappings = ProtocolMappings.getMappings(version, versionMinor);
 				if (mappings == null) {
 					mappings = ProtocolMappings.values()[ProtocolMappings.values().length - 1];
-					logger.warning("Loaded not matching version of the mappings for your server version");
+					System.out.println("Loaded not matching version of the mappings for your server version");
 				}
+				/* Global variables */
 
 				Class<?> entityClass = getNMSClass("world.entity", "Entity");
 				Class<?> entityTypesClass = getNMSClass("world.entity", "EntityTypes");
@@ -386,6 +372,8 @@ public class GlowingEntities implements Listener {
 
 				getHandle = getCraftClass("entity", "CraftEntity").getDeclaredMethod("getHandle");
 				getDataWatcher = entityClass.getDeclaredMethod(mappings.getWatcherAccessor());
+
+				/* Synched datas */
 
 				Class<?> dataWatcherClass = getNMSClass("network.syncher", "DataWatcher");
 
@@ -410,6 +398,8 @@ public class GlowingEntities implements Listener {
 						getNMSClass("network.syncher", "DataWatcherSerializer").getDeclaredMethod("a", int.class);
 				}
 
+				/* Networking */
+
 				playerConnection = getField(getNMSClass("server.level", "EntityPlayer"), mappings.getPlayerConnection());
 				sendPacket = getNMSClass("server.network", "PlayerConnection").getMethod(mappings.getSendPacket(),
 					getNMSClass("network.protocol", "Packet"));
@@ -422,6 +412,8 @@ public class GlowingEntities implements Listener {
 					packetBundlePackets = packetBundle.getMethod("a");
 				}
 
+				/* Metadata */
+
 				packetMetadata = getNMSClass("network.protocol.game", "PacketPlayOutEntityMetadata");
 				packetMetadataEntity = getField(packetMetadata, mappings.getMetadataEntity());
 				packetMetadataItems = getField(packetMetadata, mappings.getMetadataItems());
@@ -431,6 +423,8 @@ public class GlowingEntities implements Listener {
 				} else {
 					packetMetadataConstructor = packetMetadata.getDeclaredConstructor(int.class, List.class);
 				}
+
+				/* Teams */
 
 				Class<?> scoreboardClass = getNMSClass("world.scores", "Scoreboard");
 				Class<?> teamClass = getNMSClass("world.scores", "ScoreboardTeam");
@@ -449,6 +443,8 @@ public class GlowingEntities implements Listener {
 				setTeamColor = teamClass.getDeclaredMethod(mappings.getTeamSetColor(), chatFormatClass);
 				getColorConstant = chatFormatClass.getDeclaredMethod("a", char.class);
 
+				/* Entities */
+
 				Class<?> shulkerClass = getNMSClass("world.entity.monster", "EntityShulker");
 				for (Field field : entityTypesClass.getDeclaredFields()) {
 					if (field.getType() != entityTypesClass)
@@ -466,6 +462,8 @@ public class GlowingEntities implements Listener {
 				Class<?> vec3dClass = getNMSClass("world.phys", "Vec3D");
 				vec3dZero = vec3dClass.getConstructor(double.class, double.class, double.class).newInstance(0d, 0d, 0d);
 
+
+				// arg10 was added after version 1.18.2
 				if (version >= 19) {
 					packetAddEntity = getNMSClass("network.protocol.game", "PacketPlayOutSpawnEntity")
 						.getDeclaredConstructor(int.class, UUID.class, double.class, double.class, double.class, float.class,
@@ -482,15 +480,7 @@ public class GlowingEntities implements Listener {
 
 				enabled = true;
 			} catch (Exception ex) {
-				String errorMsg =
-					"Glowing Entities reflection failed to initialize. The util is disabled. Please ensure your version ("
-						+ Bukkit.getServer().getClass().getPackage().getName() + ") is supported.";
-				if (logger == null) {
-					ex.printStackTrace();
-					System.err.println(errorMsg);
-				} else {
-					logger.log(Level.SEVERE, errorMsg, ex);
-				}
+				ex.printStackTrace();
 			}
 		}
 
@@ -814,7 +804,7 @@ public class GlowingEntities implements Listener {
 			public Object getEntityAddPacket(String teamID) throws ReflectiveOperationException {
 				Object packet = addPackets.getIfPresent(teamID);
 				if (packet == null) {
-					packet = createTeamPacket.newInstance(id, 3, Optional.empty(), Collections.singletonList(teamID));
+					packet = createTeamPacket.newInstance(id, 3, Optional.empty(), Arrays.asList(teamID));
 					addPackets.put(teamID, packet);
 				}
 				return packet;
@@ -823,7 +813,7 @@ public class GlowingEntities implements Listener {
 			public Object getEntityRemovePacket(String teamID) throws ReflectiveOperationException {
 				Object packet = removePackets.getIfPresent(teamID);
 				if (packet == null) {
-					packet = createTeamPacket.newInstance(id, 4, Optional.empty(), Collections.singletonList(teamID));
+					packet = createTeamPacket.newInstance(id, 4, Optional.empty(), Arrays.asList(teamID));
 					removePackets.put(teamID, packet);
 				}
 				return packet;
@@ -959,7 +949,7 @@ public class GlowingEntities implements Listener {
 			private String metadataEntity;
 			private String metadataItems;
 
-			ProtocolMappings(int major, int minor, String watcherFlags, String markerTypeId, String watcherAccessor,
+			private ProtocolMappings(int major, int minor, String watcherFlags, String markerTypeId, String watcherAccessor,
 									 String playerConnection, String networkManager, String sendPacket, String channel,
 									 String teamSetCollsion, String teamSetColor, String metdatataEntity, String metadataItems) {
 				this.major = major;
@@ -1033,7 +1023,6 @@ public class GlowingEntities implements Listener {
 				try {
 					fillAll();
 				} catch (ReflectiveOperationException ex) {
-					logger.severe("Failed to fill up all datas for mappings.");
 					ex.printStackTrace();
 				}
 			}
@@ -1069,6 +1058,7 @@ public class GlowingEntities implements Listener {
 				// warning, either the last mappings with same major and smaller minor
 				return lastGood;
 			}
+
 		}
 	}
 }
