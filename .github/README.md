@@ -62,7 +62,7 @@ See the [LICENSE](https://github.com/Despical/Commons/blob/master/LICENSE) file 
 
 ## Donations
 - [Patreon](https://www.patreon.com/despical)
-- [Buy me a Coffe](https://www.buymeacoffee.com/despical)
+- [Buy me a Coffee](https://www.buymeacoffee.com/despical)
 
 ## Contributing
 
