@@ -80,4 +80,5 @@ git clone https://www.github.com/Despical/Commons.git && cd Commons
 mvn clean package -Dmaven.javadoc.skip=true -DskipTests
 ```
 
-> **Note** Don't forget to install Maven before building.
+> [!IMPORTANT]  
+> Don't forget to install Maven before building.
