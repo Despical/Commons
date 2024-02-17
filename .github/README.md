@@ -6,6 +6,7 @@
 [![](https://jitpack.io/v/Despical/Commons.svg)](https://jitpack.io/#Despical/Commons)
 [![](https://img.shields.io/badge/Javadocs-latest-lime.svg)](https://javadoc.jitpack.io/com/github/Despical/Commons/latest/javadoc/index.html)
 [![Support](https://img.shields.io/badge/Patreon-Support-lime.svg?logo=Patreon)](https://www.patreon.com/despical)
+[![](https://img.shields.io/badge/BuyMeACoffee-Support-lime.svg?logo=BuyMeACoffee)](https://www.buymeacoffee.com/despical)
 
 Commons is a open-source library that provides utilities needed for Java and Minecraft.
 
