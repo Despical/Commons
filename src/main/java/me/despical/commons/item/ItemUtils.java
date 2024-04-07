@@ -22,6 +22,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.UUID;
 
 import me.despical.commons.ReflectionUtils;
@@ -59,17 +60,23 @@ public class ItemUtils {
 		}
 
 		SkullMeta headMeta = (SkullMeta) head.getItemMeta();
-		GameProfile profile = new GameProfile(UUID.randomUUID(), "");
+		GameProfile profile = new GameProfile(UUID.randomUUID(), ReflectionUtils.supports(20) ? "" : null);
 
 		profile.getProperties().put("textures", new Property("textures", url));
 
-		Field profileField;
-
-		try {
-			profileField = headMeta.getClass().getDeclaredField("profile");
-			profileField.setAccessible(true);
-			profileField.set(headMeta, profile);
-		} catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException ignored) {}
+		if (ReflectionUtils.supports(15)) {
+			try {
+				Method method = headMeta.getClass().getDeclaredMethod("setProfile", GameProfile.class);
+				method.setAccessible(true);
+				method.invoke(headMeta, profile);
+			} catch(Exception ignored) {}
+		} else {
+			try {
+				Field profileField = headMeta.getClass().getDeclaredField("profile");
+				profileField.setAccessible(true);
+				profileField.set(headMeta, profile);
+			} catch(Exception ignored) {}
+		}
 
 		head.setItemMeta(headMeta);
 		return head;
