@@ -194,15 +194,15 @@ public class InventorySerializer {
 				if (shouldRestore("max-health")) player.setMaxHealth(invConfig.getDouble("max-health"));
 				player.setExp(0);
 				player.setLevel(0);
-				player.setLevel(invConfig.getInt("level"));
-				player.setExp(Float.parseFloat(invConfig.getString("exp")));
+				if (shouldRestore("level")) player.setLevel(invConfig.getInt("level"));
+				if (shouldRestore("exp")) player.setExp(Float.parseFloat(invConfig.getString("exp")));
 				if (shouldRestore("health")) player.setHealth(invConfig.getDouble("health"));
 				if (shouldRestore("health-scale")) player.setHealthScale(invConfig.getDouble("health-scale"));
-				player.setFoodLevel(invConfig.getInt("food-level"));
-				player.setSaturation(Float.parseFloat(invConfig.getString("saturation")));
-				player.setFireTicks(invConfig.getInt("fire-ticks"));
-				player.setGameMode(GameMode.valueOf(invConfig.getString("gamemode")));
-				player.setAllowFlight(invConfig.getBoolean("allow-flight"));
+				if (shouldRestore("hunger")) player.setFoodLevel(invConfig.getInt("food-level"));
+				if (shouldRestore("saturation")) player.setSaturation(Float.parseFloat(invConfig.getString("saturation")));
+				if (shouldRestore("fire-ticks")) player.setFireTicks(invConfig.getInt("fire-ticks"));
+				if (shouldRestore("game-mode")) player.setGameMode(GameMode.valueOf(invConfig.getString("gamemode")));
+				if (shouldRestore("allow-flight")) player.setAllowFlight(invConfig.getBoolean("allow-flight"));
 
 				List<String> activePotions = invConfig.getStringList("potion-effects");
 
