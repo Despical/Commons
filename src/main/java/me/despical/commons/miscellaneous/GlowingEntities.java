@@ -374,7 +374,7 @@ public class GlowingEntities implements Listener {
 					Field watcherBuilderItems = watcherBuilder.getClass().getDeclaredField(remapped ? "itemsById" : "b");
 					watcherBuilderItems.setAccessible(true); // NOSONAR idc
 					watcherBuilderItems.set(watcherBuilder,
-						Array.newInstance(watcherBuilderItems.getType().componentType(), 0));
+						Array.newInstance(watcherBuilderItems.getType().getComponentType(), 0));
 					watcherDummy =
 						watcherBuilder.getClass().getDeclaredMethod(remapped ? "build" : "a").invoke(watcherBuilder);
 				} else {
