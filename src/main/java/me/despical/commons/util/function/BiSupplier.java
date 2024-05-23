@@ -26,16 +26,16 @@ import java.util.Objects;
  * Created at 1.10.2022
  */
 @FunctionalInterface
-public interface DoubleSupplier<T, R> {
+public interface BiSupplier<T, R> {
 
 	R accept(T t);
 
-	default DoubleSupplier<T, R> andThen(final DoubleSupplier<T, R> doubleSupplier) {
-		Objects.requireNonNull(doubleSupplier);
+	default BiSupplier<T, R> andThen(final BiSupplier<T, R> biSupplier) {
+		Objects.requireNonNull(biSupplier);
 
 		return (t) -> {
 			this.accept(t);
-			return doubleSupplier.accept(t);
+			return biSupplier.accept(t);
 		};
 	}
 }
