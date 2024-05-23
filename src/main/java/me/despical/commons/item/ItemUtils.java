@@ -25,8 +25,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.UUID;
 
-import me.despical.commons.ReflectionUtils;
 import me.despical.commons.compat.XMaterial;
+import me.despical.commons.reflection.XReflection;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -60,11 +60,11 @@ public class ItemUtils {
 		}
 
 		SkullMeta headMeta = (SkullMeta) head.getItemMeta();
-		GameProfile profile = new GameProfile(UUID.randomUUID(), ReflectionUtils.supports(20) ? "" : null);
+		GameProfile profile = new GameProfile(UUID.randomUUID(), XReflection.supports(20) ? "" : null);
 
 		profile.getProperties().put("textures", new Property("textures", url));
 
-		if (ReflectionUtils.supports(15)) {
+		if (XReflection.supports(15)) {
 			try {
 				Method method = headMeta.getClass().getDeclaredMethod("setProfile", GameProfile.class);
 				method.setAccessible(true);
@@ -83,7 +83,7 @@ public class ItemUtils {
 	}
 
 	public static SkullMeta setPlayerHead(Player player, SkullMeta meta) {
-		if (ReflectionUtils.supports(12)) {
+		if (XReflection.supports(12)) {
 			meta.setOwningPlayer(player);
 		} else if (Bukkit.getServer().getVersion().contains("Paper") && player.getPlayerProfile().hasTextures()) {
 			meta.setPlayerProfile(player.getPlayerProfile());

@@ -346,16 +346,6 @@ public final class XReflection {
 		}
 	}
 
-	/**
-	 * Gives an array version of a class. For example if you wanted {@code EntityPlayer[]} you'd use:
-	 * <pre>{@code
-	 *     Class EntityPlayer = ReflectionUtils.getNMSClass("...", "EntityPlayer");
-	 *     Class EntityPlayerArray = ReflectionUtils.toArrayClass(EntityPlayer);
-	 * }</pre>
-	 *
-	 * @param clazz the class to get the array version of. You could use for multi-dimensions arrays too.
-	 * @throws RuntimeException if the class could not be found.
-	 */
 	@Nonnull
 	public static Class<?> toArrayClass(Class<?> clazz) {
 		try {

@@ -18,7 +18,7 @@
 
 package me.despical.commons.scoreboard;
 
-import me.despical.commons.ReflectionUtils;
+import me.despical.commons.reflection.XReflection;
 import me.despical.commons.scoreboard.type.legacy.LegacySimpleScoreboard;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -44,7 +44,7 @@ public class ScoreboardLib {
 	}
 
 	public static Scoreboard createScoreboard(Player holder) {
-		if (ReflectionUtils.supports(13)) {
+		if (XReflection.supports(13)) {
 			return new SimpleScoreboard(holder);
 		}
 

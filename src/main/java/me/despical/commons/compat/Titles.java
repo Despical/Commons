@@ -36,7 +36,6 @@ import static me.despical.commons.reflection.XReflection.ofMinecraft;
 /**
  * A reflection API for titles in Minecraft.
  * Fully optimized - Supports 1.8.8+ and above.
- * Requires ReflectionUtils.
  * Messages are not colorized by default.
  * <p>
  * Titles are text messages that appear in the
