@@ -24,10 +24,12 @@ import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.regex.Pattern;
@@ -2361,12 +2363,20 @@ public enum XSound {
 				// https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/Player.html#playSound(org.bukkit.Location,java.lang.String,org.bukkit.SoundCategory,float,float,long)
 
 				switch (SUPPORTED_METHOD_LEVEL) {
-//					case 3: // Category + Seed
-//						if (objSound != null)
-//							player.playSound(updatedLocation, objSound, (SoundCategory) record.category.getBukkitObject(), record.volume, record.pitch, record.generateSeed());
-//						else
-//							player.playSound(updatedLocation, strSound, (SoundCategory) record.category.getBukkitObject(), record.volume, record.pitch, record.generateSeed());
-//						break;
+					case 3: // Category + Seed
+						try {
+							if (objSound != null) {
+								Method method = Player.class.getDeclaredMethod("playSound", Location.class, Sound.class, SoundCategory.class, float.class, float.class, long.class);
+								method.invoke(player, updatedLocation, objSound, record.category.getBukkitObject(), record.volume, record.pitch, record.generateSeed());
+							} else {
+								Method method = Player.class.getDeclaredMethod("playSound", Location.class, String.class, SoundCategory.class, float.class, float.class, long.class);
+								method.invoke(player, updatedLocation, strSound, record.category.getBukkitObject(), record.volume, record.pitch, record.generateSeed());
+							}
+						} catch (Throwable throwable) {
+							throwable.printStackTrace();
+						}
+
+						break;
 					case 2: // Category
 						if (objSound != null)
 							player.playSound(updatedLocation, objSound, (SoundCategory) record.category.getBukkitObject(), record.volume, record.pitch);
