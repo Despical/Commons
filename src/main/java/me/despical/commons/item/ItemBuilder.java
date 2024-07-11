@@ -18,11 +18,15 @@
 
 package me.despical.commons.item;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import me.despical.commons.compat.XMaterial;
+import me.despical.commons.reflection.XReflection;
 import me.despical.commons.util.Collections;
 import me.despical.commons.util.Strings;
 import org.bukkit.Material;
@@ -44,12 +48,16 @@ public class ItemBuilder {
 		this.itemStack = itemStack;
 	}
 
-	public ItemBuilder(final Material material) {
+	public ItemBuilder(Material material) {
 		this.itemStack = new ItemStack(material);
 	}
 
-	public ItemBuilder(final XMaterial xmaterial) {
+	public ItemBuilder(XMaterial xmaterial) {
 		this.itemStack = xmaterial.parseItem();
+	}
+
+	public ItemBuilder(Optional<XMaterial> xmaterial) {
+		this.itemStack = xmaterial.orElseThrow(NullPointerException::new).parseItem();
 	}
 
 	public ItemBuilder type(Material material) {
@@ -86,7 +94,7 @@ public class ItemBuilder {
 	}
 
 	public ItemBuilder flag(ItemFlag... flags) {
-		flag(flags);
+		Stream.of(flags).forEach(this::flag);
 		return this;
 	}
 
@@ -104,10 +112,25 @@ public class ItemBuilder {
 	}
 
 	public ItemBuilder unbreakable(boolean unbreakable) {
-		ItemMeta meta = itemStack.getItemMeta();
-		meta.setUnbreakable(unbreakable);
+		ItemMeta itemMeta = itemStack.getItemMeta();
 
-		itemStack.setItemMeta(meta);
+		if (XReflection.supports(9)) {
+			itemMeta.setUnbreakable(unbreakable);
+		} else {
+			try {
+				Method instanceMethod = itemMeta.getClass().getMethod("spigot");
+				instanceMethod.setAccessible(true);
+
+				Object instance = instanceMethod.invoke(itemMeta);
+				Method unbreakableMethod = instance.getClass().getMethod("setUnbreakable", boolean.class);
+				unbreakableMethod.setAccessible(true);
+				unbreakableMethod.invoke(instance, unbreakable);
+			} catch (Exception exception) {
+				exception.printStackTrace();
+			}
+		}
+
+		itemStack.setItemMeta(itemMeta);
 		return this;
 	}
 
