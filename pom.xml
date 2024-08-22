@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.Despical</groupId>
 	<artifactId>Commons</artifactId>
-	<version>1.8.1</version>
+	<version>1.8.2</version>
 	<packaging>jar</packaging>
 
 	<name>Commons</name>
@@ -30,13 +30,13 @@
 			<id>Despical</id>
 			<name>Berke Akçen</name>
 			<email>berkeakcen@gmail.com</email>
-			<url>https://www.spigotmc.org/members/615094/</url>
+			<url>https://www.spigotmc.org/members/615094</url>
 		</developer>
 	</developers>
 
 	<issueManagement>
 		<system>GitHub Issue Tracker</system>
-		<url>https://github.com/Despical/Commons/issues/</url>
+		<url>https://github.com/Despical/Commons/issues</url>
 	</issueManagement>
 
 	<repositories>
