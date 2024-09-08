@@ -147,7 +147,7 @@ public class ItemBuilder {
 		return this;
 	}
 
-	public ItemBuilder hideTooltip() {
+	public ItemBuilder hideToolTip() {
 		ItemMeta meta = itemStack.getItemMeta();
 
 		if (XReflection.supports(21)) {
