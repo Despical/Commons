@@ -36,7 +36,12 @@ public enum JavaVersion {
 	JAVA_16,
 	JAVA_17,
 	JAVA_18,
-	JAVA_19;
+	JAVA_19,
+	JAVA_20,
+	JAVA_21,
+	JAVA_22,
+	JAVA_23,
+	JAVA_24;
 
 	private static final JavaVersion currentVersion;
 
