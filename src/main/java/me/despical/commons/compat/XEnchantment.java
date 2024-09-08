@@ -12,6 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -269,6 +270,10 @@ public enum XEnchantment {
 	@Nullable
 	public Enchantment getEnchant() {
 		return this.enchantment;
+	}
+
+	public void ifPresent(Consumer<Enchantment> consumer) {
+		Optional.ofNullable(this.getEnchant()).ifPresent(consumer);
 	}
 
 	/**

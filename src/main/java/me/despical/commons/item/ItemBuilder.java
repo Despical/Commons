@@ -25,11 +25,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import me.despical.commons.compat.XEnchantment;
 import me.despical.commons.compat.XMaterial;
 import me.despical.commons.reflection.XReflection;
 import me.despical.commons.util.Collections;
 import me.despical.commons.util.Strings;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -93,6 +96,16 @@ public class ItemBuilder {
 		return this;
 	}
 
+	public ItemBuilder enchantment(XEnchantment xenchantment) {
+		xenchantment.ifPresent(enchantment -> itemStack.addUnsafeEnchantment(enchantment, 1));
+		return this;
+	}
+
+	public ItemBuilder enchantment(XEnchantment xenchantment, int level) {
+		xenchantment.ifPresent(enchantment -> itemStack.addUnsafeEnchantment(enchantment, level));
+		return this;
+	}
+
 	public ItemBuilder flag(ItemFlag... flags) {
 		Stream.of(flags).forEach(this::flag);
 		return this;
@@ -134,11 +147,40 @@ public class ItemBuilder {
 		return this;
 	}
 
-	public ItemBuilder lore(String... name) {
-		return lore(Collections.listOf(name));
+	public ItemBuilder hideTooltip() {
+		ItemMeta meta = itemStack.getItemMeta();
+
+		if (XReflection.supports(21)) {
+			meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier("[Commons{ItemBuilder}]", 0, AttributeModifier.Operation.ADD_NUMBER));
+		}
+
+		meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+
+		itemStack.setItemMeta(meta);
+		return this;
 	}
 
-	public ItemBuilder lore(List<String> name) {
+	public ItemBuilder glow() {
+		if (XReflection.supports(9)) {
+			return this.enchantment(XEnchantment.INFINITY.getEnchant()).flag(ItemFlag.HIDE_ENCHANTS);
+		}
+
+		return this;
+	}
+
+	public ItemBuilder lore(String... lore) {
+		return lore(Collections.listOf(lore));
+	}
+
+	public ItemBuilder loreIf(boolean condition, String... lore) {
+		if (condition) {
+			this.lore(lore);
+		}
+
+		return this;
+	}
+
+	public ItemBuilder lore(List<String> loreList) {
 		ItemMeta meta = itemStack.getItemMeta();
 		List<String> lore = meta.getLore();
 
@@ -146,7 +188,7 @@ public class ItemBuilder {
 			lore = new ArrayList<>();
 		}
 
-		lore.addAll(name);
+		lore.addAll(loreList);
 		meta.setLore(lore.stream().map(Strings::format).collect(Collectors.toList()));
 
 		itemStack.setItemMeta(meta);
