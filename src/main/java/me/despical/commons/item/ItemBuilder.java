@@ -168,6 +168,14 @@ public class ItemBuilder {
 		return this;
 	}
 
+	public ItemBuilder glowIf(boolean condition) {
+		if (condition) {
+			return this.glow();
+		}
+
+		return this;
+	}
+
 	public ItemBuilder lore(String... lore) {
 		return lore(Collections.listOf(lore));
 	}
