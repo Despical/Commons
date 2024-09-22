@@ -18,17 +18,25 @@
 
 package me.despical.commons.string;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * @author Despical
  * <p>
  * Created at 30.05.2020
  */
-public class StringFormatUtils {
+public final class StringFormatUtils {
+
+	private static String format = "%02d:%02d";
 
 	private StringFormatUtils() {
 	}
 
 	public static String formatIntoMMSS(int time) {
-		return String.format("%02d:%02d", time / 60, time % 60);
+		return String.format(format, time / 60, time % 60);
+	}
+
+	public static void setFormat(@NotNull final String format) {
+		StringFormatUtils.format = format;
 	}
 }
