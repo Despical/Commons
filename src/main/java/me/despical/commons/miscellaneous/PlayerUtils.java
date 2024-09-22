@@ -42,6 +42,10 @@ public class PlayerUtils {
 	 * @param plugin instance for method to avoid deprecation
 	 */
 	public static void hidePlayer(Player to, Player p, JavaPlugin plugin) {
+		if (to == null || p == null) {
+			return;
+		}
+
 		if (XReflection.supports(13)) {
 			to.hidePlayer(plugin, p);
 		} else {
@@ -58,6 +62,10 @@ public class PlayerUtils {
 	 * @param plugin instance for method to avoid deprecation
 	 */
 	public static void showPlayer(Player to, Player p, JavaPlugin plugin) {
+		if (to == null || p == null) {
+			return;
+		}
+
 		if (XReflection.supports(13)) {
 			to.showPlayer(plugin, p);
 		} else {
@@ -70,9 +78,13 @@ public class PlayerUtils {
 	 * methods.
 	 *
 	 * @param player to set collidable
-	 * @param collidable value to set
+	 * @param collidable value to
 	 */
 	public static void setCollidable(Player player, boolean collidable) {
+		if (player == null) {
+			return;
+		}
+
 		if (!XReflection.supports(9)) {
 			player.spigot().setCollidesWithEntities(collidable);
 		} else {
