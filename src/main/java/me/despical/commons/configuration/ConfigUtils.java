@@ -20,6 +20,7 @@ package me.despical.commons.configuration;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.function.Consumer;
 
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -37,18 +38,18 @@ public class ConfigUtils {
 	 * Get the config file's configuration
 	 *
 	 * @param plugin to get config file from
-	 * @param filename name of the config file
+	 * @param fileName name of the config file
 	 * @return file configuration of given file
 	 */
-	public static FileConfiguration getConfig(JavaPlugin plugin, String filename) {
-		File file = new File(plugin.getDataFolder(), filename + ".yml");
+	public static FileConfiguration getConfig(JavaPlugin plugin, String fileName) {
+		File file = new File(plugin.getDataFolder(), fileName + ".yml");
 
-		if (filename.contains(File.separator)) {
-			new File(plugin.getDataFolder(), filename.replace(filename.substring(filename.indexOf(File.separator)), "")).mkdirs();
+		if (fileName.contains(File.separator)) {
+			new File(plugin.getDataFolder(), fileName.replace(fileName.substring(fileName.indexOf(File.separator)), "")).mkdirs();
 		}
 
 		if (!file.exists()) {
-			plugin.saveResource(filename + ".yml", false);
+			plugin.saveResource(fileName + ".yml", false);
 		}
 
 		YamlConfiguration config = new YamlConfiguration();
@@ -75,5 +76,25 @@ public class ConfigUtils {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Retrieves, modifies, and saves a configuration file for the given plugin.
+	 * <p>
+	 * This method loads a configuration file using the provided {@code fileName}, applies
+	 * modifications through the specified {@link Consumer} of {@link FileConfiguration}, and
+	 * then saves the modified configuration file.
+	 *
+	 * @param plugin The {@link JavaPlugin} instance from which the configuration is loaded and saved.
+	 * @param fileName The name of the configuration file to be loaded and saved.
+	 * @param configConsumer A {@link Consumer} that performs operations on the {@link FileConfiguration}.
+	 *                       This allows you to modify the configuration before it is saved.
+	 */
+	public static void writeAndSave(JavaPlugin plugin, String fileName, Consumer<FileConfiguration> configConsumer) {
+		FileConfiguration config = ConfigUtils.getConfig(plugin, fileName);
+
+		configConsumer.accept(config);
+
+		ConfigUtils.saveConfig(plugin, config, fileName);
 	}
 }
