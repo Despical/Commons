@@ -160,20 +160,22 @@ public class ItemBuilder {
 		return this;
 	}
 
-	public ItemBuilder glow() {
-		if (XReflection.supports(9)) {
-			return this.enchantment(XEnchantment.INFINITY.getEnchant()).flag(ItemFlag.HIDE_ENCHANTS);
+	public ItemBuilder glow(boolean glow) {
+		if (!glow) return this;
+
+		return this.enchantment(XEnchantment.UNBREAKING.getEnchant()).flag(ItemFlag.HIDE_ENCHANTS);
+	}
+
+	public ItemBuilder glowIf(boolean condition) {
+		if (condition) {
+			return this.glow(true);
 		}
 
 		return this;
 	}
 
-	public ItemBuilder glowIf(boolean condition) {
-		if (condition) {
-			return this.glow();
-		}
-
-		return this;
+	public ItemBuilder glow() {
+		return this.glow(true);
 	}
 
 	public ItemBuilder lore(String... lore) {
