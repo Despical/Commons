@@ -2,10 +2,11 @@
 
 <div align="center">
 
-[![](https://github.com/Despical/Commons/actions/workflows/build-commons.yml/badge.svg?branch=master)](https://github.com/Despical/Commons/actions/workflows/build-commons.yml)
+[![](https://github.com/Despical/Commons/actions/workflows/build-commons.yml/badge.svg)](https://github.com/Despical/Commons/actions/workflows/build-commons.yml)
+[![](https://img.shields.io/github/v/release/Despical/Commons)](https://github.com/Despical/Commons/releases/latest)
 [![](https://jitpack.io/v/Despical/Commons.svg)](https://jitpack.io/#Despical/Commons)
-[![](https://img.shields.io/badge/Javadocs-latest-lime.svg)](https://javadoc.jitpack.io/com/github/Despical/Commons/latest/javadoc/index.html)
-[![](https://img.shields.io/badge/BuyMeACoffee-Support-lime.svg?logo=BuyMeACoffee)](https://www.buymeacoffee.com/despical)
+[![](https://img.shields.io/badge/License-GPLv3-blue.svg)](../LICENSE)
+[![](https://img.shields.io/badge/javadoc-latest-lime.svg)](https://javadoc.jitpack.io/com/github/Despical/Commons/latest/javadoc/index.html)
 
 Commons is a open-source library that provides utilities needed for Java and Minecraft.
 
@@ -31,7 +32,7 @@ The project isn't in the Central Repository yet, so specifying a repository is n
 <dependency>
     <groupId>com.github.Despical</groupId>
     <artifactId>Commons</artifactId>
-    <version>1.8.3</version>
+    <version>1.8.4</version>
 </dependency>
 ```
 
@@ -47,14 +48,14 @@ repositories {
 ```
 ```
 dependencies {
-    implementation 'com.github.Despical:Commons:1.8.3'
+    implementation 'com.github.Despical:Commons:1.8.4'
 }
 ```
 
 </details>
 
 ## License
-This code is under [GPL-3.0 License](http://www.gnu.org/licenses/gpl-3.0.html)
+This code is under [GPL-3.0 License](http://www.gnu.org/licenses/gpl-3.0.html).
 
 See the [LICENSE](https://github.com/Despical/Commons/blob/master/LICENSE) file for required notices and attributions.
 
