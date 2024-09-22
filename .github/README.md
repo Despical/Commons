@@ -2,7 +2,7 @@
 
 <div align="center">
 
-[![](https://github.com/Despical/Commons/actions/workflows/build-commons.yml/badge.svg)](https://github.com/Despical/Commons/actions/workflows/build-commons.yml)
+[![](https://github.com/Despical/Commons/actions/workflows/build.yml/badge.svg)](https://github.com/Despical/Commons/actions/workflows/build.yml)
 [![](https://img.shields.io/github/v/release/Despical/Commons)](https://github.com/Despical/Commons/releases/latest)
 [![](https://jitpack.io/v/Despical/Commons.svg)](https://jitpack.io/#Despical/Commons)
 [![](https://img.shields.io/badge/License-GPLv3-blue.svg)](../LICENSE)
