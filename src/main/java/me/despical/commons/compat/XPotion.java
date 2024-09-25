@@ -266,7 +266,7 @@ public enum XPotion {
 	 *
 	 * @param potion the potion string to parse.
 	 * @return a potion effect, or null if the potion type is wrong.
-	 * @see #buildPotionEffect(int, int)
+	 * @see #build(int, int)
 	 */
 	@Nullable
 	public static Effect parseEffect(@Nullable String potion) {
@@ -475,9 +475,16 @@ public enum XPotion {
 	 * @return a potion effect.
 	 * @see #parseEffect(String)
 	 */
-	@Nullable
-	public PotionEffect buildPotionEffect(int duration, int amplifier) {
+	public PotionEffect build(int duration, int amplifier) {
 		return type == null ? null : new PotionEffect(type, duration, amplifier - 1);
+	}
+
+	public PotionEffect buildInvisible(int duration, int amplifier) {
+		try {
+			return new PotionEffect(type, duration == -1 ? Integer.MAX_VALUE : duration, amplifier - 1, false, false, false);
+		} catch (Throwable throwable) {
+			return new PotionEffect(type, duration == -1 ? Integer.MAX_VALUE : duration, amplifier - 1, false, false);
+		}
 	}
 
 	/**
