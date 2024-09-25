@@ -20,6 +20,10 @@ package me.despical.commons.string;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * @author Despical
  * <p>
@@ -27,16 +31,36 @@ import org.jetbrains.annotations.NotNull;
  */
 public final class StringFormatUtils {
 
-	private static String format = "%02d:%02d";
+	private static String timeFormat;
+	private static DateFormat dateFormatter;
+	private static final Date today;
+
+	static {
+		timeFormat = "%02d:%02d";
+		dateFormatter = new SimpleDateFormat("dd/MM/yy");
+		today = new Date();
+	}
 
 	private StringFormatUtils() {
 	}
 
 	public static String formatIntoMMSS(int time) {
-		return String.format(format, time / 60, time % 60);
+		return String.format(timeFormat, time / 60, time % 60);
 	}
 
-	public static void setFormat(@NotNull final String format) {
-		StringFormatUtils.format = format;
+	public static void setTimeFormat(@NotNull final String timeFormat) {
+		StringFormatUtils.timeFormat = timeFormat;
+	}
+
+	public static String formatDate(Date date) {
+		return dateFormatter.format(date);
+	}
+
+	public static String formatToday() {
+		return dateFormatter.format(today);
+	}
+
+	public static void setDateFormat(String dateFormat) {
+		StringFormatUtils.dateFormatter = new SimpleDateFormat(dateFormat);
 	}
 }
