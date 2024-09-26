@@ -18,8 +18,6 @@
 
 package me.despical.commons.miscellaneous;
 
-import java.util.Random;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -27,14 +25,15 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
 
+import java.util.Random;
+
 /**
- * @see <a href="https://www.spigotmc.org/threads/free-code-sending-perfectly-centered-chat-message.95872">Spigot Thread</a>
  * @author Despical
  * <p>
  * Created at 30.05.2020
+ * @see <a href="https://www.spigotmc.org/threads/free-code-sending-perfectly-centered-chat-message.95872">Spigot Thread</a>
  */
 public class MiscUtils {
 
@@ -78,7 +77,9 @@ public class MiscUtils {
 		fw.setFireworkMeta(fwm);
 	}
 
-	public static void sendCenteredMessage(CommandSender sender, String message){
+	public static void sendCenteredMessage(CommandSender sender, String message) {
+		if (message.startsWith("%no_center%")) return;
+
 		String[] lines = ChatColor.translateAlternateColorCodes('&', message).split("\n", 40);
 		StringBuilder returnMessage = new StringBuilder();
 
@@ -102,7 +103,7 @@ public class MiscUtils {
 			int toCompensate = 165 - messagePxSize / 2, spaceLength = DefaultFontInfo.SPACE.getLength() + 1, compensated = 0;
 			StringBuilder sb = new StringBuilder();
 
-			while(compensated < toCompensate){
+			while (compensated < toCompensate) {
 				sb.append(" ");
 				compensated += spaceLength;
 			}
