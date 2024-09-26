@@ -18,6 +18,7 @@
 
 package me.despical.commons.miscellaneous;
 
+import me.despical.commons.util.Strings;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -79,7 +80,7 @@ public class MiscUtils {
 
 	public static void sendCenteredMessage(CommandSender sender, String message) {
 		if (message.startsWith("%no_center%")) {
-			sender.sendMessage(message);
+			sender.sendMessage(Strings.format(message.substring(11)));
 			return;
 		}
 
