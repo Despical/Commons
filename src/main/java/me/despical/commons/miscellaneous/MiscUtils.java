@@ -78,7 +78,10 @@ public class MiscUtils {
 	}
 
 	public static void sendCenteredMessage(CommandSender sender, String message) {
-		if (message.startsWith("%no_center%")) return;
+		if (message.startsWith("%no_center%")) {
+			sender.sendMessage(message);
+			return;
+		}
 
 		String[] lines = ChatColor.translateAlternateColorCodes('&', message).split("\n", 40);
 		StringBuilder returnMessage = new StringBuilder();
