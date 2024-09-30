@@ -1,6 +1,7 @@
 package me.despical.commons.compat;
 
 import com.google.common.base.Strings;
+import me.despical.commons.reflection.XReflection;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
@@ -113,14 +114,24 @@ public enum XPotion {
 	private final PotionEffectType type;
 
 	XPotion(@Nonnull String... aliases) {
-		PotionEffectType tempType = PotionEffectType.getByName(this.name());
+		PotionEffectType tempType = PotionEffectType.getByName(this.fixEffectName(this.name()));
 		Data.NAMES.put(this.name(), this);
 		for (String legacy : aliases) {
 			Data.NAMES.put(legacy, this);
-			if (tempType == null) tempType = PotionEffectType.getByName(legacy);
+			if (tempType == null) tempType = PotionEffectType.getByName(this.fixEffectName(legacy));
 		}
 		if (this.name().equals("TURTLE_MASTER")) tempType = findSlowness(); // Bukkit uses this too.
 		this.type = tempType;
+	}
+
+	private String fixEffectName(String effectName) {
+		if (!XReflection.supports(9)) {
+			// A weird bug occurs in Minecraft 1.8.X which translates 'i' to 'ı' in the effect name.
+			// damage_resıstance, blındness, fıre_resıstance, water_breathıng...
+			return effectName.toLowerCase().replace("i", "ı");
+		}
+
+		return effectName;
 	}
 
 	private static PotionEffectType findSlowness() {
@@ -480,11 +491,11 @@ public enum XPotion {
 	}
 
 	public PotionEffect buildInvisible(int duration, int amplifier) {
-		try {
+		if (XReflection.supports(13)) {
 			return new PotionEffect(type, duration == -1 ? Integer.MAX_VALUE : duration, amplifier - 1, false, false, false);
-		} catch (Throwable throwable) {
-			return new PotionEffect(type, duration == -1 ? Integer.MAX_VALUE : duration, amplifier - 1, false, false);
 		}
+
+		return this.build(duration, amplifier);
 	}
 
 	/**
