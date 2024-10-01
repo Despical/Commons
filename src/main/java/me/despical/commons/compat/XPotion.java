@@ -128,7 +128,7 @@ public enum XPotion {
 		if (!XReflection.supports(9)) {
 			// A weird bug occurs in Minecraft 1.8.X which translates 'i' to 'ı' in the effect name.
 			// damage_resıstance, blındness, fıre_resıstance, water_breathıng...
-			return effectName.toLowerCase().replace("i", "ı");
+			return effectName.toLowerCase(Locale.ENGLISH).replace("i", "ı");
 		}
 
 		return effectName;
