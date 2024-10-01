@@ -30,6 +30,7 @@ import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Despical
@@ -44,6 +45,7 @@ public class SimpleScoreboard implements Scoreboard {
 
 	protected Player holder;
 	private boolean activated;
+	private boolean autoUpdateEnabled = true;
 	private ScoreboardHandler handler;
 	private BukkitRunnable updateTask;
 	private long updateInterval = 10L;
@@ -68,6 +70,10 @@ public class SimpleScoreboard implements Scoreboard {
 
 		holder.setScoreboard(scoreboard);
 
+		if (!autoUpdateEnabled) {
+			return;
+		}
+
 		updateTask = new BukkitRunnable() {
 			@Override
 			public void run() {
@@ -85,7 +91,7 @@ public class SimpleScoreboard implements Scoreboard {
 		activated = false;
 
 		if (holder.isOnline()) {
-			synchronized(this) {
+			synchronized (this) {
 				holder.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
 			}
 		}
@@ -94,12 +100,21 @@ public class SimpleScoreboard implements Scoreboard {
 			team.unregister();
 		}
 
-		this.updateTask.cancel();
+		Optional.ofNullable(this.updateTask).ifPresent(BukkitRunnable::cancel);
 	}
 
 	@Override
 	public boolean isActivated() {
 		return activated;
+	}
+
+	@Override
+	public void disableAutoUpdate() {
+		if (this.activated) {
+			throw new IllegalStateException("You can not disable auto updating task during the scoreboard is updating!");
+		}
+
+		this.autoUpdateEnabled = false;
 	}
 
 	@Override

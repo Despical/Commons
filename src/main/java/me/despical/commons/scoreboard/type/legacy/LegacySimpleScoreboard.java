@@ -38,6 +38,7 @@ public class LegacySimpleScoreboard implements Scoreboard {
 	private long updateInterval = 10L;
 
 	private boolean activated;
+	private boolean autoUpdateEnabled = true;
 	private final Map<FakePlayer, Integer> entryCache = new ConcurrentHashMap<>();
 	private final Table<String, Integer, FakePlayer> playerCache = HashBasedTable.create();
 	private final Table<Team, String, String> teamCache = HashBasedTable.create();
@@ -58,6 +59,10 @@ public class LegacySimpleScoreboard implements Scoreboard {
 
 		holder.setScoreboard(scoreboard);
 
+		if (!autoUpdateEnabled) {
+			return;
+		}
+
 		updateTask = new BukkitRunnable() {
 			@Override
 			public void run() {
@@ -74,7 +79,7 @@ public class LegacySimpleScoreboard implements Scoreboard {
 		activated = false;
 
 		if (holder.isOnline()) {
-			synchronized(this) {
+			synchronized (this) {
 				holder.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
 			}
 		}
@@ -84,6 +89,15 @@ public class LegacySimpleScoreboard implements Scoreboard {
 		}
 
 		updateTask.cancel();
+	}
+
+	@Override
+	public void disableAutoUpdate() {
+		if (this.activated) {
+			throw new IllegalStateException("You can not disable auto updating task during the scoreboard is updating!");
+		}
+
+		this.autoUpdateEnabled = false;
 	}
 
 	@Override

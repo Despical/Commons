@@ -44,4 +44,6 @@ public interface Scoreboard {
 	Player getHolder();
 
 	void update();
+
+	void disableAutoUpdate();
 }
