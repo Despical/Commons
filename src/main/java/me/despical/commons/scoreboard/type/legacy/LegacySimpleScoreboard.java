@@ -88,7 +88,7 @@ public class LegacySimpleScoreboard implements Scoreboard {
 			team.unregister();
 		}
 
-		updateTask.cancel();
+		Optional.ofNullable(updateTask).ifPresent(BukkitRunnable::cancel);
 	}
 
 	@Override
