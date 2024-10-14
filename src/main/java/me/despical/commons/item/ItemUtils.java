@@ -18,19 +18,20 @@
 
 package me.despical.commons.item;
 
+import com.destroystokyo.paper.profile.PlayerProfile;
+import com.destroystokyo.paper.profile.ProfileProperty;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.UUID;
-
 import me.despical.commons.compat.XMaterial;
 import me.despical.commons.reflection.XReflection;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.UUID;
 
 /**
  * @author Despical
@@ -59,26 +60,33 @@ public class ItemUtils {
 			return head;
 		}
 
-		SkullMeta headMeta = (SkullMeta) head.getItemMeta();
+		SkullMeta skullMeta = (SkullMeta) head.getItemMeta();
 		GameProfile profile = new GameProfile(UUID.randomUUID(), XReflection.supports(20) ? "" : null);
-
 		profile.getProperties().put("textures", new Property("textures", url));
 
-		if (XReflection.supports(15)) {
+		if (XReflection.supports(21, 1)) {
+			UUID uuid = UUID.randomUUID();
+			PlayerProfile playerProfile = Bukkit.getServer().createProfile(UUID.randomUUID(), uuid.toString().substring(0, 16));
+			playerProfile.setProperty(new ProfileProperty("textures", url));
+
+			skullMeta.setPlayerProfile(playerProfile);
+		} else if (XReflection.supports(15)) {
 			try {
-				Method method = headMeta.getClass().getDeclaredMethod("setProfile", GameProfile.class);
+				Method method = skullMeta.getClass().getDeclaredMethod("setProfile", GameProfile.class);
 				method.setAccessible(true);
-				method.invoke(headMeta, profile);
-			} catch(Exception ignored) {}
+				method.invoke(skullMeta, profile);
+			} catch (Exception ignored) {
+			}
 		} else {
 			try {
-				Field profileField = headMeta.getClass().getDeclaredField("profile");
+				Field profileField = skullMeta.getClass().getDeclaredField("profile");
 				profileField.setAccessible(true);
-				profileField.set(headMeta, profile);
-			} catch(Exception ignored) {}
+				profileField.set(skullMeta, profile);
+			} catch (Exception ignored) {
+			}
 		}
 
-		head.setItemMeta(headMeta);
+		head.setItemMeta(skullMeta);
 		return head;
 	}
 
