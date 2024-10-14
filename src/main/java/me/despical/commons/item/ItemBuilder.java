@@ -18,13 +18,6 @@
 
 package me.despical.commons.item;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import me.despical.commons.compat.XEnchantment;
 import me.despical.commons.compat.XMaterial;
 import me.despical.commons.reflection.XReflection;
@@ -38,6 +31,13 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 /**
  * @author Despical
  * <p>
@@ -47,7 +47,7 @@ public class ItemBuilder {
 
 	private final ItemStack itemStack;
 
-	public ItemBuilder(final ItemStack itemStack) {
+	public ItemBuilder(ItemStack itemStack) {
 		this.itemStack = itemStack;
 	}
 
@@ -164,14 +164,6 @@ public class ItemBuilder {
 		if (!glow) return this;
 
 		return this.enchantment(XEnchantment.UNBREAKING.getEnchant()).flag(ItemFlag.HIDE_ENCHANTS);
-	}
-
-	public ItemBuilder glowIf(boolean condition) {
-		if (condition) {
-			return this.glow(true);
-		}
-
-		return this;
 	}
 
 	public ItemBuilder glow() {
