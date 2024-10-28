@@ -18,6 +18,7 @@
 
 package me.despical.commons.item;
 
+import com.google.common.collect.Multimap;
 import me.despical.commons.compat.XEnchantment;
 import me.despical.commons.compat.XMaterial;
 import me.despical.commons.reflection.XReflection;
@@ -27,6 +28,7 @@ import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -147,14 +149,22 @@ public class ItemBuilder {
 		return this;
 	}
 
-	public ItemBuilder hideToolTip() {
+	public ItemBuilder hideTooltip() {
 		ItemMeta meta = itemStack.getItemMeta();
 
-		if (XReflection.supports(21)) {
-			meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier("[Commons{ItemBuilder}]", 0, AttributeModifier.Operation.ADD_NUMBER));
+		if (XReflection.supports(20, 5)) {
+			try {
+				Method getDefaultAttributeModifiers = Material.class.getMethod("getDefaultAttributeModifiers", EquipmentSlot.class);
+				getDefaultAttributeModifiers.setAccessible(true);
+
+				Multimap<Attribute, AttributeModifier> defaultAttributes = (Multimap<Attribute, AttributeModifier>) getDefaultAttributeModifiers.invoke(itemStack.getType(), EquipmentSlot.HAND);
+				meta.setAttributeModifiers(defaultAttributes);
+			} catch (Throwable ignored) {
+				ignored.printStackTrace();
+			}
 		}
 
-		meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+		meta.addItemFlags(ItemFlag.values());
 
 		itemStack.setItemMeta(meta);
 		return this;
