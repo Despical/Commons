@@ -50,4 +50,8 @@ public class ScoreboardLib {
 
 		return new LegacySimpleScoreboard(holder);
 	}
+
+	public static Scoreboard createLegacyScoreboard(Player holder) {
+		return new LegacySimpleScoreboard(holder);
+	}
 }
