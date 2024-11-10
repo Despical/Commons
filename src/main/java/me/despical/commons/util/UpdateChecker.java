@@ -117,6 +117,8 @@ public final class UpdateChecker {
 	}
 
 	public void onNewUpdate(Consumer<UpdateResult> resultConsumer) {
+		if (!enabled) return;
+
 		requestUpdateCheck().whenComplete((result, throwable) -> {
 			if (result.requiresUpdate()) {
 				resultConsumer.accept(result);
