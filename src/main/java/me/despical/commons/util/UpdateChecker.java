@@ -70,7 +70,6 @@ public final class UpdateChecker {
 		return secondSplit.length > firstSplit.length ? second : first;
 	};
 
-	private static boolean enabled = true;
 	private static UpdateChecker instance;
 	private final JavaPlugin plugin;
 	private final int pluginID;
@@ -89,13 +88,7 @@ public final class UpdateChecker {
 		return !matcher.find() ? null : matcher.group().split("\\.");
 	}
 
-	public static void setEnabled(boolean enabled) {
-		UpdateChecker.enabled = enabled;
-	}
-
 	public static UpdateChecker init(JavaPlugin plugin, int pluginID, VersionScheme versionScheme) {
-		if (!enabled) return null;
-
 		Preconditions.checkArgument(plugin != null, "Plugin cannot be null");
 		Preconditions.checkArgument(pluginID > 0, "Plugin ID must be greater than 0");
 		Preconditions.checkArgument(versionScheme != null, "null version schemes are unsupported");
@@ -117,8 +110,6 @@ public final class UpdateChecker {
 	}
 
 	public void onNewUpdate(Consumer<UpdateResult> resultConsumer) {
-		if (!enabled) return;
-
 		requestUpdateCheck().whenComplete((result, throwable) -> {
 			if (result.requiresUpdate()) {
 				resultConsumer.accept(result);
