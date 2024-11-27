@@ -8,7 +8,7 @@
 [![](https://img.shields.io/badge/License-GPLv3-blue.svg)](../LICENSE)
 [![](https://img.shields.io/badge/javadoc-latest-lime.svg)](https://javadoc.jitpack.io/com/github/Despical/Commons/latest/javadoc/index.html)
 
-Commons is a open-source library that provides utilities needed for Java and Minecraft.
+Commons is an open-source library that provides useful utilities for Java and Minecraft.
 
 </div>
 
@@ -32,7 +32,7 @@ The project isn't in the Central Repository yet, so specifying a repository is n
 <dependency>
     <groupId>com.github.Despical</groupId>
     <artifactId>Commons</artifactId>
-    <version>1.8.83</version>
+    <version>1.8.84</version>
 </dependency>
 ```
 
@@ -48,7 +48,7 @@ repositories {
 ```
 ```
 dependencies {
-    implementation 'com.github.Despical:Commons:1.8.83'
+    implementation 'com.github.Despical:Commons:1.8.84'
 }
 ```
 
