@@ -20,9 +20,10 @@ package me.despical.commons.configuration;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.function.Consumer;
 
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -52,15 +53,36 @@ public class ConfigUtils {
 			plugin.saveResource(fileName + ".yml", false);
 		}
 
-		YamlConfiguration config = new YamlConfiguration();
-
 		try {
-			config.load(file);
-		} catch (InvalidConfigurationException | IOException ex) {
+			return YamlConfiguration.loadConfiguration(file);
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 
-		return config;
+		return null;
+	}
+
+	/**
+	 * Get the config file's configuration, gets the file from the resources.
+	 *
+	 * @param plugin to get config file from
+	 * @param fileName name of the config file
+	 * @return file configuration of given file
+	 */
+	public static FileConfiguration getConfigFromResources(JavaPlugin plugin, String fileName) {
+		try {
+			InputStream inputStream = plugin.getResource(fileName);
+
+			if (inputStream == null) {
+				throw new NullPointerException("The given file could not be found in the resources!");
+			}
+
+			return YamlConfiguration.loadConfiguration(new InputStreamReader(inputStream));
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		return null;
 	}
 
 	/**
