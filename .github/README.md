@@ -32,7 +32,7 @@ The project isn't in the Central Repository yet, so specifying a repository is n
 <dependency>
     <groupId>com.github.Despical</groupId>
     <artifactId>Commons</artifactId>
-    <version>1.8.84</version>
+    <version>1.8.85</version>
 </dependency>
 ```
 
