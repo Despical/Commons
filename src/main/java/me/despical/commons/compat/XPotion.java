@@ -1,7 +1,6 @@
 package me.despical.commons.compat;
 
 import com.google.common.base.Strings;
-import me.despical.commons.reflection.XReflection;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
@@ -11,9 +10,9 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
@@ -113,25 +112,15 @@ public enum XPotion {
 
 	private final PotionEffectType type;
 
-	XPotion(@Nonnull String... aliases) {
-		PotionEffectType tempType = PotionEffectType.getByName(this.fixEffectName(this.name()));
+	XPotion(@NotNull String... aliases) {
+		PotionEffectType tempType = PotionEffectType.getByName(this.name());
 		Data.NAMES.put(this.name(), this);
 		for (String legacy : aliases) {
 			Data.NAMES.put(legacy, this);
-			if (tempType == null) tempType = PotionEffectType.getByName(this.fixEffectName(legacy));
+			if (tempType == null) tempType = PotionEffectType.getByName(legacy);
 		}
 		if (this.name().equals("TURTLE_MASTER")) tempType = findSlowness(); // Bukkit uses this too.
 		this.type = tempType;
-	}
-
-	private String fixEffectName(String effectName) {
-		if (!XReflection.supports(9)) {
-			// A weird bug occurs in Minecraft 1.8.X which translates 'i' to 'ı' in the effect name.
-			// damage_resıstance, blındness, fıre_resıstance, water_breathıng...
-			return effectName.toLowerCase(Locale.ENGLISH).replace("i", "ı");
-		}
-
-		return effectName;
 	}
 
 	private static PotionEffectType findSlowness() {
@@ -152,9 +141,10 @@ public enum XPotion {
 	 *
 	 * @param name the potion effect type name to format.
 	 * @return an enum name.
+	 * @since 1.0.0
 	 */
-	@Nonnull
-	private static String format(@Nonnull String name) {
+	@NotNull
+	private static String format(@NotNull String name) {
 		int len = name.length();
 		char[] chs = new char[len];
 		int count = 0;
@@ -186,8 +176,8 @@ public enum XPotion {
 	 * @param potion the type of the type's ID of the potion effect type.
 	 * @return a potion effect type.
 	 */
-	@Nonnull
-	public static Optional<XPotion> matchXPotion(@Nonnull String potion) {
+	@NotNull
+	public static Optional<XPotion> matchXPotion(@NotNull String potion) {
 		if (potion == null || potion.isEmpty())
 			throw new IllegalArgumentException("Cannot match XPotion of a null or empty potion effect type");
 		PotionEffectType idType = fromId(potion);
@@ -199,7 +189,7 @@ public enum XPotion {
 		return Optional.ofNullable(Data.NAMES.get(format(potion)));
 	}
 
-	public static XPotion matchXPotion(@Nonnull PotionType type) {
+	public static XPotion matchXPotion(@NotNull PotionType type) {
 		return matchXPotion(type.name()).orElseThrow(() -> new UnsupportedOperationException("PotionType " + type.name()));
 	}
 
@@ -211,8 +201,8 @@ public enum XPotion {
 	 * @throws IllegalArgumentException may be thrown as an unexpected exception.
 	 */
 	@SuppressWarnings("deprecation")
-	@Nonnull
-	public static XPotion matchXPotion(@Nonnull PotionEffectType type) {
+	@NotNull
+	public static XPotion matchXPotion(@NotNull PotionEffectType type) {
 		Objects.requireNonNull(type, "Cannot match XPotion of a null potion effect type");
 		return POTIONEFFECTTYPE_MAPPING[type.getId()];
 	}
@@ -225,7 +215,7 @@ public enum XPotion {
 	 */
 	@Nullable
 	@SuppressWarnings("deprecation")
-	private static PotionEffectType fromId(@Nonnull String type) {
+	private static PotionEffectType fromId(@NotNull String type) {
 		try {
 			int id = Integer.parseInt(type);
 			return PotionEffectType.getById(id);
@@ -234,7 +224,7 @@ public enum XPotion {
 		}
 	}
 
-	private static List<String> split(@Nonnull String str, @SuppressWarnings("SameParameterValue") char separatorChar) {
+	private static List<String> split(@NotNull String str, @SuppressWarnings("SameParameterValue") char separatorChar) {
 		List<String> list = new ArrayList<>(5);
 		boolean match = false, lastMatch = false;
 		int len = str.length();
@@ -328,7 +318,7 @@ public enum XPotion {
 	 * @param effects the list of potion effects to parse and add to the entity.
 	 * @see #parseEffect(String)
 	 */
-	public static void addEffects(@Nonnull LivingEntity entity, @Nullable List<String> effects) {
+	public static void addEffects(@NotNull LivingEntity entity, @Nullable List<String> effects) {
 		Objects.requireNonNull(entity, "Cannot add potion effects to null entity");
 		for (Effect effect : parseEffects(effects)) effect.apply(entity);
 	}
@@ -358,8 +348,8 @@ public enum XPotion {
 	 * @param effects the effects of the potion.
 	 * @return a thrown splash potion.
 	 */
-	@Nonnull
-	public static ThrownPotion throwPotion(@Nonnull LivingEntity entity, @Nullable Color color, @Nullable PotionEffect... effects) {
+	@NotNull
+	public static ThrownPotion throwPotion(@NotNull LivingEntity entity, @Nullable Color color, @Nullable PotionEffect... effects) {
 		Objects.requireNonNull(entity, "Cannot throw potion from null entity");
 		@SuppressWarnings("deprecation")
 		ItemStack potion = Material.getMaterial("SPLASH_POTION") == null ?
@@ -394,8 +384,8 @@ public enum XPotion {
 	 * @param effects the effects of the potion.
 	 * @return an item with the specified effects.
 	 */
-	@Nonnull
-	public static ItemStack buildItemWithEffects(@Nonnull Material type, @Nullable Color color, @Nullable PotionEffect... effects) {
+	@NotNull
+	public static ItemStack buildItemWithEffects(@NotNull Material type, @Nullable Color color, @Nullable PotionEffect... effects) {
 		Objects.requireNonNull(type, "Cannot build an effected item with null type");
 		if (!canHaveEffects(type))
 			throw new IllegalArgumentException("Cannot build item with " + type.name() + " potion type");
@@ -486,16 +476,23 @@ public enum XPotion {
 	 * @return a potion effect.
 	 * @see #parseEffect(String)
 	 */
+	@Nullable
 	public PotionEffect build(int duration, int amplifier) {
 		return type == null ? null : new PotionEffect(type, duration, amplifier - 1);
 	}
 
 	public PotionEffect buildInvisible(int duration, int amplifier) {
-		if (XReflection.supports(13)) {
-			return new PotionEffect(type, duration == -1 ? Integer.MAX_VALUE : duration, amplifier - 1, false, false, false);
+		if (type == null) return null;
+
+		if (duration == -1) {
+			duration = Integer.MAX_VALUE;
 		}
 
-		return this.build(duration, amplifier);
+		try {
+			return new PotionEffect(type, duration, amplifier - 1, false, false, false);
+		} catch (Throwable throwable) {
+			return new PotionEffect(type, duration, amplifier - 1, false, false);
+		}
 	}
 
 	/**
@@ -521,7 +518,6 @@ public enum XPotion {
 	 * For now, this merely acts as a chance wrapper for potion effects.
 	 */
 	public static class Effect {
-
 		private PotionEffect effect;
 		private double chance;
 
