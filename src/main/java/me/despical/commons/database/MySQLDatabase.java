@@ -18,16 +18,15 @@
 
 package me.despical.commons.database;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.zaxxer.hikari.HikariDataSource;
 import me.despical.commons.configuration.ConfigUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Logger;
 
 /**
  * @author Despical
@@ -35,43 +34,49 @@ import org.bukkit.plugin.java.JavaPlugin;
  * Created at 30.05.2020
  * @version 1.0.0
  */
-public class MysqlDatabase {
+public class MySQLDatabase {
 
 	private HikariDataSource hikariDataSource;
-	private final Logger databaseLogger = Logger.getLogger("Commons Database");
 
-	public MysqlDatabase(JavaPlugin plugin, String fileName) {
-		this (ConfigUtils.getConfig(plugin, fileName));
+	private Logger logger;
+
+	public MySQLDatabase(JavaPlugin plugin, String fileName) {
+		this(ConfigUtils.getConfig(plugin, fileName));
+		this.logger = plugin.getLogger();
 	}
 
-	public MysqlDatabase(FileConfiguration configuration) {
-		this (configuration, "user", "password", "address");
+	public MySQLDatabase(FileConfiguration configuration) {
+		this(configuration, "user", "password", "address");
 	}
 
-	public MysqlDatabase(FileConfiguration configuration, String userPath, String passwordPath, String jdbcUrlPath) {
-		this (configuration.getString(userPath), configuration.getString(passwordPath), configuration.getString(jdbcUrlPath));
+	public MySQLDatabase(FileConfiguration configuration, String userPath, String passwordPath, String jdbcUrlPath) {
+		this(configuration.getString(userPath), configuration.getString(passwordPath), configuration.getString(jdbcUrlPath));
 	}
 
-	public MysqlDatabase(String user, String password, String jdbcUrl) {
-		databaseLogger.log(Level.INFO, "Configuring MySQL connection!");
+	public MySQLDatabase(String user, String password, String jdbcUrl) {
+		logger = Logger.getLogger("Commons Database");
+		logger.info("Configuring MySQL connection!");
+
 		configureConnPool(user, password, jdbcUrl);
 
 		try (Connection connection = getConnection()) {
 			if (connection == null) {
-				databaseLogger.log(Level.SEVERE, "Failed to connect to database!");
+				logger.severe("Failed to connect to database!");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public MysqlDatabase(String user, String password, String host, String database, int port) {
-		databaseLogger.log(Level.INFO, "Configuring MySQL connection!");
+	public MySQLDatabase(String user, String password, String host, String database, int port) {
+		logger = Logger.getLogger("Commons Database");
+		logger.info("Configuring MySQL connection!");
+
 		configureConnPool(user, password, host, database, port);
 
 		try (Connection connection = getConnection()) {
 			if (connection == null) {
-				databaseLogger.log(Level.SEVERE, "Failed to connect to database!");
+				logger.severe("Failed to connect to database!");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -80,24 +85,24 @@ public class MysqlDatabase {
 
 	private void configureConnPool(String user, String password, String jdbcUrl) {
 		try {
-			databaseLogger.info("Creating HikariCP Configuration...");
+			logger.info("Creating HikariCP Configuration...");
 			HikariDataSource config = new HikariDataSource();
 			config.setJdbcUrl(jdbcUrl);
 			config.addDataSourceProperty("user", user);
 			config.addDataSourceProperty("password", password);
 			hikariDataSource = config;
-			databaseLogger.info("Setting up MySQL Connection pool...");
-			databaseLogger.info("Connection pool successfully configured. ");
+			logger.info("Setting up MySQL Connection pool...");
+			logger.info("Connection pool successfully configured. ");
 		} catch (Exception e) {
 			e.printStackTrace();
-			databaseLogger.warning("Cannot connect to MySQL database!");
-			databaseLogger.warning("Check configuration of your database settings!");
+			logger.warning("Cannot connect to MySQL database!");
+			logger.warning("Check configuration of your database settings!");
 		}
 	}
 
 	private void configureConnPool(String user, String password, String host, String database, int port) {
 		try {
-			databaseLogger.info("Creating HikariCP Configuration...");
+			logger.info("Creating HikariCP Configuration...");
 			HikariDataSource config = new HikariDataSource();
 			config.setDataSourceClassName("com.mysql.cj.jdbc.MysqlDataSource");
 			config.addDataSourceProperty("serverName", host);
@@ -106,12 +111,12 @@ public class MysqlDatabase {
 			config.addDataSourceProperty("user", user);
 			config.addDataSourceProperty("password", password);
 			hikariDataSource = config;
-			databaseLogger.info("Setting up MySQL Connection pool...");
-			databaseLogger.info("Connection pool successfully configured. ");
+			logger.info("Setting up MySQL Connection pool...");
+			logger.info("Connection pool successfully configured. ");
 		} catch (Exception e) {
 			e.printStackTrace();
-			databaseLogger.warning("Cannot connect to MySQL database!");
-			databaseLogger.warning("Check configuration of your database settings!");
+			logger.warning("Cannot connect to MySQL database!");
+			logger.warning("Check configuration of your database settings!");
 		}
 	}
 
@@ -121,17 +126,18 @@ public class MysqlDatabase {
 				statement.executeUpdate(query);
 			}
 		} catch (SQLException e) {
-			databaseLogger.warning("Failed to execute update: " + query);
+			logger.warning("Failed to execute update: " + query);
 		}
 	}
 
 	public void shutdownConnPool() {
 		try {
-			databaseLogger.info("Shutting down connection pool. Trying to close all connections.");
+			logger.info("Shutting down connection pool. Trying to close all connections.");
 
 			if (!hikariDataSource.isClosed()) {
 				hikariDataSource.close();
-				databaseLogger.info("Pool successfully shutdown.");
+
+				logger.info("Pool successfully shutdown.");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -148,5 +154,9 @@ public class MysqlDatabase {
 		}
 
 		return conn;
+	}
+
+	public void setLogger(Logger logger) {
+		this.logger = logger;
 	}
 }
