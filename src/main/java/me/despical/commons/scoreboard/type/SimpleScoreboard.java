@@ -18,210 +18,123 @@
 
 package me.despical.commons.scoreboard.type;
 
-import me.despical.commons.scoreboard.ScoreboardLib;
+import me.despical.commons.scoreboard.Scoreboard;
+import me.despical.commons.scoreboard.common.Entry;
+import me.despical.commons.string.StringMatcher;
 import me.despical.commons.util.Strings;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
+import java.util.regex.Matcher;
 
 /**
+ * Supports up to 144 characters.
+ *
  * @author Despical
  * <p>
  * Created at 17.06.2020
  */
-public class SimpleScoreboard implements Scoreboard {
+public class SimpleScoreboard extends Scoreboard {
 
-	private static final String TEAM_PREFIX = "Board_";
-	private final org.bukkit.scoreboard.Scoreboard scoreboard;
-	private final Objective objective;
+    private final ChatColor[] chatColors;
 
-	protected Player holder;
-	private boolean activated;
-	private boolean autoUpdateEnabled = true;
-	private ScoreboardHandler handler;
-	private BukkitRunnable updateTask;
-	private long updateInterval = 10L;
+    public SimpleScoreboard(Player holder) {
+        super(holder);
+        this.chatColors = ChatColor.values();
 
-	public SimpleScoreboard(Player holder) {
-		this.holder = holder;
-		scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-		scoreboard.registerNewObjective("board", "dummy").setDisplaySlot(DisplaySlot.SIDEBAR);
-		objective = scoreboard.getObjective(DisplaySlot.SIDEBAR);
+        for (int slot = 1; slot < 16; slot++) {
+            String entry = getEntry(slot);
 
-		for (int i = 1; i <= 15; i++) {
-			scoreboard.registerNewTeam(TEAM_PREFIX + i).addEntry(getEntry(i));
-		}
-	}
+            Team team = scoreboard.registerNewTeam(TEAM_PREFIX + slot);
+            team.addEntry(entry);
+        }
+    }
 
-	@Override
-	public void activate() {
-		if (activated) return;
-		if (handler == null) throw new IllegalArgumentException("Scoreboard handler not set!");
+    @Override
+    public void update() {
+        if (!activated) {
+            return;
+        }
 
-		activated = true;
+        if (!holder.isOnline()) {
+            deactivate();
+            return;
+        }
 
-		holder.setScoreboard(scoreboard);
+        String title = Strings.format(handler.getTitle(holder));
 
-		if (!autoUpdateEnabled) {
-			return;
-		}
+        if (!objective.getDisplayName().equals(title)) {
+            objective.setDisplayName(title);
+        }
 
-		updateTask = new BukkitRunnable() {
-			@Override
-			public void run() {
-				update();
-			}
-		};
+        List<Entry> passed = handler.getEntries(holder);
+        List<Integer> current = new ArrayList<>(passed.size());
 
-		updateTask.runTaskTimer(ScoreboardLib.getInstance(), 0, updateInterval);
-	}
+        for (Entry entry : passed) {
+            int score = entry.getPosition();
+            Team team = scoreboard.getTeam(TEAM_PREFIX + score);
+            String temp = getEntry(score);
 
-	@Override
-	public void deactivate() {
-		if (!activated) return;
+            if (!scoreboard.getEntries().contains(temp)) {
+                objective.getScore(temp).setScore(score);
+            }
 
-		activated = false;
+            String[] splitContext = splitContextIntoTwo(entry.getContext());
 
-		if (holder.isOnline()) {
-			synchronized (this) {
-				holder.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
-			}
-		}
+            team.setPrefix(Strings.format(splitContext[0]));
+            team.setSuffix(Strings.format(splitContext[1]));
 
-		for (Team team : scoreboard.getTeams()) {
-			team.unregister();
-		}
+            current.add(score);
+        }
 
-		Optional.ofNullable(this.updateTask).ifPresent(BukkitRunnable::cancel);
-	}
+        Set<String> scoreboardEntries = scoreboard.getEntries();
 
-	@Override
-	public boolean isActivated() {
-		return activated;
-	}
+        for (int slot = 1; slot < 16; slot++) {
+            if (current.contains(slot)) {
+                continue;
+            }
 
-	@Override
-	public void disableAutoUpdate() {
-		if (this.activated) {
-			throw new IllegalStateException("You can not disable auto updating task during the scoreboard is updating!");
-		}
+            String entry = getEntry(slot);
 
-		this.autoUpdateEnabled = false;
-	}
+            if (scoreboardEntries.contains(entry)) {
+                scoreboard.resetScores(entry);
+            }
+        }
+    }
 
-	@Override
-	public ScoreboardHandler getHandler() {
-		return handler;
-	}
+    private String[] splitContextIntoTwo(String context) {
+        if (context.length() <= 64) {
+            return new String[] {context, ""};
+        }
 
-	@Override
-	public Scoreboard setHandler(ScoreboardHandler handler) {
-		this.handler = handler;
-		return this;
-	}
+        int cutIndex = 64;
+        String lastHex = "";
+        Matcher matcher = StringMatcher.HEX_PATTERN.matcher(context);
 
-	@Override
-	public long getUpdateInterval() {
-		return this.updateInterval;
-	}
+        while (matcher.find()) {
+            int start = matcher.start();
+            int end = matcher.end();
 
-	@Override
-	public SimpleScoreboard setUpdateInterval(long updateInterval) {
-		if (activated) throw new IllegalStateException("You can not change update interval during scoreboard is updating!");
-		this.updateInterval = updateInterval;
-		return this;
-	}
+            if (cutIndex >= start && cutIndex < end) {
+                cutIndex = start;
+                break;
+            }
 
-	@Override
-	public Player getHolder() {
-		return holder;
-	}
+            if (start < cutIndex) {
+                lastHex = matcher.group(0);
+            }
+        }
 
-	@Override
-	public void update() {
-		if (!activated) {
-			return;
-		}
+        String prefix = context.substring(0, cutIndex);
+        String suffix = lastHex + context.substring(cutIndex);
+        return new String[] {prefix, suffix};
+    }
 
-		if (!holder.isOnline()) {
-			deactivate();
-			return;
-		}
-
-		String handlerTitle = handler.getTitle(holder);
-		String finalTitle = handlerTitle != null ? Strings.format(handlerTitle) : ChatColor.BOLD.toString();
-
-		if (!objective.getDisplayName().equals(finalTitle)) {
-			objective.setDisplayName(finalTitle);
-		}
-
-		List<Entry> passed = handler.getEntries(holder);
-
-		if (passed == null) {
-			return;
-		}
-
-		List<Integer> current = new ArrayList<>(passed.size());
-
-		for (Entry entry : passed) {
-			int score = entry.getPosition();
-			Team team = scoreboard.getTeam(TEAM_PREFIX + score);
-			String temp = getEntry(score);
-
-			if (!scoreboard.getEntries().contains(temp)) {
-				objective.getScore(temp).setScore(score);
-			}
-
-			String key = Strings.format(entry.getName());
-			int length = key.length();
-
-			String prefix = length > 64 ? key.substring(0, 64) : key;
-			String suffix = ChatColor.getLastColors(prefix) + (length != 0 ? (prefix.charAt(prefix.length() - 1) == '§' ? "§" : "") : "") + limitKey(length, key);
-
-			team.setPrefix(prefix);
-			team.setSuffix(suffix.length() > 64 ? suffix.substring(0, 64) : suffix);
-
-			current.add(score);
-		}
-
-		for (int i = 1; i <= 15; i++) {
-			if (!current.contains(i)) {
-				String entry = getEntry(i);
-
-				if (scoreboard.getEntries().contains(entry)) {
-					scoreboard.resetScores(entry);
-				}
-			}
-		}
-	}
-
-	public Objective getObjective() {
-		return objective;
-	}
-
-	private final ChatColor[] values = ChatColor.values();
-
-	private String getEntry(int slot) {
-		return values[slot].toString();
-	}
-
-	public org.bukkit.scoreboard.Scoreboard getScoreboard() {
-		return scoreboard;
-	}
-
-	private String limitKey(int length, String str) {
-		if (length > 128) {
-			return str.substring(0, 128);
-		}
-
-		return length > 64 ? str.substring(64) : "";
-	}
+    private String getEntry(int slot) {
+        return chatColors[slot].toString();
+    }
 }

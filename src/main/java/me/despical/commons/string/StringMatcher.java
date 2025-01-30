@@ -30,6 +30,8 @@ import java.util.regex.Pattern;
  */
 public class StringMatcher {
 
+	public static final Pattern HEX_PATTERN = Pattern.compile("<#([A-Fa-f0-9]{6})>");
+
 	private StringMatcher() {
 	}
 
@@ -75,10 +77,8 @@ public class StringMatcher {
 		return otherMatches;
 	}
 
-	private static Pattern COLOR_REGEX = Pattern.compile("<*&?#([A-Fa-f0-9]{6})>*");
-
 	public static String matchColorRegex(String str) {
-		Matcher matcher = COLOR_REGEX.matcher(str);
+		Matcher matcher = HEX_PATTERN.matcher(str);
 
 		while (matcher.find()) {
 			try {

@@ -1,18 +1,16 @@
-package me.despical.commons.scoreboard.type.legacy;
+package me.despical.commons.scoreboard.type;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
-import me.despical.commons.scoreboard.ScoreboardLib;
-import me.despical.commons.scoreboard.type.Entry;
-import me.despical.commons.scoreboard.type.Scoreboard;
-import me.despical.commons.scoreboard.type.ScoreboardHandler;
+import me.despical.commons.scoreboard.Scoreboard;
+import me.despical.commons.scoreboard.common.Entry;
 import me.despical.commons.util.Strings;
-import org.bukkit.*;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.Statistic;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Team;
 
@@ -20,143 +18,50 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ * Supports up to 48 characters.
+ *
  * @author Despical
  * <p>
  * Created at 18.02.2024
  */
-public class LegacySimpleScoreboard implements Scoreboard {
+public class LegacySimpleScoreboard extends Scoreboard {
 
-	private static final String TEAM_PREFIX = "Board_";
-	private static int TEAM_COUNTER = 0;
+	private static int TEAM_COUNTER;
 
-	private final org.bukkit.scoreboard.Scoreboard scoreboard;
-	private final Objective objective;
-
-	protected Player holder;
-	private ScoreboardHandler handler;
-	private BukkitRunnable updateTask;
-	private long updateInterval = 10L;
-
-	private boolean activated;
-	private boolean autoUpdateEnabled = true;
-	private final Map<FakePlayer, Integer> entryCache = new ConcurrentHashMap<>();
-	private final Table<String, Integer, FakePlayer> playerCache = HashBasedTable.create();
-	private final Table<Team, String, String> teamCache = HashBasedTable.create();
+	private final Map<FakePlayer, Integer> entryCache;
+	private final Table<Team, String, String> teamCache;
+	private final Table<String, Integer, FakePlayer> playerCache;
 
 	public LegacySimpleScoreboard(Player holder) {
-		this.holder = holder;
-		scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-		scoreboard.registerNewObjective("board", "dummy").setDisplaySlot(DisplaySlot.SIDEBAR);
-		objective = scoreboard.getObjective(DisplaySlot.SIDEBAR);
-	}
-
-	@Override
-	public void activate() {
-		if (activated) return;
-		if (handler == null) throw new IllegalArgumentException("Scoreboard handler is not set!");
-
-		activated = true;
-
-		holder.setScoreboard(scoreboard);
-
-		if (!autoUpdateEnabled) {
-			return;
-		}
-
-		updateTask = new BukkitRunnable() {
-			@Override
-			public void run() {
-				update();
-			}
-		};
-
-		updateTask.runTaskTimer(ScoreboardLib.getInstance(), 0, updateInterval);
-	}
-
-	@Override
-	public void deactivate() {
-		if (!activated) return;
-		activated = false;
-
-		if (holder.isOnline()) {
-			synchronized (this) {
-				holder.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
-			}
-		}
-		
-		for (Team team : teamCache.rowKeySet()) {
-			team.unregister();
-		}
-
-		Optional.ofNullable(updateTask).ifPresent(BukkitRunnable::cancel);
-	}
-
-	@Override
-	public void disableAutoUpdate() {
-		if (this.activated) {
-			throw new IllegalStateException("You can not disable auto updating task during the scoreboard is updating!");
-		}
-
-		this.autoUpdateEnabled = false;
-	}
-
-	@Override
-	public boolean isActivated() {
-		return activated;
-	}
-
-	@Override
-	public ScoreboardHandler getHandler() {
-		return handler;
-	}
-
-	@Override
-	public Scoreboard setHandler(ScoreboardHandler handler) {
-		this.handler = handler;
-		return this;
-	}
-
-	@Override
-	public long getUpdateInterval() {
-		return this.updateInterval;
-	}
-
-	@Override
-	public LegacySimpleScoreboard setUpdateInterval(long updateInterval) {
-		if (activated) throw new IllegalStateException("You can not change update interval during scoreboard is updating!");
-		this.updateInterval = updateInterval;
-		return this;
-	}
-
-	@Override
-	public Player getHolder() {
-		return holder;
+        super(holder);
+        this.entryCache = new ConcurrentHashMap<>();
+        this.teamCache = HashBasedTable.create();
+        this.playerCache = HashBasedTable.create();
 	}
 
 	@Override
 	public void update() {
-		if (!activated) return;
+		if (!activated) {
+            return;
+        }
 
 		if (!holder.isOnline()) {
 			deactivate();
 			return;
 		}
 
-		String handlerTitle = handler.getTitle(holder), finalTitle = handlerTitle != null ? Strings.format(handlerTitle) : ChatColor.BOLD.toString();
+		String title = Strings.format(handler.getTitle(holder));
 
-		if (!objective.getDisplayName().equals(finalTitle)) {
-			objective.setDisplayName(finalTitle);
+		if (!objective.getDisplayName().equals(title)) {
+			objective.setDisplayName(title);
 		}
 
 		List<Entry> passed = handler.getEntries(holder);
-		
-		if (passed == null) return;
-
 		Map<String, Integer> appeared = new HashMap<>(passed.size());
 		Set<FakePlayer> current = new HashSet<>(passed.size());
 
 		for (Entry entry : passed) {
-			String key = entry.getName();
+			String key = Strings.format(entry.getContext());
 
 			if (key.length() > 48) {
 				key = key.substring(0, 48);
@@ -185,8 +90,6 @@ public class LegacySimpleScoreboard implements Scoreboard {
 			entryCache.put(faker, score);
 			current.add(faker);
 		}
-
-		appeared.clear();
 
 		for (FakePlayer fakePlayer : entryCache.keySet()) {
 			if (!current.contains(fakePlayer)) {
@@ -228,8 +131,9 @@ public class LegacySimpleScoreboard implements Scoreboard {
 
 			if (team == null) {
 				team = scoreboard.registerNewTeam(TEAM_PREFIX + TEAM_COUNTER++);
-				team.setPrefix(prefix);
+                team.setPrefix(prefix);
 				team.setSuffix(suffix);
+
 				teamCache.put(team, prefix, suffix);
 			}
 		}
@@ -252,14 +156,6 @@ public class LegacySimpleScoreboard implements Scoreboard {
 		}
 
 		return fakePlayer;
-	}
-
-	public Objective getObjective() {
-		return objective;
-	}
-
-	public org.bukkit.scoreboard.Scoreboard getScoreboard() {
-		return scoreboard;
 	}
 
 	private static class FakePlayer implements OfflinePlayer {

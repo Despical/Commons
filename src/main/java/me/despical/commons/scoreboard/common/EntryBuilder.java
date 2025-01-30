@@ -18,12 +18,11 @@
 
 package me.despical.commons.scoreboard.common;
 
-import java.util.List;
-import java.util.LinkedList;
-
 import me.despical.commons.reflection.XReflection;
-import me.despical.commons.scoreboard.type.Entry;
-import me.despical.commons.util.Strings;
+
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author Despical
@@ -32,24 +31,28 @@ import me.despical.commons.util.Strings;
  */
 public final class EntryBuilder {
 
+    private static final int MAX_LENGTH = XReflection.supports(14) ? 144 : 48;
+
 	private final List<Entry> entries = new LinkedList<>();
 
 	public EntryBuilder blank() {
 		return next("");
 	}
 
-	public EntryBuilder next(String string) {
-		return next(string, entries.size());
+	public EntryBuilder next(String context) {
+		return next(context, entries.size());
 	}
 
-	public EntryBuilder next(String string, int position) {
-		entries.add(new Entry(adapt(string), position));
+	public EntryBuilder next(String context, int position) {
+		entries.add(new Entry(adaptEntryLength(context), position));
 		return this;
 	}
 
 	public List<Entry> build() {
+        int entryCount = entries.size();
+
 		for (Entry entry : entries) {
-			entry.setPosition(entries.size() - entry.getPosition());
+			entry.setPosition(entryCount - entry.getPosition());
 		}
 
 		return entries;
@@ -59,13 +62,15 @@ public final class EntryBuilder {
 		return new LinkedList<>(entries);
 	}
 
-	private String adapt(String entry) {
-		if (XReflection.supports(14)) {
-			if (entry.length() > 144) entry = entry.substring(0, 143);
-		} else {
-			if (entry.length() > 48) entry = entry.substring(0, 47);
-		}
+	private String adaptEntryLength(String entry) {
+        if (entry.length() > MAX_LENGTH) {
+            entry = entry.substring(0, MAX_LENGTH - 1);
+        }
 
-		return Strings.format(entry);
+		return entry;
 	}
+
+    public static List<Entry> empty() {
+        return Collections.emptyList();
+    }
 }

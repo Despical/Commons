@@ -19,12 +19,10 @@
 package me.despical.commons.scoreboard;
 
 import me.despical.commons.reflection.XReflection;
-import me.despical.commons.scoreboard.type.legacy.LegacySimpleScoreboard;
+import me.despical.commons.scoreboard.type.LegacySimpleScoreboard;
+import me.despical.commons.scoreboard.type.SimpleScoreboard;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-
-import me.despical.commons.scoreboard.type.Scoreboard;
-import me.despical.commons.scoreboard.type.SimpleScoreboard;
 
 /**
  * @author Despical

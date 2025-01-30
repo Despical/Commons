@@ -16,38 +16,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package me.despical.commons.scoreboard.type;
+package me.despical.commons.scoreboard;
 
-import me.despical.commons.util.Strings;
+import me.despical.commons.scoreboard.common.Entry;
+import org.bukkit.entity.Player;
+
+import java.util.List;
 
 /**
  * @author Despical
  * <p>
  * Created at 17.06.2020
  */
-public class Entry {
+public interface ScoreboardHandler {
 
-	private String name;
-	private int position;
+	String getTitle(Player player);
 
-	public Entry(String name, int position) {
-		this.name = Strings.format(name);
-		this.position = position;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public int getPosition() {
-		return position;
-	}
-
-	public void setPosition(int position) {
-		this.position = position;
-	}
+	List<Entry> getEntries(Player player);
 }

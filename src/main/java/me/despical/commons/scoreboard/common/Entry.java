@@ -16,34 +16,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package me.despical.commons.scoreboard.type;
-
-import org.bukkit.entity.Player;
+package me.despical.commons.scoreboard.common;
 
 /**
  * @author Despical
  * <p>
  * Created at 17.06.2020
  */
-public interface Scoreboard {
+public class Entry {
 
-	void activate();
+	private String context;
+	private int position;
 
-	void deactivate();
+	public Entry(String context, int position) {
+		this.context = context;
+		this.position = position;
+	}
 
-	boolean isActivated();
+	public String getContext() {
+		return context;
+	}
 
-	ScoreboardHandler getHandler();
+    public void setContext(String context) {
+        this.context = context;
+    }
 
-	Scoreboard setHandler(ScoreboardHandler handler);
+    public int getPosition() {
+		return position;
+	}
 
-	long getUpdateInterval();
-
-	Scoreboard setUpdateInterval(long updateInterval);
-
-	Player getHolder();
-
-	void update();
-
-	void disableAutoUpdate();
+    public void setPosition(int position) {
+        this.position = position;
+    }
 }
