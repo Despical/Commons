@@ -1,122 +1,232 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.github.Despical</groupId>
-	<artifactId>Commons</artifactId>
-	<version>1.8.9</version>
-	<packaging>jar</packaging>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.github.Despical</groupId>
+    <artifactId>Commons</artifactId>
+    <version>1.9.0</version>
+    <packaging>jar</packaging>
 
-	<name>Commons</name>
-	<inceptionYear>2020</inceptionYear>
-	<url>https://www.github.com/Despical/Commons</url>
-	<description>A library of common utilities needed for Java and Minecraft</description>
+    <name>Commons</name>
+    <inceptionYear>2020</inceptionYear>
+    <url>https://www.github.com/Despical/Commons</url>
+    <description>A library of common utilities needed for Java and Minecraft</description>
 
-	<properties>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+    <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
-	<licenses>
-		<license>
-			<name>GNU General Public License v3</name>
-			<url>https://www.gnu.org/licenses/gpl-3.0.en.html</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
+    <licenses>
+        <license>
+            <name>GNU General Public License v3</name>
+            <url>https://www.gnu.org/licenses/gpl-3.0.en.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
-	<developers>
-		<developer>
-			<id>Despical</id>
-			<name>Berke Akçen</name>
-			<email>berkeakcen@gmail.com</email>
-			<url>https://www.spigotmc.org/members/615094</url>
-		</developer>
-	</developers>
+    <developers>
+        <developer>
+            <id>Despical</id>
+            <name>Berke Akçen</name>
+            <email>berkeakcen@gmail.com</email>
+            <url>https://www.spigotmc.org/members/615094</url>
+        </developer>
+    </developers>
 
-	<issueManagement>
-		<system>GitHub Issue Tracker</system>
-		<url>https://github.com/Despical/Commons/issues</url>
-	</issueManagement>
+    <issueManagement>
+        <system>GitHub Issue Tracker</system>
+        <url>https://github.com/Despical/Commons/issues</url>
+    </issueManagement>
 
-	<repositories>
-		<repository>
-			<id>papermc</id>
-			<url>https://repo.papermc.io/repository/maven-public/</url>
-		</repository>
-		<repository>
-			<id>mojang-repo</id>
-			<url>https://libraries.minecraft.net/</url>
-		</repository>
-	</repositories>
+    <repositories>
+        <repository>
+            <id>papermc</id>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
+        </repository>
+        <repository>
+            <id>mojang-repo</id>
+            <url>https://libraries.minecraft.net/</url>
+        </repository>
+    </repositories>
 
-	<dependencies>
-		<dependency>
-			<groupId>com.destroystokyo.paper</groupId>
-			<artifactId>paper-api</artifactId>
-			<version>1.16.5-R0.1-SNAPSHOT</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.mojang</groupId>
-			<artifactId>authlib</artifactId>
-			<version>2.3.31</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.28</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.netty</groupId>
-			<artifactId>netty-all</artifactId>
-			<version>4.1.68.Final</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.zaxxer</groupId>
-			<artifactId>HikariCP</artifactId>
-			<version>3.3.1</version>
-		</dependency>
-	</dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>com.destroystokyo.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>1.16.5-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.mojang</groupId>
+            <artifactId>authlib</artifactId>
+            <version>2.3.31</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.28</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.68.Final</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.cryptomorin</groupId>
+            <artifactId>XSeries</artifactId>
+            <version>13.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>3.3.1</version>
+        </dependency>
+    </dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.22.0</version>
-				<dependencies>
-					<dependency>
-						<groupId>org.junit.platform</groupId>
-						<artifactId>junit-platform-surefire-provider</artifactId>
-						<version>1.2.0-M1</version>
-					</dependency>
-					<dependency>
-						<groupId>org.junit.jupiter</groupId>
-						<artifactId>junit-jupiter-engine</artifactId>
-						<version>5.2.0</version>
-					</dependency>
-				</dependencies>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.6.0</version>
-				<configuration>
-					<skip>true</skip>
-				</configuration>
-				<executions>
-					<execution>
-						<id>attach-javadocs</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.0</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.junit.platform</groupId>
+                        <artifactId>junit-platform-surefire-provider</artifactId>
+                        <version>1.2.0-M1</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.junit.jupiter</groupId>
+                        <artifactId>junit-jupiter-engine</artifactId>
+                        <version>5.2.0</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.6.0</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.4.1</version>
+                <configuration>
+                    <relocations>
+                        <relocation>
+                            <pattern>com.cryptomorin.xseries</pattern>
+                            <shadedPattern>me.despical.commons</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>com.zaxxer.hikari</pattern>
+                            <shadedPattern>me.despical.commons.database</shadedPattern>
+                        </relocation>
+                    </relocations>
+                    <filters>
+                        <filter>
+                            <artifact>*:*</artifact>
+                            <excludes>
+                                <exclude>META-INF/**</exclude>
+                                <exclude>org/slf4j/**</exclude>
+                            </excludes>
+                        </filter>
+                        <filter>
+                            <artifact>com.github.cryptomorin:XSeries</artifact>
+                            <excludes>
+                                <exclude>com/cryptomorin/xseries/XBiome*</exclude>
+                                <exclude>com/cryptomorin/xseries/XEntity*</exclude>
+                                <exclude>com/cryptomorin/xseries/XAttribute*</exclude>
+                                <exclude>com/cryptomorin/xseries/XEntityType*</exclude>
+                                <exclude>com/cryptomorin/xseries/XBlock*</exclude>
+                                <exclude>com/cryptomorin/xseries/XEntity*</exclude>
+                                <exclude>com/cryptomorin/xseries/XItemFlag*</exclude>
+                                <exclude>com/cryptomorin/xseries/XItemStack*</exclude>
+                                <exclude>com/cryptomorin/xseries/XPatternType*</exclude>
+                                <exclude>com/cryptomorin/xseries/XTag*</exclude>
+                                <exclude>com/cryptomorin/xseries/XEntity*</exclude>
+                                <exclude>com/cryptomorin/xseries/XWorldBorder*</exclude>
+                                <exclude>com/cryptomorin/xseries/NMSExtras*</exclude>
+                                <exclude>com/cryptomorin/xseries/NoteBlockMusic*</exclude>
+                                <exclude>com/cryptomorin/xseries/SkullCacheListener*</exclude>
+                                <exclude>com/cryptomorin/xseries/profiles/**</exclude>
+                                <exclude>com/cryptomorin/xseries/particles/**</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--			<plugin>-->
+            <!--				<groupId>org.apache.maven.plugins</groupId>-->
+            <!--				<artifactId>maven-shade-plugin</artifactId>-->
+            <!--				<version>3.4.1</version>-->
+            <!--				<executions>-->
+            <!--					<execution>-->
+            <!--						<phase>package</phase>-->
+            <!--						<goals>-->
+            <!--							<goal>shade</goal>-->
+            <!--						</goals>-->
+            <!--						<configuration>-->
+            <!--							<relocations>-->
+            <!--								<relocation>-->
+            <!--									<pattern>com.cryptomorin.xseries.XMaterial</pattern>-->
+            <!--									<shadedPattern>me.despical.commons.compat.XMaterial</shadedPattern>-->
+            <!--								</relocation>-->
+            <!--								<relocation>-->
+            <!--									<pattern>com.cryptomorin.xseries.XSound</pattern>-->
+            <!--									<shadedPattern>me.despical.commons.compat.XSound</shadedPattern>-->
+            <!--								</relocation>-->
+            <!--								<relocation>-->
+            <!--									<pattern>com.cryptomorin.xseries.XEnchantment</pattern>-->
+            <!--									<shadedPattern>me.despical.commons.compat.XEnchantment</shadedPattern>-->
+            <!--								</relocation>-->
+            <!--								<relocation>-->
+            <!--									<pattern>com.cryptomorin.xseries.XPotion</pattern>-->
+            <!--									<shadedPattern>me.despical.commons.compat.XPotion</shadedPattern>-->
+            <!--								</relocation>-->
+            <!--								<relocation>-->
+            <!--									<pattern>com.cryptomorin.messages</pattern>-->
+            <!--									<shadedPattern>me.despical.commons.compat</shadedPattern>-->
+            <!--								</relocation>-->
+            <!--							</relocations>-->
+            <!--							<filters>-->
+            <!--								<filter>-->
+            <!--									<artifact>com.github.cryptomorin:XSeries</artifact>-->
+            <!--									<includes>-->
+            <!--										<include>com.cryptomorin.xseries.XMaterial</include>-->
+            <!--										<include>com.cryptomorin.xseries.XSound</include>-->
+            <!--										<include>com.cryptomorin.xseries.XEnchantment</include>-->
+            <!--										<include>com.cryptomorin.xseries.XPotion</include>-->
+            <!--										<include>com.cryptomorin.messages.*</include>-->
+            <!--									</includes>-->
+            <!--								</filter>-->
+            <!--							</filters>-->
+            <!--						</configuration>-->
+            <!--					</execution>-->
+            <!--				</executions>-->
+            <!--			</plugin>-->
+        </plugins>
+    </build>
 </project>

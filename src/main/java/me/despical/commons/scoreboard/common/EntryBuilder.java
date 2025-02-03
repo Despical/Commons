@@ -18,7 +18,7 @@
 
 package me.despical.commons.scoreboard.common;
 
-import me.despical.commons.reflection.XReflection;
+import com.cryptomorin.xseries.reflection.XReflection;
 
 import java.util.Collections;
 import java.util.LinkedList;

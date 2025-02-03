@@ -18,7 +18,7 @@
 
 package me.despical.commons.scoreboard;
 
-import me.despical.commons.reflection.XReflection;
+import com.cryptomorin.xseries.reflection.XReflection;
 import me.despical.commons.scoreboard.type.LegacySimpleScoreboard;
 import me.despical.commons.scoreboard.type.SimpleScoreboard;
 import org.bukkit.entity.Player;

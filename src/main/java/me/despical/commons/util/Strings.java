@@ -18,7 +18,7 @@
 
 package me.despical.commons.util;
 
-import me.despical.commons.reflection.XReflection;
+import com.cryptomorin.xseries.reflection.XReflection;
 import me.despical.commons.string.StringMatcher;
 import org.bukkit.ChatColor;
 

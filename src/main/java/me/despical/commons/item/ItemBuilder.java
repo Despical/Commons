@@ -18,10 +18,11 @@
 
 package me.despical.commons.item;
 
+import com.cryptomorin.xseries.XEnchantment;
+import com.cryptomorin.xseries.XMaterial;
+import com.cryptomorin.xseries.reflection.XReflection;
 import com.google.common.collect.Multimap;
-import me.despical.commons.compat.XEnchantment;
-import me.despical.commons.compat.XMaterial;
-import me.despical.commons.reflection.XReflection;
+
 import me.despical.commons.util.Collections;
 import me.despical.commons.util.Strings;
 import org.bukkit.Material;
@@ -99,12 +100,12 @@ public class ItemBuilder {
 	}
 
 	public ItemBuilder enchantment(XEnchantment xenchantment) {
-		xenchantment.ifPresent(enchantment -> itemStack.addUnsafeEnchantment(enchantment, 1));
+		Optional.ofNullable(xenchantment.getEnchant()).ifPresent(enchantment -> itemStack.addUnsafeEnchantment(enchantment, 1));
 		return this;
 	}
 
 	public ItemBuilder enchantment(XEnchantment xenchantment, int level) {
-		xenchantment.ifPresent(enchantment -> itemStack.addUnsafeEnchantment(enchantment, level));
+		Optional.ofNullable(xenchantment.getEnchant()).ifPresent(enchantment -> itemStack.addUnsafeEnchantment(enchantment, level));
 		return this;
 	}
 

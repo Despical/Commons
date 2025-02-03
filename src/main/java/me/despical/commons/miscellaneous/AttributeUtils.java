@@ -18,7 +18,7 @@
 
 package me.despical.commons.miscellaneous;
 
-import me.despical.commons.reflection.XReflection;
+import com.cryptomorin.xseries.reflection.XReflection;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 
