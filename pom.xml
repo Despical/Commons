@@ -178,55 +178,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--			<plugin>-->
-            <!--				<groupId>org.apache.maven.plugins</groupId>-->
-            <!--				<artifactId>maven-shade-plugin</artifactId>-->
-            <!--				<version>3.4.1</version>-->
-            <!--				<executions>-->
-            <!--					<execution>-->
-            <!--						<phase>package</phase>-->
-            <!--						<goals>-->
-            <!--							<goal>shade</goal>-->
-            <!--						</goals>-->
-            <!--						<configuration>-->
-            <!--							<relocations>-->
-            <!--								<relocation>-->
-            <!--									<pattern>com.cryptomorin.xseries.XMaterial</pattern>-->
-            <!--									<shadedPattern>me.despical.commons.compat.XMaterial</shadedPattern>-->
-            <!--								</relocation>-->
-            <!--								<relocation>-->
-            <!--									<pattern>com.cryptomorin.xseries.XSound</pattern>-->
-            <!--									<shadedPattern>me.despical.commons.compat.XSound</shadedPattern>-->
-            <!--								</relocation>-->
-            <!--								<relocation>-->
-            <!--									<pattern>com.cryptomorin.xseries.XEnchantment</pattern>-->
-            <!--									<shadedPattern>me.despical.commons.compat.XEnchantment</shadedPattern>-->
-            <!--								</relocation>-->
-            <!--								<relocation>-->
-            <!--									<pattern>com.cryptomorin.xseries.XPotion</pattern>-->
-            <!--									<shadedPattern>me.despical.commons.compat.XPotion</shadedPattern>-->
-            <!--								</relocation>-->
-            <!--								<relocation>-->
-            <!--									<pattern>com.cryptomorin.messages</pattern>-->
-            <!--									<shadedPattern>me.despical.commons.compat</shadedPattern>-->
-            <!--								</relocation>-->
-            <!--							</relocations>-->
-            <!--							<filters>-->
-            <!--								<filter>-->
-            <!--									<artifact>com.github.cryptomorin:XSeries</artifact>-->
-            <!--									<includes>-->
-            <!--										<include>com.cryptomorin.xseries.XMaterial</include>-->
-            <!--										<include>com.cryptomorin.xseries.XSound</include>-->
-            <!--										<include>com.cryptomorin.xseries.XEnchantment</include>-->
-            <!--										<include>com.cryptomorin.xseries.XPotion</include>-->
-            <!--										<include>com.cryptomorin.messages.*</include>-->
-            <!--									</includes>-->
-            <!--								</filter>-->
-            <!--							</filters>-->
-            <!--						</configuration>-->
-            <!--					</execution>-->
-            <!--				</executions>-->
-            <!--			</plugin>-->
         </plugins>
     </build>
 </project>
