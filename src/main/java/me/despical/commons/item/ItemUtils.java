@@ -29,6 +29,7 @@ import com.mojang.authlib.properties.Property;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.lang.reflect.Field;
@@ -36,6 +37,7 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -56,6 +58,41 @@ public class ItemUtils {
 
 	public static boolean isNamed(ItemStack stack) {
 		return stack != null && stack.hasItemMeta() && stack.getItemMeta().hasDisplayName();
+	}
+
+	/**
+	 * Checks if the given 2 items have the same display name, lore and amount.
+	 *
+	 * @param first the first item to check
+	 * @param second the second item to check
+	 * @return {@code true} if the given 2 items are equals and both are same amount,
+	 * 			otherwise {@code false}
+	 */
+	public static boolean isSameItems(ItemStack first, ItemStack second) {
+		return isSameItemsWithoutAmount(first, second) && first.getAmount() == second.getAmount();
+	}
+
+	/**
+	 * Checks if the given 2 items have the same display name and lore.
+	 *
+	 * @param first the first item to check
+	 * @param second the second item to check
+	 * @return {@code true} if the given 2 items are equals, may not be same amount
+	 */
+	public static boolean isSameItemsWithoutAmount(ItemStack first, ItemStack second) {
+		if (first == null || second == null) {
+			return false;
+		}
+
+		if (first.getType() != second.getType()) {
+			return false;
+		}
+
+		ItemMeta firstMeta = first.getItemMeta();
+		ItemMeta secondMeta = second.getItemMeta();
+
+		return Objects.equals(firstMeta.getDisplayName(), secondMeta.getDisplayName()) &&
+			Objects.equals(firstMeta.getLore(), secondMeta.getLore());
 	}
 
 	public static ItemStack getSkull(String url) {
