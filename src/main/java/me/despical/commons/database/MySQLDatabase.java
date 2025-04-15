@@ -41,7 +41,11 @@ public class MySQLDatabase {
 	private Logger logger;
 
 	public MySQLDatabase(JavaPlugin plugin, String fileName) {
-		this(ConfigUtils.getConfig(plugin, fileName));
+		this(plugin, ConfigUtils.getConfig(plugin, fileName));
+	}
+
+	public MySQLDatabase(JavaPlugin plugin, FileConfiguration config) {
+		this(config);
 		this.logger = plugin.getLogger();
 	}
 
