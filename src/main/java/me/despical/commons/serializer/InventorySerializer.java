@@ -27,8 +27,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -44,10 +42,11 @@ public class InventorySerializer {
 
 	private static final Set<String> doNotSerialize;
 
-	private InventorySerializer() {}
-
 	static {
 		doNotSerialize = new HashSet<>();
+	}
+
+	private InventorySerializer() {
 	}
 
 	public static void addNonSerializableElements(String... elements) {
@@ -82,7 +81,6 @@ public class InventorySerializer {
 			invConfig.set("fire-ticks", player.getFireTicks());
 			invConfig.set("gamemode", player.getGameMode().name());
 			invConfig.set("allow-flight", player.getAllowFlight());
-			invConfig.set("inventory-size", inventory.getSize());
 			invConfig.set("max-stack-size", inventory.getMaxStackSize());
 
 			List<String> activePotions = new ArrayList<>();
@@ -124,53 +122,39 @@ public class InventorySerializer {
 		}
 	}
 
-	private static Inventory getInventoryFromFile(JavaPlugin plugin, String uuid) {
+	private static SavedInventory getInventoryFromFile(JavaPlugin plugin, String uuid) {
 		File file = new File(plugin.getDataFolder() + File.separator + "inventories" + File.separator + uuid + ".inventory");
 
 		if (!file.exists() || file.isDirectory() || !file.getAbsolutePath().endsWith(".inventory")) {
-			return plugin.getServer().createInventory(null, 9);
+			return new SavedInventory();
 		}
 
 		try {
 			FileConfiguration invConfig = YamlConfiguration.loadConfiguration(file);
-			Inventory inventory;
+			SavedInventory savedInventory = new SavedInventory();
 
-			int invSize = invConfig.getInt("inventory-size", 36);
-
-			InventoryHolder invHolder = null;
-
-			if (invConfig.contains("inventory-holder")) {
-				invHolder = plugin.getServer().getPlayer(invConfig.getString("inventory-holder"));
+			for (int i = 0; i < InventoryType.PLAYER.getDefaultSize(); i++) {
+				if (invConfig.contains("slot-" + i)) {
+					savedInventory.items.put(i, invConfig.getItemStack("slot-" + i));
+				}
 			}
 
-			inventory = plugin.getServer().createInventory(invHolder, InventoryType.PLAYER);
-			inventory.setMaxStackSize(invConfig.getInt("max-stack-size", 64));
-
-			try {
-				ItemStack[] invContents = new ItemStack[invSize];
-
-				for (int i = 0; i < invSize; i++) {
-					if (invConfig.contains("slot-" + i)) {
-						invContents[i] = invConfig.getItemStack("slot-" + i);
-					} else {
-						invContents[i] = new ItemStack(Material.AIR);
-					}
+			for (int i = 0; i < 4; i++) {
+				if (invConfig.contains("armor-" + i)) {
+					savedInventory.armor.put(i, invConfig.getItemStack("armor-" + i));
 				}
-
-				inventory.setContents(invContents);
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
 
 			file.delete();
-			return inventory;
+			return savedInventory;
 		} catch (Exception ignore) {
-			return plugin.getServer().createInventory(null, 9);
+			return new SavedInventory();
 		}
 	}
 
 	public static void loadInventory(JavaPlugin plugin, Player player) {
-		File file = new File(plugin.getDataFolder() + File.separator + "inventories" + File.separator + player.getUniqueId() + ".inventory");
+		File file = new File(plugin.getDataFolder() + File.separator + "inventories"
+			+ File.separator + player.getUniqueId() + ".inventory");
 
 		if (!file.exists() || file.isDirectory() || !file.getAbsolutePath().endsWith(".inventory")) {
 			return;
@@ -180,51 +164,55 @@ public class InventorySerializer {
 			FileConfiguration invConfig = YamlConfiguration.loadConfiguration(file);
 
 			try {
-				ItemStack[] armor = new ItemStack[player.getInventory().getArmorContents().length];
-
-				for (int i = 0; i < player.getInventory().getArmorContents().length; i++) {
-					if (invConfig.contains("armor-" + i)) {
-						armor[i] = invConfig.getItemStack("armor-" + i);
-					} else {
-						armor[i] = new ItemStack(Material.AIR);
-					}
-				}
-
-				player.getInventory().setArmorContents(armor);
 				if (shouldRestore("max-health")) player.setMaxHealth(invConfig.getDouble("max-health"));
+
 				player.setExp(0);
 				player.setLevel(0);
+
 				if (shouldRestore("level")) player.setLevel(invConfig.getInt("level"));
-				if (shouldRestore("exp")) player.setExp(Float.parseFloat(invConfig.getString("exp")));
+				if (shouldRestore("exp")) player.setExp((float) invConfig.getDouble("exp"));
 				if (shouldRestore("health")) player.setHealth(invConfig.getDouble("health"));
 				if (shouldRestore("health-scale")) player.setHealthScale(invConfig.getDouble("health-scale"));
 				if (shouldRestore("hunger")) player.setFoodLevel(invConfig.getInt("food-level"));
-				if (shouldRestore("saturation")) player.setSaturation(Float.parseFloat(invConfig.getString("saturation")));
+				if (shouldRestore("saturation")) player.setSaturation((float) invConfig.getDouble("saturation"));
 				if (shouldRestore("fire-ticks")) player.setFireTicks(invConfig.getInt("fire-ticks"));
 				if (shouldRestore("game-mode")) player.setGameMode(GameMode.valueOf(invConfig.getString("gamemode")));
 				if (shouldRestore("allow-flight")) player.setAllowFlight(invConfig.getBoolean("allow-flight"));
 
-				List<String> activePotions = invConfig.getStringList("potion-effects");
+				for (String line : invConfig.getStringList("potion-effects")) {
+					String[] array = line.split("#");
 
-				for (String potion : activePotions) {
-					String[] splitted = potion.split("#");
-					player.addPotionEffect(new PotionEffect(PotionEffectType.getByName(splitted[0]), Integer.parseInt(splitted[1]), Integer.parseInt(splitted[2])));
+					player.addPotionEffect(new PotionEffect(
+						PotionEffectType.getByName(array[0]),
+						Integer.parseInt(array[1]),
+						Integer.parseInt(array[2])
+					));
 				}
-			} catch (Exception ignored) {}
-
-			Inventory inventory = getInventoryFromFile(plugin, player.getUniqueId().toString());
-
-			for (int i = 0; i < inventory.getContents().length; i++) {
-				if (inventory.getItem(i) != null) {
-					player.getInventory().setItem(i, inventory.getItem(i));
-				}
+			} catch (Exception ignored) {
 			}
 
+			SavedInventory saved = getInventoryFromFile(plugin, player.getUniqueId().toString());
+			saved.items.forEach(player.getInventory()::setItem);
+
+			PlayerInventory inventory =  player.getInventory();
+			ItemStack[] armor = new ItemStack[inventory.getArmorContents().length];
+
+			for (int i = 0; i < armor.length; i++) {
+				armor[i] = saved.armor.getOrDefault(i, new ItemStack(Material.AIR));
+			}
+
+			inventory.setArmorContents(armor);
 			player.updateInventory();
-		} catch (Exception ignored) {}
+		} catch (Exception ignored) {
+		}
 	}
 
 	private static boolean shouldRestore(String element) {
 		return !doNotSerialize.contains(element);
+	}
+
+	private static class SavedInventory {
+		Map<Integer, ItemStack> items = new HashMap<>();
+		Map<Integer, ItemStack> armor = new HashMap<>();
 	}
 }
