@@ -22,6 +22,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -33,6 +34,10 @@ public class WeakLocation {
 
 	private final String worldName;
 	private final Location location;
+
+	public WeakLocation(Location location) {
+		this(Objects.requireNonNull(location.getWorld()).getName(), location);
+	}
 
 	public WeakLocation(String worldName, Location location) {
 		this.worldName = worldName;
