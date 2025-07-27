@@ -22,7 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author Despical
  * <p>
- * Created at 18.02.2024
+ * Created at 18.02.2025
  */
 public class LegacySimpleScoreboard extends Scoreboard {
 

@@ -1,6 +1,6 @@
 /*
  * Commons - Box of the common utilities.
- * Copyright (C) 2024 Despical
+ * Copyright (C) 2025 Despical
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
