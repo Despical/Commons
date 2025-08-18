@@ -21,6 +21,8 @@ package me.despical.commons.util;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -71,5 +73,15 @@ public class WeakLocation {
 
 	public Location orElse(Location location) {
 		return Optional.ofNullable(this.location).orElse(location);
+	}
+
+	public void teleportPlayer(@Nullable Player player) {
+		if (player == null) return;
+
+		Location targetLocation = get();
+
+		if (targetLocation == null) return;
+
+		player.teleport(targetLocation);
 	}
 }
