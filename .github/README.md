@@ -61,4 +61,4 @@ mvn clean package -Dmaven.javadoc.skip=true -DskipTests
 ```
 
 > [!IMPORTANT]  
-> Don't forget to install Maven before building.
+> **[Maven](https://maven.apache.org/)** must be installed to build this project.
