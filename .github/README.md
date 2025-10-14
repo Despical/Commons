@@ -3,10 +3,9 @@
 <div align="center">
 
 [![](https://github.com/Despical/Commons/actions/workflows/build.yml/badge.svg)](https://github.com/Despical/Commons/actions/workflows/build.yml)
-[![](https://img.shields.io/github/v/release/Despical/Commons)](https://github.com/Despical/Commons/releases/latest)
-[![](https://jitpack.io/v/Despical/Commons.svg)](https://jitpack.io/#Despical/Commons)
+[![](https://img.shields.io/maven-central/v/com.github.despical/commons.svg?label=Maven%20Central)](https://repo1.maven.org/maven2/com/github/despical/commons)
 [![](https://img.shields.io/badge/License-GPLv3-blue.svg)](../LICENSE)
-[![](https://img.shields.io/badge/javadoc-latest-lime.svg)](https://javadoc.jitpack.io/com/github/Despical/Commons/latest/javadoc/index.html)
+[![](https://img.shields.io/badge/Javadoc-latest-blue.svg)](https://despical.github.io/Commons)
 
 Commons is an open-source library that provides useful utilities for Java and Minecraft.
 
@@ -14,45 +13,27 @@ Commons is an open-source library that provides useful utilities for Java and Mi
 
 ## Documentation
 - [Wiki](https://github.com/Despical/Commons/wiki)
-- [JavaDocs](https://javadoc.jitpack.io/com/github/Despical/Commons/latest/javadoc/index.html)
+- [Javadocs](https://despical.github.io/Commons)
+- [Maven Central](https://repo1.maven.org/maven2/com/github/despical/commons)
+- [Sonatype Central](https://central.sonatype.com/artifact/com.github.despical/commons)
 
-## Using Commons
-The project isn't in the Central Repository yet, so specifying a repository is needed.<br>
+## Using the Commons
 
-<details>
-<summary>Maven dependency</summary>
-
-```xml
-<repository>
-    <id>jitpack.io</id>
-    <url>https://jitpack.io</url>
-</repository>
-```
+### Maven
 ```xml
 <dependency>
-    <groupId>com.github.Despical</groupId>
-    <artifactId>Commons</artifactId>
-    <version>1.9.8</version>
+    <groupId>com.github.despical</groupId>
+    <artifactId>commons</artifactId>
+    <version>1.9.9</version>
 </dependency>
 ```
 
-</details>
-
-<details>
-<summary>Gradle dependency</summary>
-
-```
-repositories {
-    maven { url 'https://jitpack.io' }
-}
-```
-```
+### Gradle
+```gradle
 dependencies {
-    implementation 'com.github.Despical:Commons:1.9.8'
+    implementation 'com.github.despical:commons:1.9.9'
 }
 ```
-
-</details>
 
 ## License
 This code is under [GPL-3.0 License](http://www.gnu.org/licenses/gpl-3.0.html).
