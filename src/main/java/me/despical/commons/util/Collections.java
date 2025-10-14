@@ -235,7 +235,7 @@ public class Collections {
 	}
 
 	/**
-	 * Adds all of the elements in the specified collection to this collection
+	 * Adds all the elements in the specified collection to this collection
 	 * (optional operation).  The behavior of this operation is undefined if
 	 * the specified collection is modified while the operation is in progress.
 	 * (This implies that the behavior of this call is undefined if the
@@ -243,8 +243,8 @@ public class Collections {
 	 * nonempty.)
 	 *
 	 * @param collection containing elements to be added to this collection
-	 * @return <tt>true</tt> if this collection changed as a result of the call
-	 * @throws UnsupportedOperationException if the <tt>addAll</tt> operation
+	 * @return {@code true} if this collection changed as a result of the call
+	 * @throws UnsupportedOperationException if the {@code addAll} operation
 	 *         is not supported by this collection
 	 * @throws ClassCastException if the class of an element of the specified
 	 *         collection prevents it from being added to this collection
