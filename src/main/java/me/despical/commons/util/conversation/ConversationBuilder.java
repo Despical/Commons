@@ -31,13 +31,16 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class ConversationBuilder {
 
+	private String cancelMessage = Strings.format("&cOnly by players!");
+	private String onlyByPlayersMessage = Strings.format("&cOperation cancelled!");
+
 	private final ConversationFactory conversationFactory;
 
 	public ConversationBuilder(JavaPlugin plugin) {
-		this(plugin, "&cOperation cancelled!", "&cOnly by players!", 30);
+		this(plugin, 30);
 	}
 
-	public ConversationBuilder(JavaPlugin plugin, String conversationAbandoned, String onlyPlayers, int timeout) {
+	public ConversationBuilder(JavaPlugin plugin, int timeout) {
 		conversationFactory = new ConversationFactory(plugin)
 			.withModality(true)
 			.withLocalEcho(false)
@@ -48,9 +51,19 @@ public class ConversationBuilder {
 					return;
 				}
 
-				listener.getContext().getForWhom().sendRawMessage(Strings.format(conversationAbandoned));
+				listener.getContext().getForWhom().sendRawMessage(onlyByPlayersMessage);
 
-			}).thatExcludesNonPlayersWithMessage(Strings.format(onlyPlayers));
+			}).thatExcludesNonPlayersWithMessage(cancelMessage);
+	}
+
+	public ConversationBuilder cancelMessage(String message) {
+		this.cancelMessage = message;
+		return this;
+	}
+
+	public ConversationBuilder onlyByPlayersMessage(String message) {
+		this.onlyByPlayersMessage = message;
+		return this;
 	}
 
 	public ConversationBuilder withPrompt(Prompt prompt) {
