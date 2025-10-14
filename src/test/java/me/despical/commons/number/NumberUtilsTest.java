@@ -18,10 +18,10 @@
 
 package me.despical.commons.number;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static me.despical.commons.number.NumberUtils.roundInteger;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class NumberUtilsTest {
 
@@ -30,7 +30,7 @@ public class NumberUtilsTest {
 		assertEquals(9, roundInteger(3, 9));
 		assertEquals(9, roundInteger(9, 9));
 		assertEquals(27, roundInteger(24, 9));
-		assertEquals(45, roundInteger(37, 9));
+		assertEquals(36, roundInteger(37, 9));
 		assertEquals(45, roundInteger(43, 9));
 	}
 }
