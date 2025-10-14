@@ -1,0 +1,16 @@
+me.despical.commons.configuration
+me.despical.commons.database
+me.despical.commons.engine
+me.despical.commons.file
+me.despical.commons.item
+me.despical.commons.miscellaneous
+me.despical.commons.number
+me.despical.commons.scoreboard
+me.despical.commons.scoreboard.common
+me.despical.commons.scoreboard.common.animation
+me.despical.commons.scoreboard.type
+me.despical.commons.serializer
+me.despical.commons.sorter
+me.despical.commons.string
+me.despical.commons.util
+me.despical.commons.util.conversation
