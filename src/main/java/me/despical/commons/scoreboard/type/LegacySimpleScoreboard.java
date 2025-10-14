@@ -1,19 +1,21 @@
 package me.despical.commons.scoreboard.type;
 
+import com.destroystokyo.paper.profile.PlayerProfile;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import me.despical.commons.scoreboard.Scoreboard;
 import me.despical.commons.scoreboard.common.Entry;
 import me.despical.commons.util.Strings;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.Statistic;
+import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Team;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -176,6 +178,11 @@ public class LegacySimpleScoreboard extends Scoreboard {
 		}
 
 		@Override
+		public boolean isConnected() {
+			return false;
+		}
+
+		@Override
 		public String getName() {
 			return name;
 		}
@@ -186,8 +193,28 @@ public class LegacySimpleScoreboard extends Scoreboard {
 		}
 
 		@Override
+		public @NotNull PlayerProfile getPlayerProfile() {
+			return null;
+		}
+
+		@Override
 		public boolean isBanned() {
 			return false;
+		}
+
+		@Override
+		public <E extends BanEntry<? super PlayerProfile>> @Nullable E ban(@Nullable String s, @Nullable Date date, @Nullable String s1) {
+			return null;
+		}
+
+		@Override
+		public <E extends BanEntry<? super PlayerProfile>> @Nullable E ban(@Nullable String s, @Nullable Instant instant, @Nullable String s1) {
+			return null;
+		}
+
+		@Override
+		public <E extends BanEntry<? super PlayerProfile>> @Nullable E ban(@Nullable String s, @Nullable Duration duration, @Nullable String s1) {
+			return null;
 		}
 
 		@Override
@@ -322,6 +349,11 @@ public class LegacySimpleScoreboard extends Scoreboard {
 		@Override
 		public void setStatistic(Statistic statistic, EntityType entityType, int i) {
 
+		}
+
+		@Override
+		public @Nullable Location getLastDeathLocation() {
+			return null;
 		}
 
 		@Override

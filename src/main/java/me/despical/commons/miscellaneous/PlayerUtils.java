@@ -72,23 +72,4 @@ public class PlayerUtils {
 			to.showPlayer(p);
 		}
 	}
-
-	/**
-	 * Makes player can collides with other entities to avoid using deprecated
-	 * methods.
-	 *
-	 * @param player to set collidable
-	 * @param collidable value to
-	 */
-	public static void setCollidable(Player player, boolean collidable) {
-		if (player == null) {
-			return;
-		}
-
-		if (!XReflection.supports(9)) {
-			player.spigot().setCollidesWithEntities(collidable);
-		} else {
-			player.setCollidable(collidable);
-		}
-	}
 }
