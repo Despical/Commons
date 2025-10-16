@@ -33,7 +33,7 @@ public class StringUtils {
 			char c = chars[i];
 
 			if (isDelimiter(c, delimiters)) {
-				capitalizeNext = true;;
+				capitalizeNext = true;
 			} else if (capitalizeNext) {
 				chars[i] = Character.toTitleCase(c);
 				capitalizeNext = false;

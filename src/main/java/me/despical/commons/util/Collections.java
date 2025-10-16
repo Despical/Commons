@@ -33,7 +33,7 @@ public class Collections {
 	}
 
 	/**
-	 * Returns an mutable list containing an arbitrary number of elements.
+	 * Returns a mutable list containing an arbitrary number of elements.
 	 *
 	 * @param a Array of given parameters.
 	 * @param <T> Type of given parameters.
@@ -57,7 +57,7 @@ public class Collections {
 	}
 
 	/**
-	 * Returns an mutable list containing elements of given set.
+	 * Returns a mutable list containing elements of given set.
 	 *
 	 * @param a Set to be converted to list.
 	 * @param <T> Type of given set.
@@ -79,7 +79,7 @@ public class Collections {
 	}
 
 	/**
-	 * Returns an mutable list containing entry set elements of given map.
+	 * Returns a mutable list containing entry set elements of given map.
 	 *
 	 * @param a Map to be converted to list.
 	 * @param <K> Type of entry.
@@ -103,7 +103,7 @@ public class Collections {
 	}
 
 	/**
-	 * Returns an mutable set containing an arbitrary number of elements.
+	 * Returns a mutable set containing an arbitrary number of elements.
 	 *
 	 * @param a Array of given parameters.
 	 * @param <T> Type of given parameters.
@@ -140,12 +140,12 @@ public class Collections {
 	}
 
 	/**
-	 * Returns an mutable map containing an arbitrary number of elements.
+	 * Returns a mutable map containing an arbitrary number of elements.
 	 *
 	 * @param a Array of given entries to be stored in this map.
 	 * @param <K> key type to be stored in this map.
 	 * @param <V> value type to be stored in this map.
-	 * @return Returns an mutable map containing an arbitrary number of elements.
+	 * @return Returns a mutable map containing an arbitrary number of elements.
 	 */
 	@SafeVarargs
 	public static <K, V> Map<K, V> mapOf(Map.Entry<K, V>... a) {
@@ -205,7 +205,7 @@ public class Collections {
 
 	/**
 	 * Checks if the object is in the given array.
-	 *
+	 * <p>
 	 * The method returns false if a null array is passed in.
 	 *
 	 * @param objectToFind the object to find

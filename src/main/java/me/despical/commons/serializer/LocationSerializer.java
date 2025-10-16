@@ -18,9 +18,6 @@
 
 package me.despical.commons.serializer;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-
 import me.despical.commons.number.NumberUtils;
 import me.despical.commons.util.WeakLocation;
 import org.bukkit.Bukkit;
@@ -28,12 +25,15 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+
 /**
  * @author Despical
  * <p>
  * Created at 30.05.2020
  */
-public class LocationSerializer {
+public final class LocationSerializer {
 
 	/**
 	 * Default world spawn location.
@@ -49,17 +49,17 @@ public class LocationSerializer {
 	private static final String DELIMITER = ", ";
 	private static final int EXPECTED_PARTS = 6;
 
-	private LocationSerializer() {
-	}
-
 	static {
 		DECIMAL_FORMAT = new DecimalFormat("0.000");
 		DecimalFormatSymbols formatSymbols = DECIMAL_FORMAT.getDecimalFormatSymbols();
 		formatSymbols.setDecimalSeparator('.');
 		DECIMAL_FORMAT.setDecimalFormatSymbols(formatSymbols);
 
-		DEFAULT_LOCATION = Bukkit.getWorlds().get(0).getSpawnLocation();
+		DEFAULT_LOCATION = Bukkit.getWorlds().getFirst().getSpawnLocation();
 		SERIALIZED_LOCATION = toString(DEFAULT_LOCATION);
+	}
+
+	private LocationSerializer() {
 	}
 
 	/**
@@ -183,19 +183,6 @@ public class LocationSerializer {
 	/**
 	 * Private data class to hold parsed location components.
 	 */
-	private static class LocationData {
-
-		final String worldName;
-		final double x, y, z;
-		final float yaw, pitch;
-
-		LocationData(String worldName, double x, double y, double z, float yaw, float pitch) {
-			this.worldName = worldName;
-			this.x = x;
-			this.y = y;
-			this.z = z;
-			this.yaw = yaw;
-			this.pitch = pitch;
-		}
+	private record LocationData(String worldName, double x, double y, double z, float yaw, float pitch) {
 	}
 }

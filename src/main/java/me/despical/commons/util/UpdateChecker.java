@@ -146,7 +146,7 @@ public final class UpdateChecker {
 				} else if (latest.equals(current)) {
 					return new UpdateResult(current.equals(newest) ? UpdateReason.UP_TO_DATE : UpdateReason.UNRELEASED_VERSION);
 				} else if (latest.equals(newest)) {
-					return new UpdateResult(UpdateReason.NEW_UPDATE, latest);
+					return new UpdateResult(latest);
 				}
 			} catch (IOException e) {
 				return new UpdateResult(UpdateReason.COULD_NOT_CONNECT);
@@ -182,8 +182,8 @@ public final class UpdateChecker {
 			UpdateChecker.this.lastResult = this;
 		}
 
-		private UpdateResult(UpdateReason reason, String newestVersion) {
-			this.reason = reason;
+		private UpdateResult(String newestVersion) {
+			this.reason = UpdateReason.NEW_UPDATE;
 			this.newestVersion = newestVersion;
 		}
 

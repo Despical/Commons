@@ -212,7 +212,7 @@ public class InventorySerializer {
 	}
 
 	private static class SavedInventory {
-		Map<Integer, ItemStack> items = new HashMap<>();
-		Map<Integer, ItemStack> armor = new HashMap<>();
+		final Map<Integer, ItemStack> items = new HashMap<>();
+		final Map<Integer, ItemStack> armor = new HashMap<>();
 	}
 }

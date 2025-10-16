@@ -29,7 +29,7 @@ import java.util.List;
  */
 public class FrameAnimatedString implements AnimatableString {
 
-	protected List<String> frames;
+	protected final List<String> frames;
 	protected int currentFrame = -1;
 
 	public FrameAnimatedString(String... frames) {

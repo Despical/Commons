@@ -160,8 +160,8 @@ public class ItemBuilder {
 
 				Multimap<Attribute, AttributeModifier> defaultAttributes = (Multimap<Attribute, AttributeModifier>) getDefaultAttributeModifiers.invoke(itemStack.getType(), EquipmentSlot.HAND);
 				meta.setAttributeModifiers(defaultAttributes);
-			} catch (Throwable ignored) {
-				ignored.printStackTrace();
+			} catch (Throwable exception) {
+				exception.printStackTrace();
 			}
 		}
 

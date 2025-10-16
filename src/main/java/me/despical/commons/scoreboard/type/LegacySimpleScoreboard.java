@@ -188,7 +188,7 @@ public class LegacySimpleScoreboard extends Scoreboard {
 		}
 
 		@Override
-		public UUID getUniqueId() {
+		public @NotNull UUID getUniqueId() {
 			return randomId;
 		}
 
@@ -262,92 +262,92 @@ public class LegacySimpleScoreboard extends Scoreboard {
 		}
 
 		@Override
-		public void incrementStatistic(Statistic statistic) throws IllegalArgumentException {
+		public void incrementStatistic(@NotNull Statistic statistic) throws IllegalArgumentException {
 
 		}
 
 		@Override
-		public void decrementStatistic(Statistic statistic) throws IllegalArgumentException {
+		public void decrementStatistic(@NotNull Statistic statistic) throws IllegalArgumentException {
 
 		}
 
 		@Override
-		public void incrementStatistic(Statistic statistic, int i) throws IllegalArgumentException {
+		public void incrementStatistic(@NotNull Statistic statistic, int i) throws IllegalArgumentException {
 
 		}
 
 		@Override
-		public void decrementStatistic(Statistic statistic, int i) throws IllegalArgumentException {
+		public void decrementStatistic(@NotNull Statistic statistic, int i) throws IllegalArgumentException {
 
 		}
 
 		@Override
-		public void setStatistic(Statistic statistic, int i) throws IllegalArgumentException {
+		public void setStatistic(@NotNull Statistic statistic, int i) throws IllegalArgumentException {
 
 		}
 
 		@Override
-		public int getStatistic(Statistic statistic) throws IllegalArgumentException {
+		public int getStatistic(@NotNull Statistic statistic) throws IllegalArgumentException {
 			return 0;
 		}
 
 		@Override
-		public void incrementStatistic(Statistic statistic, Material material) throws IllegalArgumentException {
+		public void incrementStatistic(@NotNull Statistic statistic, @NotNull Material material) throws IllegalArgumentException {
 
 		}
 
 		@Override
-		public void decrementStatistic(Statistic statistic, Material material) throws IllegalArgumentException {
+		public void decrementStatistic(@NotNull Statistic statistic, @NotNull Material material) throws IllegalArgumentException {
 
 		}
 
 		@Override
-		public int getStatistic(Statistic statistic, Material material) throws IllegalArgumentException {
+		public int getStatistic(@NotNull Statistic statistic, @NotNull Material material) throws IllegalArgumentException {
 			return 0;
 		}
 
 		@Override
-		public void incrementStatistic(Statistic statistic, Material material, int i) throws IllegalArgumentException {
+		public void incrementStatistic(@NotNull Statistic statistic, @NotNull Material material, int i) throws IllegalArgumentException {
 
 		}
 
 		@Override
-		public void decrementStatistic(Statistic statistic, Material material, int i) throws IllegalArgumentException {
+		public void decrementStatistic(@NotNull Statistic statistic, @NotNull Material material, int i) throws IllegalArgumentException {
 
 		}
 
 		@Override
-		public void setStatistic(Statistic statistic, Material material, int i) throws IllegalArgumentException {
+		public void setStatistic(@NotNull Statistic statistic, @NotNull Material material, int i) throws IllegalArgumentException {
 
 		}
 
 		@Override
-		public void incrementStatistic(Statistic statistic, EntityType entityType) throws IllegalArgumentException {
+		public void incrementStatistic(@NotNull Statistic statistic, @NotNull EntityType entityType) throws IllegalArgumentException {
 
 		}
 
 		@Override
-		public void decrementStatistic(Statistic statistic, EntityType entityType) throws IllegalArgumentException {
+		public void decrementStatistic(@NotNull Statistic statistic, @NotNull EntityType entityType) throws IllegalArgumentException {
 
 		}
 
 		@Override
-		public int getStatistic(Statistic statistic, EntityType entityType) throws IllegalArgumentException {
+		public int getStatistic(@NotNull Statistic statistic, @NotNull EntityType entityType) throws IllegalArgumentException {
 			return 0;
 		}
 
 		@Override
-		public void incrementStatistic(Statistic statistic, EntityType entityType, int i) throws IllegalArgumentException {
+		public void incrementStatistic(@NotNull Statistic statistic, @NotNull EntityType entityType, int i) throws IllegalArgumentException {
 
 		}
 
 		@Override
-		public void decrementStatistic(Statistic statistic, EntityType entityType, int i) {
+		public void decrementStatistic(@NotNull Statistic statistic, @NotNull EntityType entityType, int i) {
 
 		}
 
 		@Override
-		public void setStatistic(Statistic statistic, EntityType entityType, int i) {
+		public void setStatistic(@NotNull Statistic statistic, @NotNull EntityType entityType, int i) {
 
 		}
 
@@ -357,8 +357,8 @@ public class LegacySimpleScoreboard extends Scoreboard {
 		}
 
 		@Override
-		public Map<String, Object> serialize() {
-			return null;
+		public @NotNull Map<String, Object> serialize() {
+			return Map.of();
 		}
 
 		@Override

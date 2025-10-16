@@ -112,7 +112,7 @@ public class NumberUtils {
 	}
 
 	/**
-	 * Convert a String to an double, returning zero if the conversion
+	 * Convert a String to a double, returning zero if the conversion
 	 * fails. If the string is null, zero is returned.
 	 *
 	 * @param string the string to convert, may be null
@@ -123,7 +123,7 @@ public class NumberUtils {
 	}
 
 	/**
-	 * Convert a String to an double, returning a default value if the conversion
+	 * Convert a String to a double, returning a default value if the conversion
 	 * fails. If the string is null, the default value is returned.
 	 *
 	 * @param string the string to convert, may be null
@@ -156,7 +156,7 @@ public class NumberUtils {
 	}
 
 	/**
-	 * Convert a String to an long, returning zero if the conversion
+	 * Convert a String to a long, returning zero if the conversion
 	 * fails. If the string is null, zero is returned.
 	 *
 	 * @param string the string to convert, may be null
@@ -167,7 +167,7 @@ public class NumberUtils {
 	}
 
 	/**
-	 * Convert a String to an long, returning a default value if the conversion
+	 * Convert a String to a long, returning a default value if the conversion
 	 * fails. If the string is null, the default value is returned.
 	 *
 	 * @param string the string to convert, may be null
@@ -200,7 +200,7 @@ public class NumberUtils {
 	}
 
 	/**
-	 * Convert a String to an short, returning zero if the conversion
+	 * Convert a String to a short, returning zero if the conversion
 	 * fails. If the string is null, zero is returned.
 	 *
 	 * @param string the string to convert, may be null
@@ -211,7 +211,7 @@ public class NumberUtils {
 	}
 
 	/**
-	 * Convert a String to an short, returning a default value if the conversion
+	 * Convert a String to a short, returning a default value if the conversion
 	 * fails. If the string is null, the default value is returned.
 	 *
 	 * @param string the string to convert, may be null
@@ -244,7 +244,7 @@ public class NumberUtils {
 	}
 
 	/**
-	 * Convert a String to an float, returning zero if the conversion
+	 * Convert a String to a float, returning zero if the conversion
 	 * fails. If the string is null, zero is returned.
 	 *
 	 * @param string the string to convert, may be null
@@ -255,7 +255,7 @@ public class NumberUtils {
 	}
 
 	/**
-	 * Convert a String to an float, returning a default value if the conversion
+	 * Convert a String to a float, returning a default value if the conversion
 	 * fails. If the string is null, the default value is returned.
 	 *
 	 * @param string the string to convert, may be null
@@ -286,7 +286,7 @@ public class NumberUtils {
 
 	/**
 	 * Round an integer to nearest multiple of floor.
-	 *
+	 * <p>
 	 * If 14 is the integer and 9 is the floor then
 	 * method will return 18 or if the floor is same
 	 * and integer is 13 it will return 9 not 18 because

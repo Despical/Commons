@@ -25,7 +25,11 @@ package me.despical.commons.scoreboard.common.animation;
  */
 public class HighlightedString extends FrameAnimatedString {
 
-	protected String context, normalFormat, highlightFormat, prefix, suffix;
+	protected final String context;
+	protected final String normalFormat;
+	protected final String highlightFormat;
+	protected final String prefix;
+	protected final String suffix;
 
 	public HighlightedString(String context, String normalFormat, String highlightFormat) {
 		this(context, normalFormat, highlightFormat, "", "");
