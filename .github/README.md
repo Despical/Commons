@@ -24,14 +24,14 @@ Commons is an open-source library that provides useful utilities for Java and Mi
 <dependency>
     <groupId>com.github.despical</groupId>
     <artifactId>commons</artifactId>
-    <version>2.0.1</version>
+    <version>2.0.2</version>
 </dependency>
 ```
 
 ### Gradle
 ```gradle
 dependencies {
-    implementation 'com.github.despical:commons:2.0.1'
+    implementation 'com.github.despical:commons:2.0.2'
 }
 ```
 

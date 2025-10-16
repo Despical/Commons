@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.despical</groupId>
     <artifactId>commons</artifactId>
-    <version>2.0.1</version>
+    <version>2.0.2</version>
 
     <name>Commons</name>
     <inceptionYear>2020</inceptionYear>
@@ -149,7 +149,6 @@
                             <excludes>
                                 <exclude>com/cryptomorin/xseries/XBiome*</exclude>
                                 <exclude>com/cryptomorin/xseries/XEntity*</exclude>
-                                <exclude>com/cryptomorin/xseries/XAttribute*</exclude>
                                 <exclude>com/cryptomorin/xseries/XEntityType*</exclude>
                                 <exclude>com/cryptomorin/xseries/XBlock*</exclude>
                                 <exclude>com/cryptomorin/xseries/XEntity*</exclude>
