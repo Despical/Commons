@@ -195,7 +195,7 @@ public class ItemBuilder {
 
 	public ItemBuilder lore(List<String> loreList) {
 		ItemMeta meta = itemStack.getItemMeta();
-		List<String> lore = Optional.of(meta.getLore()).orElseGet(ArrayList::new);
+		List<String> lore = Optional.ofNullable(meta.getLore()).orElseGet(ArrayList::new);
 		lore.addAll(loreList);
 
 		meta.setLore(lore.stream().map(Strings::format).collect(Collectors.toList()));
