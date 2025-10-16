@@ -18,6 +18,7 @@
 
 package me.despical.commons.miscellaneous;
 
+import com.cryptomorin.xseries.XAttribute;
 import com.cryptomorin.xseries.reflection.XReflection;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
@@ -30,9 +31,17 @@ import org.bukkit.entity.Player;
  */
 public class AttributeUtils {
 
+	private static final boolean NOT_SUPPORTS_MC_1_9 = !XReflection.supports(9);
+
 	public static void setAttackCooldown(Player player, double value) {
-		if (XReflection.supports(9)) {
-			player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(value);
+		if (NOT_SUPPORTS_MC_1_9) {
+			return;
+		}
+
+		Attribute attribute = XAttribute.ATTACK_SPEED.get();
+
+		if (attribute != null) {
+			player.getAttribute(attribute).setBaseValue(value);
 		}
 	}
 
@@ -41,11 +50,16 @@ public class AttributeUtils {
 	}
 
 	public static void healPlayer(Player player) {
-		if (XReflection.supports(9)) {
-			player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+		if (NOT_SUPPORTS_MC_1_9) {
+			player.setHealth(player.getMaxHealth());
 			return;
 		}
 
-		player.setHealth(player.getMaxHealth());
+		Attribute attribute = XAttribute.MAX_HEALTH.get();
+
+		if (attribute != null) {
+			player.setHealth(player.getAttribute(attribute).getValue());
+		}
+
 	}
 }
