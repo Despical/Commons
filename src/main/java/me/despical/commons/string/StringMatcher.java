@@ -91,19 +91,7 @@ public class StringMatcher {
 		return str;
 	}
 
-	public static class Match implements Comparable<Match> {
-
-		protected final String match;
-		protected final int length;
-
-		protected Match(String match, int length) {
-			this.match = match;
-			this.length = length;
-		}
-
-		public String getMatch() {
-			return match;
-		}
+	public record Match(String match, int length) implements Comparable<Match> {
 
 		@Override
 		public int compareTo(Match other) {

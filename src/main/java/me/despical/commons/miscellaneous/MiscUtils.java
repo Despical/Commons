@@ -19,7 +19,6 @@
 package me.despical.commons.miscellaneous;
 
 import me.despical.commons.util.Strings;
-import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
@@ -36,7 +35,7 @@ import java.util.Random;
  * Created at 30.05.2020
  * @see <a href="https://www.spigotmc.org/threads/free-code-sending-perfectly-centered-chat-message.95872">Spigot Thread</a>
  */
-public class MiscUtils {
+public final class MiscUtils {
 
 	private static final Random random = new Random();
 
@@ -47,28 +46,12 @@ public class MiscUtils {
 		Firework fw = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
 		FireworkMeta fwm = fw.getFireworkMeta();
 
-		FireworkEffect.Type type;
-
-		switch (random.nextInt(4)) {
-			case 0:
-				type = FireworkEffect.Type.BALL;
-				break;
-			case 1:
-				type = FireworkEffect.Type.BALL_LARGE;
-				break;
-			case 2:
-				type = FireworkEffect.Type.BURST;
-				break;
-			case 3:
-				type = FireworkEffect.Type.CREEPER;
-				break;
-			case 4:
-				type = FireworkEffect.Type.STAR;
-				break;
-			default:
-				type = FireworkEffect.Type.BALL;
-				break;
-		}
+		FireworkEffect.Type type = switch (random.nextInt(4)) {
+			case 1 -> FireworkEffect.Type.BALL_LARGE;
+			case 2 -> FireworkEffect.Type.BURST;
+			case 3 -> FireworkEffect.Type.CREEPER;
+			default -> FireworkEffect.Type.BALL;
+		};
 
 		FireworkEffect effect = FireworkEffect.builder().flicker(random.nextBoolean()).withColor(Color.fromBGR(random.nextInt(250) + 1))
 			.withFade(Color.fromBGR(random.nextInt(250) + 1)).with(type).trail(random.nextBoolean()).build();
@@ -79,12 +62,14 @@ public class MiscUtils {
 	}
 
 	public static void sendCenteredMessage(CommandSender sender, String message) {
+		message = Strings.format(message);
+
 		if (message.startsWith("%no_center%")) {
-			sender.sendMessage(Strings.format(message.substring(11)));
+			sender.sendMessage(message.substring(11));
 			return;
 		}
 
-		String[] lines = ChatColor.translateAlternateColorCodes('&', message).split("\n", 40);
+		String[] lines = message.split("\n", 40);
 		StringBuilder returnMessage = new StringBuilder();
 
 		for (String line : lines) {

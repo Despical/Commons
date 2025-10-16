@@ -18,10 +18,11 @@
 
 package me.despical.commons.file;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.nio.channels.Channels;
-import java.nio.channels.ReadableByteChannel;
 
 /**
  * @author Despical
@@ -34,17 +35,15 @@ public class FileUtils {
 	/**
 	 * Download a file from specified URL to destination file.
 	 *
-	 * @param url where to download file
+	 * @param url         where to download file
 	 * @param destination where the output stream will be in
 	 * @throws IOException if connection fails
 	 */
 	public static void copyURLToFile(URL url, File destination) throws IOException {
-		ReadableByteChannel channel = Channels.newChannel(url.openStream());
-		FileOutputStream stream = new FileOutputStream(destination);
-
-		stream.getChannel().transferFrom(channel, 0, Long.MAX_VALUE);
-
-		channel.close();
-		stream.close();
+		try (var channel = Channels.newChannel(url.openStream());
+			 var stream = new FileOutputStream(destination)
+		) {
+			stream.getChannel().transferFrom(channel, 0, Long.MAX_VALUE);
+		}
 	}
 }
