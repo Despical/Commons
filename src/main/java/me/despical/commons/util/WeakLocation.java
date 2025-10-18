@@ -51,7 +51,7 @@ public class WeakLocation {
 			return null;
 		}
 
-		if (!location.isWorldLoaded()) {
+		if (!isWorldLoaded()) {
 			World world = Bukkit.getWorld(worldName);
 
 			if (world != null) {
@@ -66,9 +66,21 @@ public class WeakLocation {
 	}
 
 	public boolean isLoaded() {
-		return Optional.ofNullable(location)
-			.map(Location::isWorldLoaded)
-			.orElse(false);
+		if (location == null) {
+			return false;
+		}
+
+		return isWorldLoaded();
+	}
+
+	private boolean isWorldLoaded() {
+		World world = location.getWorld();
+
+		if (world == null) {
+			return false;
+		}
+
+		return world.equals(Bukkit.getWorld(world.getUID()));
 	}
 
 	public Location orElse(Location location) {
