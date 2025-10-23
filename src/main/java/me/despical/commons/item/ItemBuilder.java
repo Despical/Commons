@@ -22,7 +22,6 @@ import com.cryptomorin.xseries.XEnchantment;
 import com.cryptomorin.xseries.XItemFlag;
 import com.cryptomorin.xseries.XMaterial;
 import com.cryptomorin.xseries.reflection.XReflection;
-
 import me.despical.commons.util.Collections;
 import me.despical.commons.util.Strings;
 import org.bukkit.Material;
@@ -32,9 +31,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -113,11 +110,16 @@ public class ItemBuilder {
 		return this;
 	}
 
-	public ItemBuilder flag(ItemFlag itemFlag) {
-		ItemMeta meta = itemStack.getItemMeta();
-		meta.addItemFlags(itemFlag);
+	public ItemBuilder flag(XItemFlag... flags) {
+		ItemMeta itemMeta = itemStack.getItemMeta();
+		itemMeta.addItemFlags(
+			Arrays.stream(flags)
+				.map(XItemFlag::get)
+				.filter(Objects::nonNull)
+				.toArray(ItemFlag[]::new)
+		);
 
-		itemStack.setItemMeta(meta);
+		itemStack.setItemMeta(itemMeta);
 		return this;
 	}
 
