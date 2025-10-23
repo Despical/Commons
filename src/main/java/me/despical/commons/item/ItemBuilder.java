@@ -123,6 +123,14 @@ public class ItemBuilder {
 		return this;
 	}
 
+	public ItemBuilder decorationOnly() {
+		ItemMeta itemMeta = itemStack.getItemMeta();
+		XItemFlag.decorationOnly(itemMeta);
+
+		itemStack.setItemMeta(itemMeta);
+		return this;
+	}
+
 	public ItemBuilder durability(short durability) {
 		itemStack.setDurability(durability);
 		return this;
