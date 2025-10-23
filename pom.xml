@@ -148,10 +148,7 @@
                             <artifact>com.github.cryptomorin:XSeries</artifact>
                             <excludes>
                                 <exclude>com/cryptomorin/xseries/XBiome*</exclude>
-                                <exclude>com/cryptomorin/xseries/XEntity*</exclude>
                                 <exclude>com/cryptomorin/xseries/XBlock*</exclude>
-                                <exclude>com/cryptomorin/xseries/XEntity*</exclude>
-                                <exclude>com/cryptomorin/xseries/XItemFlag*</exclude>
                                 <exclude>com/cryptomorin/xseries/XItemStack*</exclude>
                                 <exclude>com/cryptomorin/xseries/XPatternType*</exclude>
                                 <exclude>com/cryptomorin/xseries/XTag*</exclude>
