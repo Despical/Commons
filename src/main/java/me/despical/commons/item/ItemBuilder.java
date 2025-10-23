@@ -19,17 +19,14 @@
 package me.despical.commons.item;
 
 import com.cryptomorin.xseries.XEnchantment;
+import com.cryptomorin.xseries.XItemFlag;
 import com.cryptomorin.xseries.XMaterial;
 import com.cryptomorin.xseries.reflection.XReflection;
-import com.google.common.collect.Multimap;
 
 import me.despical.commons.util.Collections;
 import me.despical.commons.util.Strings;
 import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -39,7 +36,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @author Despical
@@ -100,17 +96,20 @@ public class ItemBuilder {
 	}
 
 	public ItemBuilder enchantment(XEnchantment xenchantment) {
-		Optional.ofNullable(xenchantment.getEnchant()).ifPresent(enchantment -> itemStack.addUnsafeEnchantment(enchantment, 1));
+		Optional.ofNullable(xenchantment.get()).ifPresent(enchantment -> itemStack.addUnsafeEnchantment(enchantment, 1));
 		return this;
 	}
 
 	public ItemBuilder enchantment(XEnchantment xenchantment, int level) {
-		Optional.ofNullable(xenchantment.getEnchant()).ifPresent(enchantment -> itemStack.addUnsafeEnchantment(enchantment, level));
+		Optional.ofNullable(xenchantment.get()).ifPresent(enchantment -> itemStack.addUnsafeEnchantment(enchantment, level));
 		return this;
 	}
 
 	public ItemBuilder flag(ItemFlag... flags) {
-		Stream.of(flags).forEach(this::flag);
+		ItemMeta itemMeta = itemStack.getItemMeta();
+		itemMeta.addItemFlags(flags);
+
+		itemStack.setItemMeta(itemMeta);
 		return this;
 	}
 
@@ -151,34 +150,19 @@ public class ItemBuilder {
 	}
 
 	public ItemBuilder hideTooltip() {
-		ItemMeta meta = itemStack.getItemMeta();
-
-		if (XReflection.supports(20, 5)) {
-			try {
-				Method getDefaultAttributeModifiers = Material.class.getMethod("getDefaultAttributeModifiers", EquipmentSlot.class);
-				getDefaultAttributeModifiers.setAccessible(true);
-
-				Multimap<Attribute, AttributeModifier> defaultAttributes = (Multimap<Attribute, AttributeModifier>) getDefaultAttributeModifiers.invoke(itemStack.getType(), EquipmentSlot.HAND);
-				meta.setAttributeModifiers(defaultAttributes);
-			} catch (Throwable exception) {
-				exception.printStackTrace();
-			}
-		}
-
-		meta.addItemFlags(ItemFlag.values());
-
-		itemStack.setItemMeta(meta);
-		return this;
+		return flag(ItemFlag.values());
 	}
 
 	public ItemBuilder glow(boolean glow) {
-		if (!glow) return this;
+		if (!glow) {
+			return this;
+		}
 
-		return this.enchantment(XEnchantment.UNBREAKING.getEnchant()).flag(ItemFlag.HIDE_ENCHANTS);
+		return enchantment(XEnchantment.UNBREAKING.get()).flag(XItemFlag.HIDE_ENCHANTS.get());
 	}
 
 	public ItemBuilder glow() {
-		return this.glow(true);
+		return glow(true);
 	}
 
 	public ItemBuilder lore(String... lore) {
@@ -187,7 +171,7 @@ public class ItemBuilder {
 
 	public ItemBuilder loreIf(boolean condition, String... lore) {
 		if (condition) {
-			this.lore(lore);
+			lore(lore);
 		}
 
 		return this;
