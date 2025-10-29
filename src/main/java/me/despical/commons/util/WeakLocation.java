@@ -18,10 +18,12 @@
 
 package me.despical.commons.util;
 
+import me.despical.commons.serializer.LocationSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -32,18 +34,10 @@ import java.util.Optional;
  * <p>
  * Created at 27.07.2025
  */
-public class WeakLocation {
-
-	private final String worldName;
-	private final Location location;
+public record WeakLocation(String worldName, Location location) {
 
 	public WeakLocation(Location location) {
 		this(Objects.requireNonNull(location.getWorld()).getName(), location);
-	}
-
-	public WeakLocation(String worldName, Location location) {
-		this.worldName = worldName;
-		this.location = location;
 	}
 
 	public Location get() {
@@ -95,5 +89,11 @@ public class WeakLocation {
 		if (targetLocation == null) return;
 
 		player.teleport(targetLocation);
+	}
+
+	@NotNull
+	@Override
+	public String toString() {
+		return LocationSerializer.toString(this.get());
 	}
 }
