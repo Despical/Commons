@@ -23,6 +23,7 @@ import me.despical.commons.util.WeakLocation;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
@@ -47,7 +48,6 @@ public final class LocationSerializer {
 
 	private static final DecimalFormat DECIMAL_FORMAT;
 	private static final String DELIMITER = ", ";
-	private static final int EXPECTED_PARTS = 6;
 
 	static {
 		DECIMAL_FORMAT = new DecimalFormat("0.000");
@@ -63,7 +63,7 @@ public final class LocationSerializer {
 	}
 
 	/**
-	 * Parses a location from string format: "world, x, y, z, yaw, pitch"
+	 * Parses a location from string format: "world, x, y, z" or "world, x, y, z, yaw, pitch"
 	 *
 	 * @param input serialized location string
 	 * @return Location object or null if parsing fails
@@ -99,6 +99,28 @@ public final class LocationSerializer {
 			DECIMAL_FORMAT.format(loc.getZ()),
 			DECIMAL_FORMAT.format(loc.getYaw()),
 			DECIMAL_FORMAT.format(loc.getPitch())
+		);
+	}
+
+	/**
+	 * Converts block location to string format: "world, x, y, z"
+	 *
+	 * @param block block to serialize
+	 * @return serialized location string
+	 */
+	@NotNull
+	public static String toString(Block block) {
+		if (block == null) {
+			return "";
+		}
+
+		Location loc = block.getLocation();
+
+		return String.join(", ",
+			loc.getWorld().getName(),
+			DECIMAL_FORMAT.format(loc.getX()),
+			DECIMAL_FORMAT.format(loc.getY()),
+			DECIMAL_FORMAT.format(loc.getZ())
 		);
 	}
 
@@ -144,7 +166,8 @@ public final class LocationSerializer {
 	 * @param location WeakLocation to serialize
 	 * @return serialized location string
 	 */
-	public static String convertWeakLocationToString(WeakLocation location) {
+	public static String toString(WeakLocation location) {
+		if (location == null) return "";
 		return toString(location.get());
 	}
 
@@ -155,13 +178,13 @@ public final class LocationSerializer {
 	 * @return LocationData object or null if parsing fails
 	 */
 	private static LocationData parseLocationData(String input) {
-		if (input == null) {
+		if (input == null || input.isEmpty()) {
 			return null;
 		}
 
 		String[] parts = input.split(DELIMITER);
 
-		if (parts.length != EXPECTED_PARTS) {
+		if (parts.length != 4 && parts.length != 6) {
 			return null;
 		}
 
@@ -170,8 +193,14 @@ public final class LocationSerializer {
 			double x = NumberUtils.getDouble(parts[1]);
 			double y = NumberUtils.getDouble(parts[2]);
 			double z = NumberUtils.getDouble(parts[3]);
-			float yaw = NumberUtils.getFloat(parts[4]);
-			float pitch = NumberUtils.getFloat(parts[5]);
+
+			float yaw = 0.0f;
+			float pitch = 0.0f;
+
+			if (parts.length == 6) {
+				yaw = NumberUtils.getFloat(parts[4]);
+				pitch = NumberUtils.getFloat(parts[5]);
+			}
 
 			return new LocationData(worldName, x, y, z, yaw, pitch);
 		} catch (NumberFormatException exception) {
