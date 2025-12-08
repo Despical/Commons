@@ -1,0 +1,65 @@
+/*
+ * Commons - Box of the common utilities.
+ * Copyright (C) 2025 Despical
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package dev.despical.commons.miscellaneous;
+
+import com.cryptomorin.xseries.XAttribute;
+import com.cryptomorin.xseries.reflection.XReflection;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.entity.Player;
+
+/**
+ * @author Despical
+ * @since 1.1.6
+ * <p>
+ * Created at 13.10.2020
+ */
+public class AttributeUtils {
+
+	private static final boolean NOT_SUPPORTS_MC_1_9 = !XReflection.supports(9);
+
+	public static void setAttackCooldown(Player player, double value) {
+		if (NOT_SUPPORTS_MC_1_9) {
+			return;
+		}
+
+		Attribute attribute = XAttribute.ATTACK_SPEED.get();
+
+		if (attribute != null) {
+			player.getAttribute(attribute).setBaseValue(value);
+		}
+	}
+
+	public static void resetAttackCooldown(Player player) {
+		setAttackCooldown(player, 4);
+	}
+
+	public static void healPlayer(Player player) {
+		if (NOT_SUPPORTS_MC_1_9) {
+			player.setHealth(player.getMaxHealth());
+			return;
+		}
+
+		Attribute attribute = XAttribute.MAX_HEALTH.get();
+
+		if (attribute != null) {
+			player.setHealth(player.getAttribute(attribute).getValue());
+		}
+
+	}
+}
