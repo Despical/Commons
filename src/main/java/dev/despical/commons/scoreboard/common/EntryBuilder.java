@@ -31,9 +31,13 @@ import java.util.List;
  */
 public final class EntryBuilder {
 
-    private static final int MAX_LENGTH = XReflection.supports(14) ? 144 : 48;
+	private static final int MAX_LENGTH = XReflection.supports(14) ? 144 : 48;
 
 	private final List<Entry> entries = new LinkedList<>();
+
+	public static List<Entry> empty() {
+		return Collections.emptyList();
+	}
 
 	public EntryBuilder blank() {
 		return next("");
@@ -49,7 +53,7 @@ public final class EntryBuilder {
 	}
 
 	public List<Entry> build() {
-        int entryCount = entries.size();
+		int entryCount = entries.size();
 
 		for (Entry entry : entries) {
 			entry.setPosition(entryCount - entry.getPosition());
@@ -63,14 +67,10 @@ public final class EntryBuilder {
 	}
 
 	private String adaptEntryLength(String entry) {
-        if (entry.length() > MAX_LENGTH) {
-            entry = entry.substring(0, MAX_LENGTH - 1);
-        }
+		if (entry.length() > MAX_LENGTH) {
+			entry = entry.substring(0, MAX_LENGTH - 1);
+		}
 
 		return entry;
 	}
-
-    public static List<Entry> empty() {
-        return Collections.emptyList();
-    }
 }

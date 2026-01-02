@@ -18,15 +18,15 @@
 
 package dev.despical.commons.configuration;
 
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.function.Consumer;
-
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * @author Despical
@@ -38,7 +38,7 @@ public class ConfigUtils {
 	/**
 	 * Get the config file's configuration
 	 *
-	 * @param plugin to get config file from
+	 * @param plugin   to get config file from
 	 * @param fileName name of the config file
 	 * @return file configuration of given file
 	 */
@@ -65,7 +65,7 @@ public class ConfigUtils {
 	/**
 	 * Get the config file's configuration, gets the file from the resources.
 	 *
-	 * @param plugin to get config file from
+	 * @param plugin   to get config file from
 	 * @param fileName name of the config file
 	 * @return file configuration of given file
 	 */
@@ -90,7 +90,7 @@ public class ConfigUtils {
 	 *
 	 * @param plugin to get config file from
 	 * @param config file to save
-	 * @param name to get config
+	 * @param name   to get config
 	 */
 	public static void saveConfig(JavaPlugin plugin, FileConfiguration config, String name) {
 		try {
@@ -107,8 +107,8 @@ public class ConfigUtils {
 	 * modifications through the specified {@link Consumer} of {@link FileConfiguration}, and
 	 * then saves the modified configuration file.
 	 *
-	 * @param plugin The {@link JavaPlugin} instance from which the configuration is loaded and saved.
-	 * @param fileName The name of the configuration file to be loaded and saved.
+	 * @param plugin         The {@link JavaPlugin} instance from which the configuration is loaded and saved.
+	 * @param fileName       The name of the configuration file to be loaded and saved.
 	 * @param configConsumer A {@link Consumer} that performs operations on the {@link FileConfiguration}.
 	 *                       This allows you to modify the configuration before it is saved.
 	 */

@@ -53,17 +53,17 @@ public class LegacySimpleScoreboard extends Scoreboard {
 	private final Table<String, Integer, FakePlayer> playerCache;
 
 	public LegacySimpleScoreboard(Player holder) {
-        super(holder);
-        this.entryCache = new ConcurrentHashMap<>();
-        this.teamCache = HashBasedTable.create();
-        this.playerCache = HashBasedTable.create();
+		super(holder);
+		this.entryCache = new ConcurrentHashMap<>();
+		this.teamCache = HashBasedTable.create();
+		this.playerCache = HashBasedTable.create();
 	}
 
 	@Override
 	public void update() {
 		if (!activated) {
-            return;
-        }
+			return;
+		}
 
 		if (!holder.isOnline()) {
 			deactivate();
@@ -151,7 +151,7 @@ public class LegacySimpleScoreboard extends Scoreboard {
 
 			if (team == null) {
 				team = scoreboard.registerNewTeam(TEAM_PREFIX + TEAM_COUNTER++);
-                team.setPrefix(prefix);
+				team.setPrefix(prefix);
 				team.setSuffix(suffix);
 
 				teamCache.put(team, prefix, suffix);

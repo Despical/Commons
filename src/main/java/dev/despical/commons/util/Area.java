@@ -77,8 +77,8 @@ public class Area {
 
 	public boolean contains(int x, int y, int z) {
 		return NumberUtils.isBetween(x, minX, maxX) &&
-			   NumberUtils.isBetween(y, minY, maxY) &&
-			   NumberUtils.isBetween(z, minZ, maxZ);
+			NumberUtils.isBetween(y, minY, maxY) &&
+			NumberUtils.isBetween(z, minZ, maxZ);
 	}
 
 	public boolean contains(Location location) {

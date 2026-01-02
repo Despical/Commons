@@ -18,9 +18,6 @@
 
 package dev.despical.commons.serializer;
 
-import java.io.File;
-import java.util.*;
-
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -32,6 +29,9 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+
+import java.io.File;
+import java.util.*;
 
 /**
  * @author Despical
@@ -194,7 +194,7 @@ public class InventorySerializer {
 			SavedInventory saved = getInventoryFromFile(plugin, player.getUniqueId().toString());
 			saved.items.forEach(player.getInventory()::setItem);
 
-			PlayerInventory inventory =  player.getInventory();
+			PlayerInventory inventory = player.getInventory();
 			ItemStack[] armor = new ItemStack[inventory.getArmorContents().length];
 
 			for (int i = 0; i < armor.length; i++) {

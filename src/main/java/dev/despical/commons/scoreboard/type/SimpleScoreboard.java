@@ -40,101 +40,101 @@ import java.util.regex.Matcher;
  */
 public class SimpleScoreboard extends Scoreboard {
 
-    private final ChatColor[] chatColors;
+	private final ChatColor[] chatColors;
 
-    public SimpleScoreboard(Player holder) {
-        super(holder);
-        this.chatColors = ChatColor.values();
+	public SimpleScoreboard(Player holder) {
+		super(holder);
+		this.chatColors = ChatColor.values();
 
-        for (int slot = 1; slot < 16; slot++) {
-            String entry = getEntry(slot);
+		for (int slot = 1; slot < 16; slot++) {
+			String entry = getEntry(slot);
 
-            Team team = scoreboard.registerNewTeam(TEAM_PREFIX + slot);
-            team.addEntry(entry);
-        }
-    }
+			Team team = scoreboard.registerNewTeam(TEAM_PREFIX + slot);
+			team.addEntry(entry);
+		}
+	}
 
-    @Override
-    public void update() {
-        if (!activated) {
-            return;
-        }
+	@Override
+	public void update() {
+		if (!activated) {
+			return;
+		}
 
-        if (!holder.isOnline()) {
-            deactivate();
-            return;
-        }
+		if (!holder.isOnline()) {
+			deactivate();
+			return;
+		}
 
-        String title = Strings.format(handler.getTitle(holder));
+		String title = Strings.format(handler.getTitle(holder));
 
-        if (!objective.getDisplayName().equals(title)) {
-            objective.setDisplayName(title);
-        }
+		if (!objective.getDisplayName().equals(title)) {
+			objective.setDisplayName(title);
+		}
 
-        List<Entry> passed = handler.getEntries(holder);
-        List<Integer> current = new ArrayList<>(passed.size());
+		List<Entry> passed = handler.getEntries(holder);
+		List<Integer> current = new ArrayList<>(passed.size());
 
-        for (Entry entry : passed) {
-            int score = entry.getPosition();
-            Team team = scoreboard.getTeam(TEAM_PREFIX + score);
-            String temp = getEntry(score);
+		for (Entry entry : passed) {
+			int score = entry.getPosition();
+			Team team = scoreboard.getTeam(TEAM_PREFIX + score);
+			String temp = getEntry(score);
 
-            if (!scoreboard.getEntries().contains(temp)) {
-                objective.getScore(temp).setScore(score);
-            }
+			if (!scoreboard.getEntries().contains(temp)) {
+				objective.getScore(temp).setScore(score);
+			}
 
-            String[] splitContext = splitContextIntoTwo(entry.getContext());
+			String[] splitContext = splitContextIntoTwo(entry.getContext());
 
-            team.setPrefix(Strings.format(splitContext[0]));
-            team.setSuffix(Strings.format(splitContext[1]));
+			team.setPrefix(Strings.format(splitContext[0]));
+			team.setSuffix(Strings.format(splitContext[1]));
 
-            current.add(score);
-        }
+			current.add(score);
+		}
 
-        Set<String> scoreboardEntries = scoreboard.getEntries();
+		Set<String> scoreboardEntries = scoreboard.getEntries();
 
-        for (int slot = 1; slot < 16; slot++) {
-            if (current.contains(slot)) {
-                continue;
-            }
+		for (int slot = 1; slot < 16; slot++) {
+			if (current.contains(slot)) {
+				continue;
+			}
 
-            String entry = getEntry(slot);
+			String entry = getEntry(slot);
 
-            if (scoreboardEntries.contains(entry)) {
-                scoreboard.resetScores(entry);
-            }
-        }
-    }
+			if (scoreboardEntries.contains(entry)) {
+				scoreboard.resetScores(entry);
+			}
+		}
+	}
 
-    private String[] splitContextIntoTwo(String context) {
-        if (context.length() <= 64) {
-            return new String[] {context, ""};
-        }
+	private String[] splitContextIntoTwo(String context) {
+		if (context.length() <= 64) {
+			return new String[]{context, ""};
+		}
 
-        int cutIndex = 64;
-        String lastHex = "";
-        Matcher matcher = StringMatcher.HEX_PATTERN.matcher(context);
+		int cutIndex = 64;
+		String lastHex = "";
+		Matcher matcher = StringMatcher.HEX_PATTERN.matcher(context);
 
-        while (matcher.find()) {
-            int start = matcher.start();
-            int end = matcher.end();
+		while (matcher.find()) {
+			int start = matcher.start();
+			int end = matcher.end();
 
-            if (cutIndex >= start && cutIndex < end) {
-                cutIndex = start;
-                break;
-            }
+			if (cutIndex >= start && cutIndex < end) {
+				cutIndex = start;
+				break;
+			}
 
-            if (start < cutIndex) {
-                lastHex = matcher.group(0);
-            }
-        }
+			if (start < cutIndex) {
+				lastHex = matcher.group(0);
+			}
+		}
 
-        String prefix = context.substring(0, cutIndex);
-        String suffix = lastHex + context.substring(cutIndex);
-        return new String[] {prefix, suffix};
-    }
+		String prefix = context.substring(0, cutIndex);
+		String suffix = lastHex + context.substring(cutIndex);
+		return new String[]{prefix, suffix};
+	}
 
-    private String getEntry(int slot) {
-        return chatColors[slot].toString();
-    }
+	private String getEntry(int slot) {
+		return chatColors[slot].toString();
+	}
 }

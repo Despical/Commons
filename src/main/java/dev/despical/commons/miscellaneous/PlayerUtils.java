@@ -37,8 +37,8 @@ public class PlayerUtils {
 	 * Hides given player to given other player to avoid using deprecated
 	 * methods.
 	 *
-	 * @param to player to hide
-	 * @param p player to be hidden
+	 * @param to     player to hide
+	 * @param p      player to be hidden
 	 * @param plugin instance for method to avoid deprecation
 	 */
 	public static void hidePlayer(Player to, Player p, JavaPlugin plugin) {
@@ -57,8 +57,8 @@ public class PlayerUtils {
 	 * Shows given player to given other player to avoid using deprecated
 	 * methods.
 	 *
-	 * @param to player to show
-	 * @param p player to be shown
+	 * @param to     player to show
+	 * @param p      player to be shown
 	 * @param plugin instance for method to avoid deprecation
 	 */
 	public static void showPlayer(Player to, Player p, JavaPlugin plugin) {

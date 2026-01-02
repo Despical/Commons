@@ -25,9 +25,9 @@ package dev.despical.commons.scoreboard;
  */
 public interface AutoUpdatable {
 
-    void disableAutoUpdate();
+	void disableAutoUpdate();
 
-    long getUpdateInterval();
+	long getUpdateInterval();
 
-    void setUpdateInterval(long updateInterval);
+	void setUpdateInterval(long updateInterval);
 }

@@ -37,15 +37,15 @@ public class Entry {
 		return context;
 	}
 
-    public void setContext(String context) {
-        this.context = context;
-    }
+	public void setContext(String context) {
+		this.context = context;
+	}
 
-    public int getPosition() {
+	public int getPosition() {
 		return position;
 	}
 
-    public void setPosition(int position) {
-        this.position = position;
-    }
+	public void setPosition(int position) {
+		this.position = position;
+	}
 }

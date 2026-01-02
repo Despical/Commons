@@ -39,8 +39,8 @@ import java.util.logging.Logger;
  */
 public class MySQLDatabase {
 
-	private Logger logger;
 	private final HikariDataSource hikariDataSource;
+	private Logger logger;
 
 	/**
 	 * Initializes the database using a custom config file name within a plugin's folder.

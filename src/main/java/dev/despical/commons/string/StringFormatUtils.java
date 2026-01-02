@@ -31,9 +31,9 @@ import java.util.Date;
  */
 public final class StringFormatUtils {
 
+	private static final Date today;
 	private static String timeFormat;
 	private static DateFormat dateFormatter;
-	private static final Date today;
 
 	static {
 		timeFormat = "%02d:%02d";

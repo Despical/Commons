@@ -25,12 +25,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class NumberUtilsTest {
 
-	@Test
-	public void serializeInt() {
-		assertEquals(9, roundInteger(3, 9));
-		assertEquals(9, roundInteger(9, 9));
-		assertEquals(27, roundInteger(24, 9));
-		assertEquals(36, roundInteger(37, 9));
-		assertEquals(45, roundInteger(43, 9));
-	}
+    @Test
+    public void serializeInt() {
+        assertEquals(9, roundInteger(3, 9));
+        assertEquals(9, roundInteger(9, 9));
+        assertEquals(27, roundInteger(24, 9));
+        assertEquals(36, roundInteger(37, 9));
+        assertEquals(45, roundInteger(43, 9));
+    }
 }

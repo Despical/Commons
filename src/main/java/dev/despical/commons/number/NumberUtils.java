@@ -83,7 +83,7 @@ public class NumberUtils {
 	 * fails. If the string is null, the default value is returned.
 	 *
 	 * @param string the string to convert, may be null
-	 * @param def the default value
+	 * @param def    the default value
 	 * @return the int represented by the string, or the default if conversion fails
 	 */
 	public static int getInt(String string, int def) {
@@ -127,7 +127,7 @@ public class NumberUtils {
 	 * fails. If the string is null, the default value is returned.
 	 *
 	 * @param string the string to convert, may be null
-	 * @param def the default value
+	 * @param def    the default value
 	 * @return the double represented by the string, or the default if conversion fails
 	 */
 	public static double getDouble(String string, double def) {
@@ -141,7 +141,7 @@ public class NumberUtils {
 	}
 
 	/**
-     * Checks if the String is primitive type long or not.
+	 * Checks if the String is primitive type long or not.
 	 *
 	 * @param str the String to check, may be null
 	 * @return true if long, and is non-null
@@ -171,7 +171,7 @@ public class NumberUtils {
 	 * fails. If the string is null, the default value is returned.
 	 *
 	 * @param string the string to convert, may be null
-	 * @param def the default value
+	 * @param def    the default value
 	 * @return the long represented by the string, or the default if conversion fails
 	 */
 	public static long getLong(String string, long def) {
@@ -215,7 +215,7 @@ public class NumberUtils {
 	 * fails. If the string is null, the default value is returned.
 	 *
 	 * @param string the string to convert, may be null
-	 * @param def the default value
+	 * @param def    the default value
 	 * @return the short represented by the string, or the default if conversion fails
 	 */
 	public static long getShort(String string, short def) {
@@ -259,7 +259,7 @@ public class NumberUtils {
 	 * fails. If the string is null, the default value is returned.
 	 *
 	 * @param string the string to convert, may be null
-	 * @param def the default value
+	 * @param def    the default value
 	 * @return the float represented by the string, or the default if conversion fails
 	 */
 	public static float getFloat(String string, float def) {
@@ -276,8 +276,8 @@ public class NumberUtils {
 	 * Checks if the given value is between given values.
 	 *
 	 * @param value the Integer to check is between values
-	 * @param min the minimum value to check given Integer
-	 * @param max the maximum value to check given Integer
+	 * @param min   the minimum value to check given Integer
+	 * @param max   the maximum value to check given Integer
 	 * @return true if value is between min and max values
 	 */
 	public static boolean isBetween(int value, int min, int max) {
@@ -292,8 +292,8 @@ public class NumberUtils {
 	 * and integer is 13 it will return 9 not 18 because
 	 * remainder between floor and integer is greater.
 	 *
-	 * @param integer  int to be rounded
-	 * @param floor int to be rounded multiple of
+	 * @param integer int to be rounded
+	 * @param floor   int to be rounded multiple of
 	 * @return rounded integer
 	 */
 	public static int roundInteger(int integer, int floor) {

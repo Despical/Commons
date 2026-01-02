@@ -34,124 +34,124 @@ import java.util.Optional;
  */
 public abstract class Scoreboard implements AutoUpdatable {
 
-    protected static final String TEAM_PREFIX = "Board_";
+	protected static final String TEAM_PREFIX = "Board_";
 
-    protected final Player holder;
-    protected final org.bukkit.scoreboard.Scoreboard scoreboard;
-    protected final org.bukkit.scoreboard.Scoreboard previousBoard;
-    protected final Objective objective;
+	protected final Player holder;
+	protected final org.bukkit.scoreboard.Scoreboard scoreboard;
+	protected final org.bukkit.scoreboard.Scoreboard previousBoard;
+	protected final Objective objective;
 
-    protected boolean activated;
-    protected boolean autoUpdateEnabled = true;
-    protected ScoreboardHandler handler;
-    protected BukkitRunnable updateTask;
-    protected long updateInterval = 10L;
+	protected boolean activated;
+	protected boolean autoUpdateEnabled = true;
+	protected ScoreboardHandler handler;
+	protected BukkitRunnable updateTask;
+	protected long updateInterval = 10L;
 
-    public Scoreboard(Player holder) {
-        this.holder = holder;
-        this.previousBoard = holder.getScoreboard();
+	public Scoreboard(Player holder) {
+		this.holder = holder;
+		this.previousBoard = holder.getScoreboard();
 
-        scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-        scoreboard.registerNewObjective("board", "dummy").setDisplaySlot(DisplaySlot.SIDEBAR);
+		scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+		scoreboard.registerNewObjective("board", "dummy").setDisplaySlot(DisplaySlot.SIDEBAR);
 
-        objective = scoreboard.getObjective(DisplaySlot.SIDEBAR);
-    }
+		objective = scoreboard.getObjective(DisplaySlot.SIDEBAR);
+	}
 
-    public abstract void update();
+	public abstract void update();
 
 	public void activate() {
-        if (activated) {
-            return;
-        }
+		if (activated) {
+			return;
+		}
 
-        if (handler == null) {
-            throw new IllegalStateException("Scoreboard handler not set yet!");
-        }
+		if (handler == null) {
+			throw new IllegalStateException("Scoreboard handler not set yet!");
+		}
 
-        activated = true;
+		activated = true;
 
-        holder.setScoreboard(scoreboard);
+		holder.setScoreboard(scoreboard);
 
-        if (!autoUpdateEnabled) {
-            return;
-        }
+		if (!autoUpdateEnabled) {
+			return;
+		}
 
-        updateTask = new BukkitRunnable() {
+		updateTask = new BukkitRunnable() {
 
-            @Override
-            public void run() {
-                update();
-            }
-        };
+			@Override
+			public void run() {
+				update();
+			}
+		};
 
-        updateTask.runTaskTimer(ScoreboardLib.getInstance(), 0, updateInterval);
-    }
+		updateTask.runTaskTimer(ScoreboardLib.getInstance(), 0, updateInterval);
+	}
 
-    public void deactivate() {
-        if (!activated) {
-            return;
-        }
+	public void deactivate() {
+		if (!activated) {
+			return;
+		}
 
-        activated = false;
+		activated = false;
 
-        if (holder.isOnline()) {
-            synchronized (this) {
-                holder.setScoreboard(previousBoard);
-            }
-        }
+		if (holder.isOnline()) {
+			synchronized (this) {
+				holder.setScoreboard(previousBoard);
+			}
+		}
 
-        for (Team team : scoreboard.getTeams()) {
-            team.unregister();
-        }
+		for (Team team : scoreboard.getTeams()) {
+			team.unregister();
+		}
 
-        Optional.ofNullable(updateTask).ifPresent(BukkitRunnable::cancel);
-    }
+		Optional.ofNullable(updateTask).ifPresent(BukkitRunnable::cancel);
+	}
 
-    @Override
-    public long getUpdateInterval() {
-        return updateInterval;
-    }
+	@Override
+	public long getUpdateInterval() {
+		return updateInterval;
+	}
 
-    @Override
-    public void disableAutoUpdate() {
-        if (activated) {
-            throw new IllegalStateException("You can not disable auto-updating after the scoreboard has been activated");
-        }
+	@Override
+	public void setUpdateInterval(long updateInterval) {
+		if (activated) {
+			throw new IllegalStateException("You cannot change update interval after the scoreboard has been activated");
+		}
 
-        this.autoUpdateEnabled = false;
-    }
+		this.updateInterval = updateInterval;
+	}
 
-    @Override
-    public void setUpdateInterval(long updateInterval) {
-        if (activated) {
-            throw new IllegalStateException("You cannot change update interval after the scoreboard has been activated");
-        }
+	@Override
+	public void disableAutoUpdate() {
+		if (activated) {
+			throw new IllegalStateException("You can not disable auto-updating after the scoreboard has been activated");
+		}
 
-        this.updateInterval = updateInterval;
-    }
+		this.autoUpdateEnabled = false;
+	}
 
-    public Player getHolder() {
-        return holder;
-    }
+	public Player getHolder() {
+		return holder;
+	}
 
-    public org.bukkit.scoreboard.Scoreboard getScoreboard() {
-        return scoreboard;
-    }
+	public org.bukkit.scoreboard.Scoreboard getScoreboard() {
+		return scoreboard;
+	}
 
-    public Objective getObjective() {
-        return objective;
-    }
+	public Objective getObjective() {
+		return objective;
+	}
 
-    public boolean isActivated() {
-        return activated;
-    }
+	public boolean isActivated() {
+		return activated;
+	}
 
-    public Scoreboard setHandler(ScoreboardHandler handler) {
-        this.handler = handler;
-        return this;
-    }
+	public ScoreboardHandler getHandler() {
+		return handler;
+	}
 
-    public ScoreboardHandler getHandler() {
-        return handler;
-    }
+	public Scoreboard setHandler(ScoreboardHandler handler) {
+		this.handler = handler;
+		return this;
+	}
 }

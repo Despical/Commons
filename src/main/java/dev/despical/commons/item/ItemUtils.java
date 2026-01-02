@@ -53,10 +53,10 @@ public class ItemUtils {
 	/**
 	 * Checks if the given 2 items have the same display name, lore and amount.
 	 *
-	 * @param first the first item to check
+	 * @param first  the first item to check
 	 * @param second the second item to check
 	 * @return {@code true} if the given 2 items are equals and both are same amount,
-	 * 			otherwise {@code false}
+	 * otherwise {@code false}
 	 */
 	public static boolean isSameItems(ItemStack first, ItemStack second) {
 		return isSameItemsWithoutAmount(first, second) && first.getAmount() == second.getAmount();
@@ -65,7 +65,7 @@ public class ItemUtils {
 	/**
 	 * Checks if the given 2 items have the same display name and lore.
 	 *
-	 * @param first the first item to check
+	 * @param first  the first item to check
 	 * @param second the second item to check
 	 * @return {@code true} if the given 2 items are equals, may not be same amount
 	 */

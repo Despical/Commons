@@ -31,8 +31,8 @@ import java.util.List;
  */
 public class ScrollableString extends FrameAnimatedString {
 
-	private int position;
 	private final List<String> list;
+	private int position;
 	private ChatColor color = ChatColor.RESET;
 
 	public ScrollableString(String message, int width, int spaceBetween) {

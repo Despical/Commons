@@ -37,7 +37,7 @@ public final class Strings {
 			return "";
 		}
 
-		if (XReflection.supports(16) && string.contains("#") ) {
+		if (XReflection.supports(16) && string.contains("#")) {
 			string = StringMatcher.matchColorRegex(string);
 		}
 
@@ -49,9 +49,9 @@ public final class Strings {
 	 * example, {@code repeat("hey", 3)} returns the string {@code "heyheyhey"}.
 	 *
 	 * @param string any non-null string
-	 * @param count the number of times to repeat it; a nonnegative integer
+	 * @param count  the number of times to repeat it; a nonnegative integer
 	 * @return a string containing {@code string} repeated {@code count} times (the empty string if
-	 *     {@code count} is zero)
+	 * {@code count} is zero)
 	 * @throws IllegalArgumentException if {@code count} is negative
 	 */
 	public static String repeat(String string, int count) {

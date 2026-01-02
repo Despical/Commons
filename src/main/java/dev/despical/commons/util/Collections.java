@@ -35,7 +35,7 @@ public class Collections {
 	/**
 	 * Returns a mutable list containing an arbitrary number of elements.
 	 *
-	 * @param a Array of given parameters.
+	 * @param a   Array of given parameters.
 	 * @param <T> Type of given parameters.
 	 * @return mutable list containing an arbitrary number of elements.
 	 */
@@ -47,7 +47,7 @@ public class Collections {
 	/**
 	 * Returns an immutable list containing an arbitrary number of elements.
 	 *
-	 * @param a Array of given parameters.
+	 * @param a   Array of given parameters.
 	 * @param <T> Type of given parameters.
 	 * @return immutable list containing an arbitrary number of elements.
 	 */
@@ -59,7 +59,7 @@ public class Collections {
 	/**
 	 * Returns a mutable list containing elements of given set.
 	 *
-	 * @param a Set to be converted to list.
+	 * @param a   Set to be converted to list.
 	 * @param <T> Type of given set.
 	 * @return mutable list containing elements of given set.
 	 */
@@ -70,7 +70,7 @@ public class Collections {
 	/**
 	 * Returns an immutable list containing elements of given set.
 	 *
-	 * @param a Set to be converted to list.
+	 * @param a   Set to be converted to list.
 	 * @param <T> Type of given set.
 	 * @return immutable list containing elements of given set.
 	 */
@@ -81,7 +81,7 @@ public class Collections {
 	/**
 	 * Returns a mutable list containing entry set elements of given map.
 	 *
-	 * @param a Map to be converted to list.
+	 * @param a   Map to be converted to list.
 	 * @param <K> Type of entry.
 	 * @param <V> Value of entry.
 	 * @return mutable list containing entry set elements of given map.
@@ -93,7 +93,7 @@ public class Collections {
 	/**
 	 * Returns an immutable list containing an arbitrary number of elements.
 	 *
-	 * @param a Map to be converted to list.
+	 * @param a   Map to be converted to list.
 	 * @param <K> Type of entry.
 	 * @param <V> Value of entry.
 	 * @return immutable list containing entry set elements of given map.
@@ -105,7 +105,7 @@ public class Collections {
 	/**
 	 * Returns a mutable set containing an arbitrary number of elements.
 	 *
-	 * @param a Array of given parameters.
+	 * @param a   Array of given parameters.
 	 * @param <T> Type of given parameters.
 	 * @return mutable set containing an arbitrary number of elements.
 	 */
@@ -117,7 +117,7 @@ public class Collections {
 	/**
 	 * Returns an immutable set containing an arbitrary number of elements.
 	 *
-	 * @param a Array of given parameters.
+	 * @param a   Array of given parameters.
 	 * @param <T> Type of given parameters.
 	 * @return immutable set containing an arbitrary number of elements.
 	 */
@@ -129,8 +129,8 @@ public class Collections {
 	/**
 	 * Returns a {@link Map.Entry} containing the given key and value.
 	 *
-	 * @param a new key to be stored in this entry.
-	 * @param b new value to be stored in this entry.
+	 * @param a   new key to be stored in this entry.
+	 * @param b   new value to be stored in this entry.
 	 * @param <K> new key type to be stored in this entry.
 	 * @param <V> new value type to be stored in this entry.
 	 * @return new {@link Map.Entry} containing the given key and value.
@@ -142,7 +142,7 @@ public class Collections {
 	/**
 	 * Returns a mutable map containing an arbitrary number of elements.
 	 *
-	 * @param a Array of given entries to be stored in this map.
+	 * @param a   Array of given entries to be stored in this map.
 	 * @param <K> key type to be stored in this map.
 	 * @param <V> value type to be stored in this map.
 	 * @return Returns a mutable map containing an arbitrary number of elements.
@@ -155,8 +155,8 @@ public class Collections {
 	/**
 	 * Returns an mutable map containing one element.
 	 *
-	 * @param a key to be stored in this map.
-	 * @param b value to be stored in this map.
+	 * @param a   key to be stored in this map.
+	 * @param b   value to be stored in this map.
 	 * @param <K> key type to be stored in this map.
 	 * @param <V> value type to be stored in this map.
 	 * @return Returns an mutable map containing one element.
@@ -168,8 +168,8 @@ public class Collections {
 	/**
 	 * Returns an immutable map containing one element.
 	 *
-	 * @param a key to be stored in this map.
-	 * @param b value to be stored in this map.
+	 * @param a   key to be stored in this map.
+	 * @param b   value to be stored in this map.
 	 * @param <K> key type to be stored in this map.
 	 * @param <V> value type to be stored in this map.
 	 * @return Returns an immutable map containing one element.
@@ -181,7 +181,7 @@ public class Collections {
 	/**
 	 * Returns an immutable map containing an arbitrary number of elements.
 	 *
-	 * @param a Array of given entries to be stored in this map.
+	 * @param a   Array of given entries to be stored in this map.
 	 * @param <K> key type to be stored in this map.
 	 * @param <V> value type to be stored in this map.
 	 * @return immutable map containing an arbitrary number of elements.
@@ -195,7 +195,7 @@ public class Collections {
 	 * Returns a sequential ordered stream whose elements are the specified values.
 	 *
 	 * @param <T> the type of stream elements
-	 * @param a the elements of the new stream
+	 * @param a   the elements of the new stream
 	 * @return the new stream
 	 */
 	@SafeVarargs
@@ -209,7 +209,7 @@ public class Collections {
 	 * The method returns false if a null array is passed in.
 	 *
 	 * @param objectToFind the object to find
-	 * @param array the array to search through
+	 * @param array        the array to search through
 	 * @return true if the array contains the object
 	 */
 	public static boolean contains(Object objectToFind, Object... array) {
@@ -245,17 +245,17 @@ public class Collections {
 	 * @param collection containing elements to be added to this collection
 	 * @return {@code true} if this collection changed as a result of the call
 	 * @throws UnsupportedOperationException if the {@code addAll} operation
-	 *         is not supported by this collection
-	 * @throws ClassCastException if the class of an element of the specified
-	 *         collection prevents it from being added to this collection
-	 * @throws NullPointerException if the specified collection contains a
-	 *         null element and this collection does not permit null elements,
-	 *         or if the specified collection is null
-	 * @throws IllegalArgumentException if some property of an element of the
-	 *         specified collection prevents it from being added to this
-	 *         collection
-	 * @throws IllegalStateException if not all the elements can be added at
-	 *         this time due to insertion restrictions
+	 *                                       is not supported by this collection
+	 * @throws ClassCastException            if the class of an element of the specified
+	 *                                       collection prevents it from being added to this collection
+	 * @throws NullPointerException          if the specified collection contains a
+	 *                                       null element and this collection does not permit null elements,
+	 *                                       or if the specified collection is null
+	 * @throws IllegalArgumentException      if some property of an element of the
+	 *                                       specified collection prevents it from being added to this
+	 *                                       collection
+	 * @throws IllegalStateException         if not all the elements can be added at
+	 *                                       this time due to insertion restrictions
 	 */
 	@SafeVarargs
 	public static <T> boolean addAll(Collection<T> collection, T... elements) {

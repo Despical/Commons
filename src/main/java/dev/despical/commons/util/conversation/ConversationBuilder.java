@@ -31,10 +31,9 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class ConversationBuilder {
 
+	private final ConversationFactory conversationFactory;
 	private String cancelMessage = Strings.format("&cOnly by players!");
 	private String onlyByPlayersMessage = Strings.format("&cOperation cancelled!");
-
-	private final ConversationFactory conversationFactory;
 
 	public ConversationBuilder(JavaPlugin plugin) {
 		this(plugin, 30);

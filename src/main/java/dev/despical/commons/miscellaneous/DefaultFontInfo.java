@@ -19,10 +19,10 @@
 package dev.despical.commons.miscellaneous;
 
 /**
- * @see <a href="https://www.spigotmc.org/threads/free-code-sending-perfectly-centered-chat-message.95872">Spigot Thread</a>
  * @author Despical
  * <p>
  * Created at 30.05.2020
+ * @see <a href="https://www.spigotmc.org/threads/free-code-sending-perfectly-centered-chat-message.95872">Spigot Thread</a>
  */
 public enum DefaultFontInfo {
 

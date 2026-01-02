@@ -18,10 +18,9 @@
 
 package dev.despical.commons.engine;
 
-import java.util.logging.Level;
-
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import java.util.logging.Level;
 
 /**
  * @author Despical
