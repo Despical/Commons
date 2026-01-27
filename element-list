@@ -8,7 +8,6 @@ dev.despical.commons.number
 dev.despical.commons.scoreboard
 dev.despical.commons.scoreboard.common
 dev.despical.commons.scoreboard.common.animation
-dev.despical.commons.scoreboard.type
 dev.despical.commons.serializer
 dev.despical.commons.sorter
 dev.despical.commons.string
