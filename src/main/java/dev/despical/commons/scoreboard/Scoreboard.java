@@ -18,14 +18,13 @@
 
 package dev.despical.commons.scoreboard;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Team;
-
-import java.util.Optional;
 
 /**
  * @author Despical
@@ -34,124 +33,110 @@ import java.util.Optional;
  */
 public abstract class Scoreboard implements AutoUpdatable {
 
-	protected static final String TEAM_PREFIX = "Board_";
+    protected static final String TEAM_PREFIX = "Board_";
 
-	protected final Player holder;
-	protected final org.bukkit.scoreboard.Scoreboard scoreboard;
-	protected final org.bukkit.scoreboard.Scoreboard previousBoard;
-	protected final Objective objective;
+    protected final Player holder;
+    protected final org.bukkit.scoreboard.Scoreboard scoreboard;
+    protected final org.bukkit.scoreboard.Scoreboard previousBoard;
+    protected final Objective objective;
 
-	protected boolean activated;
-	protected boolean autoUpdateEnabled = true;
-	protected ScoreboardHandler handler;
-	protected BukkitRunnable updateTask;
-	protected long updateInterval = 10L;
+    protected boolean activated;
+    protected boolean autoUpdateEnabled = true;
+    protected ScoreboardHandler handler;
+    protected BukkitRunnable updateTask;
+    protected long updateInterval = 10L;
 
-	public Scoreboard(Player holder) {
-		this.holder = holder;
-		this.previousBoard = holder.getScoreboard();
+    public Scoreboard(Player holder) {
+        this.holder = holder;
+        this.previousBoard = holder.getScoreboard();
+        this.scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+        this.objective = scoreboard.registerNewObjective("board", "dummy", Component.empty());
+        this.objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+    }
 
-		scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-		scoreboard.registerNewObjective("board", "dummy").setDisplaySlot(DisplaySlot.SIDEBAR);
+    public abstract void update();
 
-		objective = scoreboard.getObjective(DisplaySlot.SIDEBAR);
-	}
+    public void activate() {
+        if (activated) return;
+        if (handler == null) throw new IllegalStateException("Scoreboard handler not set yet!");
 
-	public abstract void update();
+        activated = true;
+        holder.setScoreboard(scoreboard);
 
-	public void activate() {
-		if (activated) {
-			return;
-		}
+        if (!autoUpdateEnabled) return;
 
-		if (handler == null) {
-			throw new IllegalStateException("Scoreboard handler not set yet!");
-		}
+        updateTask = new BukkitRunnable() {
 
-		activated = true;
+            @Override
+            public void run() {
+                if (!holder.isOnline()) {
+                    deactivate();
+                    return;
+                }
+                update();
+            }
+        };
 
-		holder.setScoreboard(scoreboard);
+        updateTask.runTaskTimer(ScoreboardLib.getInstance(), 0L, updateInterval);
+    }
 
-		if (!autoUpdateEnabled) {
-			return;
-		}
+    public void deactivate() {
+        if (!activated) return;
+        activated = false;
 
-		updateTask = new BukkitRunnable() {
+        if (holder.isOnline()) {
+            holder.setScoreboard(previousBoard);
+        }
 
-			@Override
-			public void run() {
-				update();
-			}
-		};
+        for (Team team : scoreboard.getTeams()) {
+            team.unregister();
+        }
 
-		updateTask.runTaskTimer(ScoreboardLib.getInstance(), 0, updateInterval);
-	}
+        if (updateTask != null) {
+            updateTask.cancel();
+            updateTask = null;
+        }
+    }
 
-	public void deactivate() {
-		if (!activated) {
-			return;
-		}
+    @Override
+    public long getUpdateInterval() {
+        return updateInterval;
+    }
 
-		activated = false;
+    @Override
+    public void setUpdateInterval(long updateInterval) {
+        if (activated) throw new IllegalStateException("Cannot change interval after activation");
+        this.updateInterval = updateInterval;
+    }
 
-		if (holder.isOnline()) {
-			synchronized (this) {
-				holder.setScoreboard(previousBoard);
-			}
-		}
+    @Override
+    public void disableAutoUpdate() {
+        if (activated) throw new IllegalStateException("Cannot disable auto-update after activation");
+        this.autoUpdateEnabled = false;
+    }
 
-		for (Team team : scoreboard.getTeams()) {
-			team.unregister();
-		}
+    public Player getHolder() {
+        return holder;
+    }
 
-		Optional.ofNullable(updateTask).ifPresent(BukkitRunnable::cancel);
-	}
+    public org.bukkit.scoreboard.Scoreboard getScoreboard() {
+        return scoreboard;
+    }
 
-	@Override
-	public long getUpdateInterval() {
-		return updateInterval;
-	}
+    public Objective getObjective() {
+        return objective;
+    }
 
-	@Override
-	public void setUpdateInterval(long updateInterval) {
-		if (activated) {
-			throw new IllegalStateException("You cannot change update interval after the scoreboard has been activated");
-		}
+    public boolean isActivated() {
+        return activated;
+    }
 
-		this.updateInterval = updateInterval;
-	}
+    public ScoreboardHandler getHandler() {
+        return handler;
+    }
 
-	@Override
-	public void disableAutoUpdate() {
-		if (activated) {
-			throw new IllegalStateException("You can not disable auto-updating after the scoreboard has been activated");
-		}
-
-		this.autoUpdateEnabled = false;
-	}
-
-	public Player getHolder() {
-		return holder;
-	}
-
-	public org.bukkit.scoreboard.Scoreboard getScoreboard() {
-		return scoreboard;
-	}
-
-	public Objective getObjective() {
-		return objective;
-	}
-
-	public boolean isActivated() {
-		return activated;
-	}
-
-	public ScoreboardHandler getHandler() {
-		return handler;
-	}
-
-	public Scoreboard setHandler(ScoreboardHandler handler) {
-		this.handler = handler;
-		return this;
-	}
+    public Scoreboard setHandler(ScoreboardHandler handler) {
+        this.handler = handler;
+        return this;
+    }
 }

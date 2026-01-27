@@ -18,6 +18,8 @@
 
 package dev.despical.commons.scoreboard.common;
 
+import net.kyori.adventure.text.Component;
+
 /**
  * @author Despical
  * <p>
@@ -25,27 +27,27 @@ package dev.despical.commons.scoreboard.common;
  */
 public class Entry {
 
-	private String context;
-	private int position;
+    private Component context;
+    private int position;
 
-	public Entry(String context, int position) {
-		this.context = context;
-		this.position = position;
-	}
+    public Entry(Component context, int position) {
+        this.context = context;
+        this.position = position;
+    }
 
-	public String getContext() {
-		return context;
-	}
+    public Component getContext() {
+        return context;
+    }
 
-	public void setContext(String context) {
-		this.context = context;
-	}
+    public void setContext(Component context) {
+        this.context = context;
+    }
 
-	public int getPosition() {
-		return position;
-	}
+    public int getPosition() {
+        return position;
+    }
 
-	public void setPosition(int position) {
-		this.position = position;
-	}
+    public void setPosition(int position) {
+        this.position = position;
+    }
 }

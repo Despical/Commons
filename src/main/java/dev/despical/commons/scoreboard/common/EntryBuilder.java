@@ -18,9 +18,10 @@
 
 package dev.despical.commons.scoreboard.common;
 
-import com.cryptomorin.xseries.reflection.XReflection;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,46 +32,38 @@ import java.util.List;
  */
 public final class EntryBuilder {
 
-	private static final int MAX_LENGTH = XReflection.supports(14) ? 144 : 48;
+    private final List<Entry> entries = new LinkedList<>();
 
-	private final List<Entry> entries = new LinkedList<>();
+    public EntryBuilder next(String text) {
+        return next(parse(text));
+    }
 
-	public static List<Entry> empty() {
-		return Collections.emptyList();
-	}
+    public EntryBuilder next(Component component) {
+        entries.add(new Entry(component, entries.size()));
+        return this;
+    }
 
-	public EntryBuilder blank() {
-		return next("");
-	}
+    public EntryBuilder blank() {
+        return next(Component.empty());
+    }
 
-	public EntryBuilder next(String context) {
-		return next(context, entries.size());
-	}
+    public List<Entry> build() {
+        int count = entries.size();
 
-	public EntryBuilder next(String context, int position) {
-		entries.add(new Entry(adaptEntryLength(context), position));
-		return this;
-	}
+        for (Entry entry : entries) {
+            entry.setPosition(count - entry.getPosition());
+        }
 
-	public List<Entry> build() {
-		int entryCount = entries.size();
+        return entries;
+    }
 
-		for (Entry entry : entries) {
-			entry.setPosition(entryCount - entry.getPosition());
-		}
+    private static Component parse(String text) {
+        if (text == null || text.isEmpty()) return Component.empty();
 
-		return entries;
-	}
+        if (text.contains("<") && text.contains(">")) {
+            return MiniMessage.miniMessage().deserialize(text);
+        }
 
-	public List<Entry> buildRaw() {
-		return new LinkedList<>(entries);
-	}
-
-	private String adaptEntryLength(String entry) {
-		if (entry.length() > MAX_LENGTH) {
-			entry = entry.substring(0, MAX_LENGTH - 1);
-		}
-
-		return entry;
-	}
+        return LegacyComponentSerializer.legacyAmpersand().deserialize(text);
+    }
 }

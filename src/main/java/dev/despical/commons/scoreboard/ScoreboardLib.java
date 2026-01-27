@@ -18,9 +18,6 @@
 
 package dev.despical.commons.scoreboard;
 
-import com.cryptomorin.xseries.reflection.XReflection;
-import dev.despical.commons.scoreboard.type.LegacySimpleScoreboard;
-import dev.despical.commons.scoreboard.type.SimpleScoreboard;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -42,14 +39,6 @@ public class ScoreboardLib {
 	}
 
 	public static Scoreboard createScoreboard(Player holder) {
-		if (XReflection.supports(13)) {
-			return new SimpleScoreboard(holder);
-		}
-
-		return new LegacySimpleScoreboard(holder);
-	}
-
-	public static Scoreboard createLegacyScoreboard(Player holder) {
-		return new LegacySimpleScoreboard(holder);
+        return new SimpleScoreboard(holder);
 	}
 }

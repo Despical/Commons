@@ -18,6 +18,7 @@
 
 package dev.despical.commons.scoreboard;
 
+import net.kyori.adventure.text.Component;
 import dev.despical.commons.scoreboard.common.Entry;
 import org.bukkit.entity.Player;
 
@@ -28,9 +29,10 @@ import java.util.List;
  * <p>
  * Created at 17.06.2020
  */
+
 public interface ScoreboardHandler {
 
-	String getTitle(Player player);
+    Component getTitle(Player player);
 
-	List<Entry> getEntries(Player player);
+    List<Entry> getEntries(Player player);
 }
