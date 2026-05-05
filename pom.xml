@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>dev.despical</groupId>
     <artifactId>commons</artifactId>
-    <version>2.1.0</version>
+    <version>2.1.1</version>
 
     <name>Commons</name>
     <inceptionYear>2020</inceptionYear>
@@ -92,9 +92,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.cryptomorin</groupId>
+            <groupId>io.github.almighty-satan</groupId>
             <artifactId>XSeries</artifactId>
-            <version>13.6.0</version>
+            <version>13.6.0+26.1</version>
         </dependency>
         <dependency>
             <groupId>com.zaxxer</groupId>
@@ -145,7 +145,7 @@
                             </excludes>
                         </filter>
                         <filter>
-                            <artifact>com.github.cryptomorin:XSeries</artifact>
+                            <artifact>io.github.almighty-satan:XSeries</artifact>
                             <excludes>
                                 <exclude>com/cryptomorin/xseries/XBiome*</exclude>
                                 <exclude>com/cryptomorin/xseries/XItemStack*</exclude>
