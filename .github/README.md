@@ -3,7 +3,7 @@
 <div align="center">
 
 [![](https://github.com/Despical/Commons/actions/workflows/build.yml/badge.svg)](https://github.com/Despical/Commons/actions/workflows/build.yml)
-[![](https://img.shields.io/maven-central/v/com.github.despical/commons.svg?label=Maven%20Central)](https://repo1.maven.org/maven2/com/github/despical/commons)
+[![](https://img.shields.io/maven-central/v/dev.despical/commons.svg?label=Maven%20Central)](https://repo1.maven.org/maven2/dev/despical/commons)
 [![](https://img.shields.io/badge/License-GPLv3-blue.svg)](../LICENSE)
 [![](https://img.shields.io/badge/Javadoc-latest-blue.svg)](https://despical.github.io/Commons)
 
