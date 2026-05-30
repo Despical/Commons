@@ -21,7 +21,6 @@ package dev.despical.commons.item;
 import com.cryptomorin.xseries.XEnchantment;
 import com.cryptomorin.xseries.XItemFlag;
 import com.cryptomorin.xseries.XMaterial;
-import com.cryptomorin.xseries.reflection.XReflection;
 import dev.despical.commons.util.Collections;
 import dev.despical.commons.util.Strings;
 import org.bukkit.Material;
@@ -139,9 +138,9 @@ public class ItemBuilder {
 	public ItemBuilder unbreakable(boolean unbreakable) {
 		ItemMeta itemMeta = itemStack.getItemMeta();
 
-		if (XReflection.supports(9)) {
+		try {
 			itemMeta.setUnbreakable(unbreakable);
-		} else {
+		} catch (Throwable throwable) {
 			try {
 				Method instanceMethod = itemMeta.getClass().getMethod("spigot");
 				instanceMethod.setAccessible(true);
@@ -153,6 +152,8 @@ public class ItemBuilder {
 			} catch (Exception exception) {
 				exception.printStackTrace();
 			}
+
+            throwable.printStackTrace();
 		}
 
 		itemStack.setItemMeta(itemMeta);

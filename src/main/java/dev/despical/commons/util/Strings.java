@@ -18,7 +18,6 @@
 
 package dev.despical.commons.util;
 
-import com.cryptomorin.xseries.reflection.XReflection;
 import dev.despical.commons.string.StringMatcher;
 import org.bukkit.ChatColor;
 
@@ -29,6 +28,8 @@ import org.bukkit.ChatColor;
  */
 public final class Strings {
 
+    private static final boolean SUPPORTS_RGB = ReflectionUtils.isMethodExists(net.md_5.bungee.api.ChatColor.class, "of", String.class);
+
 	private Strings() {
 	}
 
@@ -37,7 +38,7 @@ public final class Strings {
 			return "";
 		}
 
-		if (XReflection.supports(16) && string.contains("#")) {
+		if (SUPPORTS_RGB && string.contains("#")) {
 			string = StringMatcher.matchColorRegex(string);
 		}
 

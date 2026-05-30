@@ -18,7 +18,7 @@
 
 package dev.despical.commons.miscellaneous;
 
-import com.cryptomorin.xseries.reflection.XReflection;
+import dev.despical.commons.util.ReflectionUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -29,6 +29,8 @@ import org.bukkit.plugin.java.JavaPlugin;
  * Created at 03.11.2020
  */
 public class PlayerUtils {
+
+    private static final boolean IS_MODERN_API = ReflectionUtils.isMethodExists(Player.class, "hidePlayer", JavaPlugin.class, Player.class);
 
 	private PlayerUtils() {
 	}
@@ -46,11 +48,12 @@ public class PlayerUtils {
 			return;
 		}
 
-		if (XReflection.supports(13)) {
+		if (IS_MODERN_API) {
 			to.hidePlayer(plugin, p);
-		} else {
-			to.hidePlayer(p);
+            return;
 		}
+
+    	to.hidePlayer(p);
 	}
 
 	/**
@@ -66,10 +69,11 @@ public class PlayerUtils {
 			return;
 		}
 
-		if (XReflection.supports(13)) {
-			to.showPlayer(plugin, p);
-		} else {
-			to.showPlayer(p);
-		}
+        if (IS_MODERN_API) {
+            to.showPlayer(plugin, p);
+            return;
+        }
+
+    	to.showPlayer(p);
 	}
 }

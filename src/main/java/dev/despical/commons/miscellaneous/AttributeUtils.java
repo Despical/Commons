@@ -19,7 +19,7 @@
 package dev.despical.commons.miscellaneous;
 
 import com.cryptomorin.xseries.XAttribute;
-import com.cryptomorin.xseries.reflection.XReflection;
+import dev.despical.commons.util.ReflectionUtils;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 
@@ -31,35 +31,34 @@ import org.bukkit.entity.Player;
  */
 public class AttributeUtils {
 
-	private static final boolean NOT_SUPPORTS_MC_1_9 = !XReflection.supports(9);
+    private static final boolean NOT_SUPPORTS_ATTRIBUTE = ReflectionUtils.isClassExists("org.bukkit.Attribute");
 
-	public static void setAttackCooldown(Player player, double value) {
-		if (NOT_SUPPORTS_MC_1_9) {
-			return;
-		}
+    public static void setAttackCooldown(Player player, double value) {
+        if (NOT_SUPPORTS_ATTRIBUTE) {
+            return;
+        }
 
-		Attribute attribute = XAttribute.ATTACK_SPEED.get();
+        Attribute attribute = XAttribute.ATTACK_SPEED.get();
 
-		if (attribute != null) {
-			player.getAttribute(attribute).setBaseValue(value);
-		}
-	}
+        if (attribute != null) {
+            player.getAttribute(attribute).setBaseValue(value);
+        }
+    }
 
-	public static void resetAttackCooldown(Player player) {
-		setAttackCooldown(player, 4);
-	}
+    public static void resetAttackCooldown(Player player) {
+        setAttackCooldown(player, 4);
+    }
 
-	public static void healPlayer(Player player) {
-		if (NOT_SUPPORTS_MC_1_9) {
-			player.setHealth(player.getMaxHealth());
-			return;
-		}
+    public static void healPlayer(Player player) {
+        if (NOT_SUPPORTS_ATTRIBUTE) {
+            player.setHealth(player.getMaxHealth());
+            return;
+        }
 
-		Attribute attribute = XAttribute.MAX_HEALTH.get();
+        Attribute attribute = XAttribute.MAX_HEALTH.get();
 
-		if (attribute != null) {
-			player.setHealth(player.getAttribute(attribute).getValue());
-		}
-
-	}
+        if (attribute != null) {
+            player.setHealth(player.getAttribute(attribute).getValue());
+        }
+    }
 }
