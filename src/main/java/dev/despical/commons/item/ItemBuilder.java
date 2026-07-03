@@ -152,8 +152,6 @@ public class ItemBuilder {
 			} catch (Exception exception) {
 				exception.printStackTrace();
 			}
-
-            throwable.printStackTrace();
 		}
 
 		itemStack.setItemMeta(itemMeta);
